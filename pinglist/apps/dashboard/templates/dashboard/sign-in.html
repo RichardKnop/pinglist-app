@@ -6,11 +6,26 @@
     <header class="header-image jumbotron hero-spacer">
         <div class="headline">
             <form class="form-signin" method="POST" action="{% url 'dashboard:sign_in' %}">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Email address">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.non_field_errors|first|escape }}
+                    </div>
+                {% endif %}
+                <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                    {% if form.email.errors %}
+                        <label class="control-label" for="emailInput">{{ form.email.errors|first|escape }}</label>
+                    {% endif %}
+                    <input type="text" name="{{ form.email.name }}" id="emailInput" class="form-control"
+                           placeholder="Email address"
+                           value="{% if form.email.value %}{{ form.email.value|escape }}{% endif %}">
                 </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password">
+                <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+                    {% if form.password.errors %}
+                        <label class="control-label" for="passwordInput">{{ form.password.errors|first|escape }}</label>
+                    {% endif %}
+                    <input type="password" name="{{ form.password.name }}" id="passwordInput" class="form-control"
+                           placeholder="Password">
                 </div>
                 <button class="btn btn-lg btn-block btn-primary" type="submit">Sign In</button>
             </form>

@@ -20,4 +20,7 @@ DATABASES = {
 
 DEBUG = True
 
-API_HOST = 'http://localhost:8080'
+API_HOST = 'https://api.pingli.st'
+OAUTH_CLIENT_ID = 'test_client_1'
+OAUTH_CLIENT_SECRET = 'test_secret'
+OAUTH_TOKEN_URL = API_HOST + '/v1/oauth/tokens'

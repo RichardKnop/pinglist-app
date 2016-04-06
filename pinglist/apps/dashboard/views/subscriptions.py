@@ -5,9 +5,9 @@ from django.http import HttpResponse
 from . import HTML_TITLE
 
 
-class IndexView(View):
+class SubscriptionsView(View):
     initial = {}
-    template_name = 'dashboard/index.html'
+    template_name = 'dashboard/subscriptions.html'
 
     def get(self, request, *args, **kwargs):
         return HttpResponse(
