@@ -1,0 +1,5 @@
+.venv/
+*.pyc
+*.sqlite
+pinglist/proj/settings/local.py
+.idea/
