@@ -48,8 +48,27 @@ body {
 }
 
 footer {
-    margin: 50px 0;
+    margin-bottom: 20px;
+}
+
+.center-to-left {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
     text-align: center;
+}
+
+.center-to-right {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.comodo-site-seal img {
+    width: 113px;
+    height: 59px;
+    border: 0;
 }
 
 @media (max-width: 1200px) {
@@ -103,6 +122,16 @@ footer {
 
     .featurette-heading {
         font-size: 25px;
+    }
+
+    .center-to-left {
+        text-align: left;
+        float: left;
+    }
+
+    .center-to-right {
+        float: right;
+        text-align: right;
     }
 }
 

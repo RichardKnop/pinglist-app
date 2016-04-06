@@ -60,14 +60,35 @@
 
 {% block content %}{% endblock %}
 
-    <!-- Footer -->
-    <footer>
+<footer>
+    <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <p>Copyright &copy; www.pingli.st 2016</p>
+            <div class="col-sm-4">
+                <a href="https://ssl.comodo.com" class="comodo-site-seal">
+                    <img src="https://ssl.comodo.com/images/comodo_secure_seal_113x59_transp.png" alt="SSL Certificate">
+                </a>
+                <br><br>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="text-center">
+                    <p> &copy; 2016 www.pingli.st</p>
+
+                    <p>social media icons</p>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <span class="center-to-right text-right">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-bullhorn"></span><br>
+                        Feedback
+                    </button>
+                </span>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
 <!-- jQuery -->
 <script src="{% static 'js/jquery.js' %}"></script>
