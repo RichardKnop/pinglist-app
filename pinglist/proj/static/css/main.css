@@ -24,7 +24,7 @@ body {
 }
 
 .header-image .headline h1 {
-  font-size: 3em;
+    font-size: 3em;
 }
 
 .featurette-divider {
@@ -49,9 +49,10 @@ body {
 
 footer {
     margin: 50px 0;
+    text-align: center;
 }
 
-@media(max-width:1200px) {
+@media (max-width: 1200px) {
     .featurette-divider {
         margin: 50px 0;
     }
@@ -69,7 +70,7 @@ footer {
     }
 }
 
-@media(max-width:991px) {
+@media (max-width: 991px) {
     .featurette-divider {
         margin: 40px 0;
     }
@@ -91,7 +92,7 @@ footer {
     }
 }
 
-@media(max-width:768px) {
+@media (max-width: 768px) {
     .container {
         margin: 0 15px;
     }
@@ -105,16 +106,16 @@ footer {
     }
 }
 
-@media(max-width:668px) {
+@media (max-width: 668px) {
     .featurette-divider {
         margin: 30px 0;
     }
 }
 
-@media(max-width:640px) {
+@media (max-width: 640px) {
 }
 
-@media(max-width:375px) {
+@media (max-width: 375px) {
     .featurette-divider {
         margin: 10px 0;
     }
@@ -132,4 +133,23 @@ footer {
         margin-bottom: 10px;
         margin-left: 0;
     }
+}
+
+.form-signin {
+    max-width: 300px;
+    padding: 19px 29px 29px;
+    margin: 0 auto 20px;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
 }
