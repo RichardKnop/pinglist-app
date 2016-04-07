@@ -23,4 +23,7 @@ DEBUG = True
 API_HOST = 'https://api.pingli.st'
 OAUTH_CLIENT_ID = 'test_client_1'
 OAUTH_CLIENT_SECRET = 'test_secret'
+OAUTH_DEFAULT_SCOPE = 'read_write'
 OAUTH_TOKEN_URL = API_HOST + '/v1/oauth/tokens'
+LOGIN_VIEW = 'dashboard:login'
+AFTER_LOGIN_VIEW = 'dashboard:subscriptions'

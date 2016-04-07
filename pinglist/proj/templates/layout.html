@@ -48,9 +48,15 @@
                 <li>
                     <a href="{% url 'dashboard:index' %}#plans">Plans</a>
                 </li>
-                <li>
-                    <a href="{% url 'dashboard:sign_in' %}">Sign In</a>
-                </li>
+                {% if logged_in %}
+                    <li>
+                        <a href="{% url 'dashboard:logout' %}">Log Out</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'dashboard:login' %}">Log In</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
         <!-- /.navbar-collapse -->

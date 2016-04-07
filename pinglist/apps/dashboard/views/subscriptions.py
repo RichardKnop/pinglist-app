@@ -1,15 +1,11 @@
-from django.views.generic import View
-from django.shortcuts import render
-from django.http import HttpResponse
+from apps.api.decorators import logged_in
 
-from . import HTML_TITLE
+from . import BaseView
 
 
-class SubscriptionsView(View):
-    initial = {}
+class SubscriptionsView(BaseView):
     template_name = 'dashboard/subscriptions.html'
 
+    @logged_in
     def get(self, request, *args, **kwargs):
-        return HttpResponse(
-            render(request, self.template_name, {
-            'title': HTML_TITLE}))
+        return self._render(request=request)
