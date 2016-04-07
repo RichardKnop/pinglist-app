@@ -8,4 +8,7 @@ class SubscriptionsView(BaseView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
-        return self._render(request=request)
+        return self._render(
+            request=request,
+            title='Subscriptions',
+        )

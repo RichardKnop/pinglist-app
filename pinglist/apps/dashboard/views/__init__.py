@@ -10,11 +10,9 @@ from .. import API
 class BaseView(View):
     initial = {}
     API = API
-    HTML_TITLE = 'PINGLIST - Uptime And Performance Monitoring Done Right'
 
     def _render(self, request, **kwargs):
         data = {
-            'title': self.HTML_TITLE,
             'logged_in': getattr(request, 'logged_in', False),
         }
         return HttpResponse(

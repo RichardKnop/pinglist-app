@@ -4,6 +4,10 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+body, html {
+    font-family: Lato, sans-serif;
+}
+
 body {
     margin-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
@@ -12,7 +16,7 @@ body {
     display: block;
     width: 100%;
     text-align: center;
-    background: url('http://placehold.it/1900x500') no-repeat center center scroll;
+    background: url('/static/images/placeholder1900x500.png') no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -52,17 +56,21 @@ footer {
 }
 
 .center-to-left {
-    display: block;
     margin-right: auto;
     margin-left: auto;
     text-align: center;
 }
 
 .center-to-right {
-    display: block;
     margin-right: auto;
     margin-left: auto;
     text-align: center;
+    padding: 8px 0;
+    height: 59px;
+}
+
+.comodo-site-seal:hover {
+    text-decoration: none;
 }
 
 .comodo-site-seal img {

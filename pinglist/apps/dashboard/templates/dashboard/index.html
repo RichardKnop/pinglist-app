@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 
 {% block content %}
 
@@ -25,7 +26,7 @@
 
         <!-- First Featurette -->
         <div class="featurette" id="about">
-            <img class="featurette-image img-circle img-responsive pull-right" src="http://placehold.it/500x500">
+            <img class="featurette-image img-circle img-responsive pull-right" src="{% static 'images/placeholder500x500.png' %}">
 
             <h2 class="featurette-heading">Keep Your Critical
                 <span class="text-muted">Infrastructure Up &amp; Running</span>
@@ -44,7 +45,7 @@
 
         <!-- Second Featurette -->
         <div class="featurette" id="features">
-            <img class="featurette-image img-circle img-responsive pull-left" src="http://placehold.it/500x500">
+            <img class="featurette-image img-circle img-responsive pull-left" src="{% static 'images/placeholder500x500.png' %}">
 
             <h2 class="featurette-heading">Mitigate Risk &amp; Improve
                 <span class="text-muted">Reliability &amp; Performance</span>

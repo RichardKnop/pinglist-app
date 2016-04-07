@@ -14,7 +14,11 @@ class LoginView(BaseView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return self._render(request=request, form=form)
+        return self._render(
+            request=request,
+            form=form,
+            title='Log In',
+        )
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
