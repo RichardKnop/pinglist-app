@@ -1,6 +1,11 @@
+import logging
+
 from apps.api.decorators import logged_in
 
 from . import BaseView
+
+
+logger = logging.getLogger(__name__)
 
 
 class SubscriptionsView(BaseView):

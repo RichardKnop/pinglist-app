@@ -24,14 +24,14 @@ def logged_in(view):
         if access_token_granted_at + access_token['expires_in'] < time():
             try:
                 # Try to refresh the token
-                new_access_token = API.refresh_token(access_token)
+                new_access_token = API.refresh_token(access_token['refresh_token'])
 
                 # Save the new access token in the session
                 request.session['access_token'] = new_access_token
                 request.session['access_token_granted_at'] = time()
 
             # Logging in failed, probably incorrect username and/or password
-            except API.ErrRefrestTokenFailed as e:
+            except API.ErrRefreshTokenFailed as e:
                 return redirect(settings.LOGIN_VIEW)
 
             # Something else went wrong, timeout, network problem etc

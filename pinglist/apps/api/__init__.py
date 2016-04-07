@@ -8,7 +8,10 @@ class API(object):
     class ErrLoginFailed(Exception):
         pass
 
-    class ErrRefrestTokenFailed(Exception):
+    class ErrRefreshTokenFailed(Exception):
+        pass
+
+    class ErrFacebookLoginFailed(Exception):
         pass
 
     def __init__(self, hostname, client_id, client_secret, scope):
@@ -29,8 +32,13 @@ class API(object):
                 'scope': self.scope,
             },
         )
-        if r.status_code != 200:
-            raise self.ErrLoginFailed(r.json()['error'])
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.ErrLoginFailed(r.json()['error'])
+            except ValueError:
+                raise self.ErrLoginFailed(str(e))
         return r.json()
 
     # Refreshes an access token
@@ -43,6 +51,30 @@ class API(object):
                 'refresh_token': refresh_token,
             },
         )
-        if r.status_code != 200:
-            raise self.ErrRefrestTokenFailed(r.json()['error'])
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.ErrRefreshTokenFailed(r.json()['error'])
+            except ValueError:
+                raise self.ErrRefreshTokenFailed(str(e))
+        return r.json()
+
+    # Logs in using Facebook access token
+    def facebook_login(self, access_token):
+        r = requests.post(
+            self.hostname + '/v1/facebook/login',
+            auth=(self.client_id, self.client_secret),
+            data={
+                'access_token': access_token,
+                'scope': self.scope,
+            },
+        )
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.ErrFacebookLoginFailed(r.json()['error'])
+            except ValueError:
+                raise self.ErrFacebookLoginFailed(str(e))
         return r.json()

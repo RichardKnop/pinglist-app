@@ -11,12 +11,14 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'django.contrib.sessions',
+    'django.contrib.messages',
     'apps.dashboard',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 TIME_ZONE = 'UTC'
@@ -50,7 +52,7 @@ TEMPLATES = [
                 # 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 # 'django.template.context_processors.tz',
-                # 'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
