@@ -33,7 +33,8 @@ def get_facebook_redirect_uri():
     )
 
 def get_facebook_authorize_uri():
-    return 'https://www.facebook.com/dialog/oauth?client_id={}&redirect_uri={}'.format(
+    return 'https://www.facebook.com/dialog/oauth?client_id={}&scope={}&redirect_uri={}'.format(
         settings.FACEBOOK_APP_ID,
+        settings.FACEBOOK_SCOPE,
         get_facebook_redirect_uri(),
     )

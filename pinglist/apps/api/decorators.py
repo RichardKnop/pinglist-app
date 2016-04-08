@@ -3,7 +3,7 @@ from time import time
 from django.shortcuts import redirect
 from django.conf import settings
 
-from . import API
+from . import API, store_access_token
 
 
 def logged_in(view):
@@ -22,20 +22,21 @@ def logged_in(view):
 
         # Second, check that the access token is not expired
         if access_token_granted_at + access_token['expires_in'] < time():
+            # Refresh the token
             try:
-                # Try to refresh the token
-                new_access_token = API.refresh_token(access_token['refresh_token'])
-
-                # Save the new access token in the session
-                request.session['access_token'] = new_access_token
-                request.session['access_token_granted_at'] = time()
+                store_access_token(
+                    request=request,
+                    access_token=API.refresh_token(
+                        refresh_token=access_token['refresh_token'],
+                    ),
+                )
 
             # Logging in failed, probably incorrect username and/or password
-            except API.ErrRefreshTokenFailed as e:
+            except API.ErrRefreshTokenFailed:
                 return redirect(settings.LOGIN_VIEW)
 
             # Something else went wrong, timeout, network problem etc
-            except Exception as e:
+            except Exception:
                 return redirect(settings.LOGIN_VIEW)
 
         # Set logged in flag to true

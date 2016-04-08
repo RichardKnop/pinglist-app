@@ -1,6 +1,10 @@
 from __future__ import absolute_import
 
 import requests
+from time import time
+
+from django.conf import settings
+from django.shortcuts import redirect
 
 
 class API(object):
@@ -78,3 +82,13 @@ class API(object):
             except ValueError:
                 raise self.ErrFacebookLoginFailed(str(e))
         return r.json()
+
+
+def store_access_token(request, access_token):
+    request.session['access_token'] = access_token
+    request.session['access_token_granted_at'] = time()
+
+
+def store_access_token_and_redirect(request, access_token):
+    store_access_token(request=request, access_token=access_token)
+    return redirect(settings.AFTER_LOGIN_VIEW)

@@ -30,3 +30,4 @@ LOGIN_VIEW = 'dashboard:login'
 AFTER_LOGIN_VIEW = 'dashboard:subscriptions'
 FACEBOOK_APP_ID = 'facebook_app_id'
 FACEBOOK_APP_SECRET = 'facebook_app_secret'
+FACEBOOK_SCOPE = "public_profile,email"

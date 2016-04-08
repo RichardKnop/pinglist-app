@@ -1,11 +1,10 @@
 import logging
-from time import time
 
-from django.conf import settings
-from django.shortcuts import redirect
 from django.contrib.messages import get_messages
+from django.contrib import messages
 
 from apps.dashboard.forms.login import LoginForm
+from apps.api import store_access_token_and_redirect
 
 from . import BaseView, get_facebook_authorize_uri
 
@@ -20,10 +19,14 @@ class LoginView(BaseView):
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
 
-        # Write any messages to log for debugging
+        # Display a potential error message
         storage = get_messages(request)
         for message in storage:
-            logging.debug(message)
+            if message.level == messages.ERROR:
+                form.clean()
+                form.add_error(None, message.message)
+                break
+            logger.info(message.message)
 
         return self._render(
             request=request,
@@ -37,19 +40,15 @@ class LoginView(BaseView):
         if not form.is_valid():
             return self._render(request=request, form=form)
 
+        # Log in with email and password
         try:
-            # Log in
-            access_token = self.API.login(
-                username=form.cleaned_data['email'],
-                password=form.cleaned_data['password'],
+            return store_access_token_and_redirect(
+                request=request,
+                access_token=self.API.login(
+                    username=form.cleaned_data['email'],
+                    password=form.cleaned_data['password'],
+                ),
             )
-
-            # Save the access token in the session
-            request.session['access_token'] = access_token
-            request.session['access_token_granted_at'] = time()
-
-            # Redirect to the subscriptions page
-            return redirect(settings.AFTER_LOGIN_VIEW)
 
         # Logging in failed, probably incorrect username and/or password
         except self.API.ErrLoginFailed as e:
