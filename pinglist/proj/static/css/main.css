@@ -6,21 +6,98 @@
 
 body, html {
     font-family: Lato, sans-serif;
+    color: #27303C;
 }
 
 body {
     margin-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+a {
+    color: #27303C;
+}
+
+.text-muted {
+    color: #B9E88A;
+}
+
+.navbar-inverse {
+    background-color: #27303C;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #B9E88A;
+    text-decoration: none;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #B9E88A;
+}
+
+.navbar-brand {
+    padding: 7px 0 3px;
+}
+
+.navbar-brand img {
+    height: 40px;
+}
+
+.btn-primary {
+    background-color: #B9E88A;
+    color: #27303C;
+    border-color: #27303C;
+}
+
+.btn-primary:hover, .btn-primary:focus,
+.btn-primary.focus, .btn-primary:active, .btn-primary.active,
+.btn-primary:active:hover,
+.btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.open > .dropdown-toggle.btn-primary:focus,
+.btn-primary:active.focus,
+.btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary.focus {
+    background-color: #27303C;
+    color: #B9E88A;
+    border-color: #27303C;
+}
+
 .header-image {
     display: block;
     width: 100%;
     text-align: center;
-    background: url('/static/images/placeholder1900x500.png') no-repeat center center scroll;
+    background: linear-gradient(
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.6)
+    ), url('/static/images/bg.jpg') no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    background-size: cover;
     -o-background-size: cover;
+    color: white;
+    font-family: Lato;
+}
+
+.dashboard-nav {
+    margin-top: 40px;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  color: #27303C;
+  background-color: #B9E88A;
+}
+
+.header-image h1 {
+    letter-spacing: 2px;
+    font-family: Lato;
+}
+
+.header-image p {
+    color: #B9E88A;
+    font-size: 1.25em;
 }
 
 .header-image .headline {
