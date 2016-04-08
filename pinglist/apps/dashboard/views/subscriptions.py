@@ -2,7 +2,7 @@ import logging
 
 from apps.api.decorators import logged_in
 
-from . import BaseView
+from apps import BaseView
 
 
 logger = logging.getLogger(__name__)

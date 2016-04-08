@@ -7,7 +7,8 @@ from django.contrib import messages
 
 from apps.api import store_access_token_and_redirect
 
-from . import BaseView, get_facebook_redirect_uri
+from apps import BaseView
+from . import get_facebook_redirect_uri
 
 
 logger = logging.getLogger(__name__)
@@ -21,22 +22,28 @@ class FacebookRedirectView(BaseView):
             messages.error(request, request.GET.get('error_description'))
             return redirect(settings.LOGIN_VIEW)
 
+        # Verify the state is the same as what we stored in the session previously
+        if request.GET.get('state', '') != request.session.get('state'):
+            messages.error(settings, 'State mismatch')
+            return redirect(settings.LOGIN_VIEW)
+
         # Exchange Facebook authorization code for an access token
-        payload = {
-            'client_id': settings.FACEBOOK_APP_ID,
-            'redirect_uri': get_facebook_redirect_uri(),
-            'client_secret': settings.FACEBOOK_APP_SECRET,
-            'code': request.GET.get('code', ''),
-        }
-        r = requests.get(
-            url='https://graph.facebook.com/v2.3/oauth/access_token',
-            params=payload,
-            allow_redirects=False,
-        )
         try:
+            r = requests.get(
+                url='https://graph.facebook.com/v2.3/oauth/access_token',
+                params={
+                    'client_id': settings.FACEBOOK_APP_ID,
+                    'redirect_uri': get_facebook_redirect_uri(),
+                    'client_secret': settings.FACEBOOK_APP_SECRET,
+                    'code': request.GET.get('code', ''),
+                },
+                allow_redirects=False,
+            )
+            logger.debug(r)
             r.raise_for_status()
+
+        # Fetching access token from Facebook failed
         except requests.exceptions.HTTPError as e:
-            logger.debug(r.text)
             try:
                 messages.error(request, r.json()['error']['message'])
             except ValueError:

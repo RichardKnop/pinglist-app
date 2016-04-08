@@ -1,8 +1,8 @@
-from . import BaseView
+from apps import BaseView
 
 
 class IndexView(BaseView):
-    template_name = 'dashboard/index.html'
+    template_name = 'home/index.html'
 
     def get(self, request, *args, **kwargs):
         return self._render(request=request)

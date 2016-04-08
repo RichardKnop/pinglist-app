@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.conf import settings
 
-from . import BaseView
+from apps import BaseView
 
 
 class LogoutView(BaseView):

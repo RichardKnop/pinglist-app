@@ -1,4 +1,5 @@
 import logging
+import uuid
 
 from django.contrib.messages import get_messages
 from django.contrib import messages
@@ -6,7 +7,8 @@ from django.contrib import messages
 from apps.dashboard.forms.login import LoginForm
 from apps.api import store_access_token_and_redirect
 
-from . import BaseView, get_facebook_authorize_uri
+from apps import BaseView
+from . import get_facebook_authorize_uri
 
 
 logger = logging.getLogger(__name__)
@@ -28,11 +30,15 @@ class LoginView(BaseView):
                 break
             logger.info(message.message)
 
+        # Generate a unique state parameter and store it in the session
+        state = str(uuid.uuid4())
+        request.session['state'] = state
+
         return self._render(
             request=request,
             form=form,
             title='Log In',
-            facebook_authorize_uri=get_facebook_authorize_uri(),
+            facebook_authorize_uri=get_facebook_authorize_uri(state),
         )
 
     def post(self, request, *args, **kwargs):

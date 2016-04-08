@@ -1,10 +1,14 @@
 from __future__ import absolute_import
 
 import requests
+import logging
 from time import time
 
 from django.conf import settings
 from django.shortcuts import redirect
+
+
+logger = logging.getLogger(__name__)
 
 
 class API(object):
@@ -36,6 +40,7 @@ class API(object):
                 'scope': self.scope,
             },
         )
+        logger.debug(r)
         try:
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -55,6 +60,7 @@ class API(object):
                 'refresh_token': refresh_token,
             },
         )
+        logger.debug(r)
         try:
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -74,6 +80,7 @@ class API(object):
                 'scope': self.scope,
             },
         )
+        logger.debug(r)
         try:
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
