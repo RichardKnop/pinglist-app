@@ -1,6 +1,8 @@
 from time import time
 
 from django.shortcuts import redirect
+from django.core.urlresolvers import reverse, resolve
+from django.core.urlresolvers import NoReverseMatch, Resolver404
 from django.conf import settings
 
 from . import API, store_access_token
@@ -18,7 +20,15 @@ def logged_in(view):
             return redirect(settings.LOGIN_VIEW)
 
         if not access_token or not access_token_granted_at:
-            return redirect(settings.LOGIN_VIEW)
+            try:
+                resolve_match = resolve(request.get_full_path())
+                return redirect('{}?after_login_view={}:{}'.format(
+                    reverse(settings.LOGIN_VIEW),
+                    resolve_match.namespaces[0],
+                    resolve_match.url_name,
+                ))
+            except (NoReverseMatch, Resolver404):
+                return redirect(settings.LOGIN_VIEW)
 
         # Second, check that the access token is not expired
         if access_token_granted_at + access_token['expires_in'] < time():
