@@ -34,9 +34,9 @@ class LoginView(BaseView):
         request.session['state'] = state
 
         # Store after login redirect param in the session if present in the query string
-        if settings.AFTER_LOGIN_VIEW_QS in request.GET:
-            after_login = request.GET[settings.AFTER_LOGIN_VIEW_QS]
-            request.session[settings.AFTER_LOGIN_VIEW_QS] = after_login
+        if settings.AFTER_LOGIN_VIEW_PARAM in request.GET:
+            after_login = request.GET[settings.AFTER_LOGIN_VIEW_PARAM]
+            request.session[settings.AFTER_LOGIN_VIEW_PARAM] = after_login
 
         return self._render(
             request=request,

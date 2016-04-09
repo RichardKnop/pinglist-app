@@ -98,6 +98,7 @@ def store_access_token(request, access_token):
 
 def store_access_token_and_redirect(request, access_token):
     store_access_token(request=request, access_token=access_token)
-    if settings.AFTER_LOGIN_VIEW_QS in request.session:
-        return redirect(request.session[settings.AFTER_LOGIN_VIEW_QS])
-    return redirect(settings.AFTER_LOGIN_VIEW)
+    try:
+        return redirect(request.session[settings.AFTER_LOGIN_VIEW_PARAM])
+    except KeyError:
+        return redirect(settings.AFTER_LOGIN_VIEW)

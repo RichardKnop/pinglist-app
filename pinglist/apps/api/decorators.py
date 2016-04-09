@@ -13,18 +13,16 @@ def logged_in(view):
     def _wrapper(obj, request, *args, **kwargs):
         # First we try to retrieve the access token from the session
         try:
-            access_token = request.session.get('access_token')
-            access_token_granted_at = request.session.get('access_token_granted_at')
+            access_token = request.session['access_token']
+            access_token_granted_at = request.session['access_token_granted_at']
 
-        except AttributeError:
-            return redirect(settings.LOGIN_VIEW)
-
-        if not access_token or not access_token_granted_at:
+        # Access token not found
+        except KeyError:
             try:
                 resolve_match = resolve(request.get_full_path())
                 return redirect('{}?{}={}:{}'.format(
                     reverse(settings.LOGIN_VIEW),
-                    settings.AFTER_LOGIN_VIEW_QS,
+                    settings.AFTER_LOGIN_VIEW_PARAM,
                     resolve_match.namespaces[0],
                     resolve_match.url_name,
                 ))
