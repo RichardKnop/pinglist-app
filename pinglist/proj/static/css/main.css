@@ -43,6 +43,12 @@ a {
     height: 25px;
 }
 
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus,
+.navbar-inverse .navbar-nav>.active>a:hover {
+    color: #27303C;
+    background-color: #B9E88A;
+}
+
 .btn-primary {
     background-color: #B9E88A;
     color: #27303C;
@@ -62,7 +68,7 @@ a {
 .open > .dropdown-toggle.btn-primary.focus {
     background-color: #27303C;
     color: #B9E88A;
-    border-color: #B9E88A;
+    border-color: #27303C;
 }
 
 .header-image {

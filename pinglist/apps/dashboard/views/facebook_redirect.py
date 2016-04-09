@@ -58,13 +58,7 @@ class FacebookRedirectView(BaseView):
             )
 
         # Logging in failed, probably incorrect username and/or password
-        except self.API.ErrFacebookLoginFailed as e:
-            logger.debug(str(e))
-            messages.error(request, str(e))
-            return redirect(settings.LOGIN_VIEW)
-
-        # Something else went wrong, timeout, network problem etc
-        except Exception as e:
+        except self.API.APIError as e:
             logger.debug(str(e))
             messages.error(request, str(e))
             return redirect(settings.LOGIN_VIEW)

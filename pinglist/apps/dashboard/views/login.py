@@ -61,13 +61,7 @@ class LoginView(BaseView):
             )
 
         # Logging in failed, probably incorrect username and/or password
-        except self.api.ErrLoginFailed as e:
-            logger.debug(str(e))
-            form.add_error(None, str(e))
-            return self._render(request=request, form=form)
-
-        # Something else went wrong, timeout, network problem etc
-        except Exception as e:
+        except self.api.APIError as e:
             logger.debug(str(e))
             form.add_error(None, str(e))
             return self._render(request=request, form=form)

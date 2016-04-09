@@ -9,13 +9,7 @@ logger = logging.getLogger(__name__)
 
 class API(object):
 
-    class ErrLoginFailed(Exception):
-        pass
-
-    class ErrRefreshTokenFailed(Exception):
-        pass
-
-    class ErrFacebookLoginFailed(Exception):
+    class APIError(Exception):
         pass
 
     def __init__(self, hostname, client_id, client_secret, scope):
@@ -41,9 +35,9 @@ class API(object):
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
             try:
-                raise self.ErrLoginFailed(r.json()['error'])
+                raise self.APIError(r.json()['error'])
             except ValueError:
-                raise self.ErrLoginFailed(str(e))
+                raise self.APIError(str(e))
         return r.json()
 
     # Refreshes an access token
@@ -61,9 +55,9 @@ class API(object):
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
             try:
-                raise self.ErrRefreshTokenFailed(r.json()['error'])
+                raise self.APIError(r.json()['error'])
             except ValueError:
-                raise self.ErrRefreshTokenFailed(str(e))
+                raise self.APIError(str(e))
         return r.json()
 
     # Logs in using Facebook access token
@@ -81,7 +75,40 @@ class API(object):
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
             try:
-                raise self.ErrFacebookLoginFailed(r.json()['error'])
+                raise self.APIError(r.json()['error'])
             except ValueError:
-                raise self.ErrFacebookLoginFailed(str(e))
+                raise self.APIError(str(e))
+        return r.json()
+
+    # List plans
+    def list_plans(self, access_token):
+        r = requests.get(
+            self.hostname + '/v1/plans',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # List subscriptions
+    def list_subscriptions(self, access_token, user_id):
+        r = requests.get(
+            self.hostname + '/v1/subscriptions',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            params={'user_id': user_id},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
         return r.json()

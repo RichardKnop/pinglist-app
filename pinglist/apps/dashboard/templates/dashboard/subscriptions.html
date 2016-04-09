@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load filters %}
 
 {% block content %}
 
@@ -6,10 +7,50 @@
     <div class="container">
 
         <div class="page-header">
-          <h1>Subscriptions</h1>
+            <div class="pull-right">
+                <a href="{% url 'dashboard:add_subscription' %}" class="btn btn-primary">Add Subscription <i class="fa fa-plus-circle"></i></a>
+            </div>
+            <h1>Subscriptions</h1>
+
+            <div class="clearfix"></div>
         </div>
 
-        <p>TODO</p>
+        {% if subscriptions.count < 1 %}
+            <div class="alert alert-warning" role="alert">
+                You don't have a subscription yet. Click <a href="{% url 'dashboard:add_subscription' %}"><b>here</b></a> to subscribe!
+            </div>
+        {% endif %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Plan</th>
+                <th>Started At</th>
+                <th>Cancelled At</th>
+                <th>Ended At</th>
+                <th>Period Start</th>
+                <th>Period End</th>
+                <th>Trial Start</th>
+                <th>Trial End</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for subscription in subscriptions|get:"_embedded"|get:"subscriptions" %}
+                <tr>
+                    <td>{{ subscription.id|escape }}</td>
+                    <td>{{ subscription|get:"_embedded"|get:"_plan"|get:"name" }}</td>
+                    <td>{{ subscription.started_at|escape }}</td>
+                    <td>{{ subscription.cancelled_at|escape }}</td>
+                    <td>{{ subscription.ended_at|escape }}</td>
+                    <td>{{ subscription.period_start|escape }}</td>
+                    <td>{{ subscription.period_end|escape }}</td>
+                    <td>{{ subscription.trial_start|escape }}</td>
+                    <td>{{ subscription.trial_end|escape }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
         <hr class="featurette-divider">
 
