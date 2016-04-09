@@ -112,3 +112,20 @@ class API(object):
             except ValueError:
                 raise self.APIError(str(e))
         return r.json()
+
+    # List cards
+    def list_cards(self, access_token, user_id):
+        r = requests.get(
+            self.hostname + '/v1/cards',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            params={'user_id': user_id},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
