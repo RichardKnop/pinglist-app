@@ -12,7 +12,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'apps.api',
     'apps.home',
     'apps.dashboard',
 )
@@ -21,6 +20,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'lib.middleware.LoggedInFlagMiddleware',
 )
 
 TIME_ZONE = 'UTC'

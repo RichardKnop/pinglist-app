@@ -1,7 +1,6 @@
 import logging
 
-from apps.api.decorators import logged_in
-
+from lib.auth import logged_in
 from apps import BaseView
 
 
@@ -16,4 +15,5 @@ class SubscriptionsView(BaseView):
         return self._render(
             request=request,
             title='Subscriptions',
+            active_link='subscriptions',
         )

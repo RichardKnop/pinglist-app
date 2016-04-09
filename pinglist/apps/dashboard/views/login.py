@@ -5,10 +5,10 @@ from django.contrib.messages import get_messages
 from django.contrib import messages
 from django.conf import settings
 
+from lib.auth import store_access_token_and_redirect
 from apps.dashboard.forms.login import LoginForm
-from apps.api import store_access_token_and_redirect
-
 from apps import BaseView
+
 from . import get_facebook_authorize_uri
 
 
@@ -54,14 +54,14 @@ class LoginView(BaseView):
         try:
             return store_access_token_and_redirect(
                 request=request,
-                access_token=self.API.login(
+                access_token=self.api.login(
                     username=form.cleaned_data['email'],
                     password=form.cleaned_data['password'],
                 ),
             )
 
         # Logging in failed, probably incorrect username and/or password
-        except self.API.ErrLoginFailed as e:
+        except self.api.ErrLoginFailed as e:
             logger.debug(str(e))
             form.add_error(None, str(e))
             return self._render(request=request, form=form)

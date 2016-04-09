@@ -5,9 +5,9 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib import messages
 
-from apps.api import store_access_token_and_redirect
-
+from lib.auth import store_access_token_and_redirect
 from apps import BaseView
+
 from . import get_facebook_redirect_uri
 
 

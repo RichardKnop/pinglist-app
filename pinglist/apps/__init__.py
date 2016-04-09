@@ -5,10 +5,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.conf import settings
 
-from apps.api import API
+from lib.api import API
 
 
-API = API(
+api_instance = API(
     settings.API_HOST,
     settings.OAUTH_CLIENT_ID,
     settings.OAUTH_CLIENT_SECRET,
@@ -18,12 +18,13 @@ API = API(
 
 class BaseView(View):
     initial = {}
-    API = API
+    api = api_instance
 
     def _render(self, request, **kwargs):
         data = {
+            'error': getattr(request, 'error', None),
             'logged_in': getattr(request, 'logged_in', False),
-            'error': getattr(request, 'error', None)
+            'request_path': request.path,
         }
         return HttpResponse(
             render(
