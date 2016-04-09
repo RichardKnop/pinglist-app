@@ -136,7 +136,7 @@ a {
 }
 
 footer {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .center-to-left {
@@ -161,10 +161,15 @@ footer {
     width: 113px;
     height: 59px;
     border: 0;
+    margin-top: -15px;
 }
 
 .stripe-badge img {
-    margin-top: 15px;
+    border: 0;
+}
+
+.copyright {
+    line-height: 50px;
 }
 
 @media (max-width: 1200px) {
