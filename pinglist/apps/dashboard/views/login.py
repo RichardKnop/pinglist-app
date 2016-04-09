@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.messages import get_messages
 from django.contrib import messages
+from django.conf import settings
 
 from apps.dashboard.forms.login import LoginForm
 from apps.api import store_access_token_and_redirect
@@ -25,14 +26,17 @@ class LoginView(BaseView):
         storage = get_messages(request)
         for message in storage:
             if message.level == messages.ERROR:
-                form.clean()
-                form.add_error(None, message.message)
+                request.error = message.message
                 break
-            logger.info(message.message)
 
         # Generate a unique state parameter and store it in the session
         state = str(uuid.uuid4())
         request.session['state'] = state
+
+        # Store after login redirect param in the session if present in the query string
+        if settings.AFTER_LOGIN_VIEW_QS in request.GET:
+            after_login = request.GET[settings.AFTER_LOGIN_VIEW_QS]
+            request.session[settings.AFTER_LOGIN_VIEW_QS] = after_login
 
         return self._render(
             request=request,

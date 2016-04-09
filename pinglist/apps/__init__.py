@@ -23,6 +23,7 @@ class BaseView(View):
     def _render(self, request, **kwargs):
         data = {
             'logged_in': getattr(request, 'logged_in', False),
+            'error': getattr(request, 'error', None)
         }
         return HttpResponse(
             render(

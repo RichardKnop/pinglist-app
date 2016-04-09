@@ -98,6 +98,6 @@ def store_access_token(request, access_token):
 
 def store_access_token_and_redirect(request, access_token):
     store_access_token(request=request, access_token=access_token)
-    if 'after_login_view' in request.GET:
-        return redirect(request.GET['after_login_view'])
+    if settings.AFTER_LOGIN_VIEW_QS in request.session:
+        return redirect(request.session[settings.AFTER_LOGIN_VIEW_QS])
     return redirect(settings.AFTER_LOGIN_VIEW)

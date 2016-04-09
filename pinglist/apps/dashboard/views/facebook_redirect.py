@@ -23,7 +23,7 @@ class FacebookRedirectView(BaseView):
             return redirect(settings.LOGIN_VIEW)
 
         # Verify the state is the same as what we stored in the session previously
-        if request.GET.get('state', '') != request.session.get('state'):
+        if request.GET.get('state', '') != request.session.get('state', ''):
             messages.error(settings, 'State mismatch')
             return redirect(settings.LOGIN_VIEW)
 

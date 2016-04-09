@@ -22,8 +22,9 @@ def logged_in(view):
         if not access_token or not access_token_granted_at:
             try:
                 resolve_match = resolve(request.get_full_path())
-                return redirect('{}?after_login_view={}:{}'.format(
+                return redirect('{}?{}={}:{}'.format(
                     reverse(settings.LOGIN_VIEW),
+                    settings.AFTER_LOGIN_VIEW_QS,
                     resolve_match.namespaces[0],
                     resolve_match.url_name,
                 ))

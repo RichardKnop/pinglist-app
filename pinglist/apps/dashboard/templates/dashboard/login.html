@@ -11,6 +11,10 @@
                     <div class="alert alert-danger" role="alert">
                         {{ form.non_field_errors|first|escape }}
                     </div>
+                {% elif error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error|escape }}
+                    </div>
                 {% endif %}
                 <div class="form-group {% if form.email.errors %}has-error{% endif %}">
                     {% if form.email.errors %}
