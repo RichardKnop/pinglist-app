@@ -8,7 +8,7 @@
 
         <div class="page-header">
             <div class="pull-right">
-                <a href="{% url 'dashboard:add_subscription' %}" class="btn btn-primary">Add Subscription <i class="fa fa-plus-circle"></i></a>
+                <a href="{% url 'subscriptions:add' %}" class="btn btn-primary">Add Subscription <i class="fa fa-plus-circle"></i></a>
             </div>
             <h1>Subscriptions</h1>
 
@@ -17,7 +17,7 @@
 
         {% if subscriptions.count < 1 %}
             <div class="alert alert-warning" role="alert">
-                You don't have a subscription yet. Click <a href="{% url 'dashboard:add_subscription' %}"><b>here</b></a> to subscribe!
+                You don't have a subscription yet. Click <a href="{% url 'subscriptions:add' %}"><b>here</b></a> to subscribe!
             </div>
         {% endif %}
 

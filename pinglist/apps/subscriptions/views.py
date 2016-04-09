@@ -7,8 +7,8 @@ from apps import BaseView
 logger = logging.getLogger(__name__)
 
 
-class SubscriptionsView(BaseView):
-    template_name = 'dashboard/subscriptions.html'
+class IndexView(BaseView):
+    template_name = 'subscriptions/index.html'
 
     @logged_in
     def get(self, request, *args, **kwargs):
@@ -24,8 +24,8 @@ class SubscriptionsView(BaseView):
         )
 
 
-class AddSubscriptionView(BaseView):
-    template_name = 'dashboard/add_subscription.html'
+class AddView(BaseView):
+    template_name = 'subscriptions/add.html'
 
     @logged_in
     def get(self, request, *args, **kwargs):

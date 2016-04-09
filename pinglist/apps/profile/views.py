@@ -7,13 +7,13 @@ from apps import BaseView
 logger = logging.getLogger(__name__)
 
 
-class PaymentSourcesView(BaseView):
-    template_name = 'dashboard/payment-sources.html'
+class MeView(BaseView):
+    template_name = 'profile/me.html'
 
     @logged_in
     def get(self, request, *args, **kwargs):
         return self._render(
             request=request,
-            title='Payment Sources',
-            active_link='payment_sources',
+            title='My Profile',
+            active_link='profile',
         )

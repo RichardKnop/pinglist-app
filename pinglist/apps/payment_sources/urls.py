@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from apps.home.views import IndexView
+from apps.payment_sources.views import IndexView
 
 
 urlpatterns = [

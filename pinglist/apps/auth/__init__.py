@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 
 def get_facebook_redirect_uri():
-    redirect_uri = reverse('dashboard:facebook_redirect')
+    redirect_uri = reverse('auth:facebook_redirect')
     return '{}{}'.format(settings.HOSTNAME, redirect_uri)
 
 
