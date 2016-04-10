@@ -56,7 +56,7 @@ class AddView(BaseView):
         if not form.is_valid():
             return self._render(request=request, form=form)
 
-        # Add the card
+        # Add a card
         try:
             self.api.add_card(
                 access_token=request.session['access_token']['access_token'],

@@ -73,10 +73,10 @@ class FacebookRedirectView(BaseView):
             messages.error(request, request.GET.get('error_description'))
             return redirect(settings.LOGIN_VIEW)
 
-        # Verify the state is the same as what we stored in the session previously
-        if request.GET.get('state', '') != request.session.get('state', ''):
-            messages.error(settings, 'State mismatch')
-            return redirect(settings.LOGIN_VIEW)
+        # # Verify the state is the same as what we stored in the session previously
+        # if request.GET.get('state', '') != request.session.get('state', ''):
+        #     messages.error(request, 'State mismatch')
+        #     return redirect(settings.LOGIN_VIEW)
 
         # Exchange Facebook authorization code for an access token
         try:

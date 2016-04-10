@@ -18,7 +18,54 @@
             </div>
         {% endfor %}
 
-        <p>TODO</p>
+        <div class="row">
+            <div class="col-md-6">
+                <form id="add-subscription-form" method="POST" action="{% url 'subscriptions:add' %}">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors|first|escape }}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group {% if form.plan.errors %}has-error{% endif %}">
+                        <label class="control-label" for="plan">
+                            {% if form.plan.errors %}
+                                Plan<br>{{ form.plan.errors|first|escape }}
+                            {% else %}
+                                Plan
+                            {% endif %}
+                        </label>
+                        <select class="form-control" id="plan">
+                            <option value=""></option>
+                            {% for id, name in form.fields.plan.choices %}
+                                <option value="{{ id|escape }}">{{ name|escape }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group {% if form.payment_source.errors %}has-error{% endif %}">
+                        <label class="control-label" for="payment_source">
+                            {% if form.payment_source.errors %}
+                                Payment Source<br>{{ form.payment_source.errors|first|escape }}
+                            {% else %}
+                                Payment Source
+                            {% endif %}
+                        </label>
+                        <select class="form-control" id="payment_source">
+                            <option value=""></option>
+                            {% for id, name in form.fields.payment_source.choices %}
+                                <option value="{{ id|escape }}">{{ name|escape }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Add Subscription</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <hr class="featurette-divider">
 

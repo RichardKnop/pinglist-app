@@ -112,6 +112,26 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Add a subscription
+    def add_subscription(self, access_token, plan_id, card_id):
+        r = requests.post(
+            self.hostname + '/v1/subscriptions',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            json={
+                'plan_id': plan_id,
+                'card_id': card_id,
+            },
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # List cards
     def list_cards(self, access_token, user_id):
         r = requests.get(
