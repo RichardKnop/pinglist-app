@@ -7,8 +7,8 @@ from django.conf import settings
 from django.shortcuts import redirect
 
 from lib.auth import store_access_token_and_redirect
-from apps.auth.forms import LoginForm
 from apps import BaseView
+from apps.auth.forms import LoginForm
 
 from . import (
     get_facebook_authorize_uri,
@@ -51,7 +51,7 @@ class LoginView(BaseView):
     def _render_login(self, request, form):
         # Generate a unique state parameter and store it in the session
         state = str(uuid.uuid4())
-        request.session['state'] = state
+        request.session[''] = state
 
         # Store after login redirect param in the session if present in the query string
         if settings.AFTER_LOGIN_VIEW_PARAM in request.GET:

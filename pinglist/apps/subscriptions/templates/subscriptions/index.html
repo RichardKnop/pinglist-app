@@ -51,7 +51,7 @@
             {% for subscription in subscriptions|get:"_embedded"|get:"subscriptions" %}
                 <tr>
                     <td>{{ subscription.id|escape }}</td>
-                    <td>{{ subscription|get:"_embedded"|get:"_plan"|get:"name" }}</td>
+                    <td>{{ subscription|get:'_embedded'|get:'plan'|get:'name' }}</td>
                     <td>{{ subscription.started_at|escape }}</td>
                     <td>{{ subscription.cancelled_at|escape }}</td>
                     <td>{{ subscription.ended_at|escape }}</td>
