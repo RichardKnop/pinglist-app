@@ -3,7 +3,6 @@ from __future__ import absolute_import
 import requests
 import logging
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -129,3 +128,37 @@ class API(object):
             except ValueError:
                 raise self.APIError(str(e))
         return r.json()
+
+    # Add a card
+    def add_card(self, access_token, token):
+        r = requests.post(
+            self.hostname + '/v1/cards',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            json={
+                'token': token,
+            },
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # Delete a card
+    def delete_card(self, access_token, card_id):
+        r = requests.delete(
+            self.hostname + '/v1/cards/{}'.format(card_id),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))

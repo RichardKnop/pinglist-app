@@ -17,6 +17,10 @@ a {
     color: #27303C;
 }
 
+a:hover {
+    color: #B9E88A;
+}
+
 .text-muted {
     color: #B9E88A;
 }

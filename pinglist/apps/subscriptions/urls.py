@@ -7,6 +7,6 @@ from apps.subscriptions.views import (
 
 
 urlpatterns = [
-    url(r'^add/', AddView.as_view(), name='add'),
-    url(r'^', IndexView.as_view(), name='index'),
+    url(r'^add/$', AddView.as_view(), name='add'),
+    url(r'^$', IndexView.as_view(), name='index'),
 ]

@@ -4,5 +4,5 @@ from apps.profile.views import MeView
 
 
 urlpatterns = [
-    url(r'^', MeView.as_view(), name='me'),
+    url(r'^$', MeView.as_view(), name='me'),
 ]

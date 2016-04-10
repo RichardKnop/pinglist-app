@@ -9,11 +9,163 @@
             <h1>Add Payment Source</h1>
         </div>
 
-        <p>TODO</p>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|escape }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.message|escape }}
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <form id="add-card-form" method="POST" action="{% url 'payment_sources:add' %}">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors|first|escape }}
+                        </div>
+                    {% endif %}
+
+                    <noscript>
+                        <div class="alert alert-warning" role="alert">
+                            <h4>JavaScript is not enabled!</h4>
+
+                            <p>
+                                This payment form requires your browser to have JavaScript enabled.
+                                Please activate JavaScript and reload this page.
+                                Check <a href="http://enable-javascript.com" target="_blank">enable-javascript.com</a>
+                                for more informations.
+                            </p>
+                        </div>
+                    </noscript>
+
+                    <div class="form-group">
+                        <label for="card_number">Number</label>
+                        <input type="text" size="20" class="form-control" id="card_number" data-stripe="number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvc_number">CVC</label>
+                        <input type="text" size="4" class="form-control" id="cvc_number" data-stripe="cvc">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="exp_month">Expiration month</label>
+                                <select class="form-control" id="exp_month" data-stripe="exp-month">
+                                    <option value=""></option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="exp_year">Expiration year</label>
+                                <select class="form-control" id="exp_year" data-stripe="exp-year">
+                                    <option value=""></option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Add Card</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <hr class="featurette-divider">
 
     </div>
     <!-- /.container -->
 
+{% endblock %}
+
+{% block inline_js %}
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        Stripe.setPublishableKey("{{ stripe_publishable_key|escape }}");
+
+        function stripeResponseHandler(status, response) {
+            var $form = $("#add-card-form");
+
+            if (response.error) {
+                // Show the errors on the form
+                alert(response.error.message);
+                $form.find("button").prop("disabled", false);
+            } else {
+                // response contains id and card, which contains additional card details
+                var token = response.id;
+                // Insert the token into the form so it gets submitted to the server
+                $form.append($('<input type="hidden" name="stripe_token" />').val(token));
+                // and submit
+                $form.get(0).submit();
+            }
+        }
+        ;
+
+        jQuery(function ($) {
+            $("#add-card-form").submit(function (event) {
+                var $form = $(this);
+
+                var cardNumber = $form.find("#card_number").val();
+                var cvcNumber = $form.find("#cvc_number").val();
+                var expirationDate = $form.find("#exp_year").val() + "/" + $form.find("#exp_month").val();
+
+                if (!Stripe.card.validateCardNumber(cardNumber)) {
+                    alert("Invalid card number");
+                    return false;
+                }
+
+                if (!Stripe.card.validateCVC(cvcNumber)) {
+                    alert("Invalid CVC");
+                    return false;
+                }
+
+                if (!Stripe.card.validateExpiry(expirationDate)) {
+                    alert("Invalid expiration date");
+                    return false;
+                }
+
+                // Disable the submit button to prevent repeated clicks
+                $form.find("button").prop("disabled", true);
+
+                Stripe.card.createToken($form, stripeResponseHandler);
+
+                // Prevent the form from submitting with the default action
+                return false;
+            });
+        });
+        //]]>
+    </script>
 {% endblock %}

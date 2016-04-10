@@ -32,3 +32,5 @@ AFTER_LOGIN_VIEW_PARAM = 'after_login_view'
 FACEBOOK_APP_ID = 'facebook_app_id'
 FACEBOOK_APP_SECRET = 'facebook_app_secret'
 FACEBOOK_SCOPE = "public_profile,email"
+STRIPE_PUBLISHABLE_KEY = "stripe_publishable_key"
+STRIPE_SECRET_KEY = "stripe_secret_key"

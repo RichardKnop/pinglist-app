@@ -8,16 +8,27 @@
 
         <div class="page-header">
             <div class="pull-right">
-                <a href="{% url 'payment_sources:add' %}" class="btn btn-primary">Add Payment Source <i class="fa fa-plus-circle"></i></a>
+                <a href="{% url 'payment_sources:add' %}" class="btn btn-primary">Add Payment Source <i
+                        class="fa fa-plus-circle"></i></a>
             </div>
             <h1>Payment Sources</h1>
 
             <div class="clearfix"></div>
         </div>
 
-        {% if subscriptions.count < 1 %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|escape }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.message|escape }}
+            </div>
+        {% endfor %}
+
+        {% if cards.count < 1 %}
             <div class="alert alert-warning" role="alert">
-                You haven't added a payment source yet. Click <a href="{% url 'payment_sources:add' %}"><b>here</b></a> to add a card!
+                You haven't added a payment source yet. Click <a href="{% url 'payment_sources:add' %}"><b>here</b></a>
+                to add a card!
             </div>
         {% endif %}
 
@@ -27,16 +38,24 @@
                 <th>ID</th>
                 <th>Brand</th>
                 <th>Last 4</th>
+                <th>Created At</th>
                 <th>Expires At</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             {% for card in cards|get:"_embedded"|get:"cards" %}
                 <tr>
-                    <td>{{ subscription.id|escape }}</td>
+                    <td>{{ card.id|escape }}</td>
                     <td>{{ card.brand|escape }}</td>
-                    <td>{{ card.last4|escape }}</td>
-                    <td>{{ card.exp_month|escape }} / {{ card.exp_year|escape }}</td>
+                    <td>{{ card.last_four|escape }}</td>
+                    <td>{{ card.created_at|escape }}</td>
+                    <td>{{ card.exp_month|leading_zeros:"2"|escape }} / {{ card.exp_year|escape }}</td>
+                    <td>
+                        <a href="{% url 'payment_sources:delete' card.id|escape %}" class="btn btn-xs btn-danger">
+                            Delete <i class="fa fa-remove"></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

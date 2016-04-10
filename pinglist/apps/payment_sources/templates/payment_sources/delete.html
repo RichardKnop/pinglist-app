@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load filters %}
 
 {% block content %}
 
@@ -6,7 +7,7 @@
     <div class="container">
 
         <div class="page-header">
-            <h1>Add Subscription</h1>
+            <h1>Delete Payment Source</h1>
         </div>
 
         {% for message in messages %}
@@ -18,7 +19,18 @@
             </div>
         {% endfor %}
 
-        <p>TODO</p>
+        <p>Are you sure you want to delete the payment source?</p>
+
+        <form method="POST" action="{% url 'payment_sources:delete' card_id %}">
+            {% csrf_token %}
+
+            {{ form.card_id }}
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Yes, delete!</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'payment_sources:index' %}">Cancel</a>
+            </div>
+        </form>
 
         <hr class="featurette-divider">
 
