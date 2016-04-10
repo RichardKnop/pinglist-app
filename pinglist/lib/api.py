@@ -148,6 +148,22 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Get a card
+    def get_card(self, access_token, card_id):
+        r = requests.get(
+            self.hostname + '/v1/cards/{}'.format(card_id),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # Delete a card
     def delete_card(self, access_token, card_id):
         r = requests.delete(

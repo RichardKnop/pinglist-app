@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.http import HttpResponseNotFound
 
 from lib.auth import logged_in
 from apps import BaseView
@@ -80,6 +81,18 @@ class DeleteView(BaseView):
 
     @logged_in
     def get(self, request, card_id, *args, **kwargs):
+        # Get the card
+        try:
+            self.api.get_card(
+                access_token=request.session['access_token']['access_token'],
+                card_id=card_id,
+            )
+
+        # Card not found
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            return HttpResponseNotFound()
+
         form = self.form_class(initial={'card_id': card_id})
 
         return self._render_delete_payment_source(
@@ -87,6 +100,18 @@ class DeleteView(BaseView):
 
     @logged_in
     def post(self, request, card_id, *args, **kwargs):
+        # Get the card
+        try:
+            self.api.get_card(
+                access_token=request.session['access_token']['access_token'],
+                card_id=card_id,
+            )
+
+        # Card not found
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            return HttpResponseNotFound()
+
         form = self.form_class(request.POST)
         if not form.is_valid():
             return self._render_delete_payment_source(
