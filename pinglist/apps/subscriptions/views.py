@@ -12,10 +12,12 @@ class IndexView(BaseView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
+        # Fetch the subscriptions
         subscriptions = self.api.list_subscriptions(
             access_token=request.session['access_token']['access_token'],
             user_id=request.session['access_token']['user_id'],
         )
+
         return self._render(
             request=request,
             title='Subscriptions',

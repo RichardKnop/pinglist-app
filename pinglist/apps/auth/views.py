@@ -105,7 +105,9 @@ class FacebookRedirectView(BaseView):
         try:
             return store_access_token_and_redirect(
                 request=request,
-                access_token=self.api.facebook_login(r.json()['access_token']),
+                access_token=self.api.facebook_login(
+                    fb_access_token=r.json()['access_token'],
+                ),
             )
 
         # Logging in failed, probably incorrect username and/or password

@@ -60,12 +60,12 @@ class API(object):
         return r.json()
 
     # Logs in using Facebook access token
-    def facebook_login(self, access_token):
+    def facebook_login(self, fb_access_token):
         r = requests.post(
             self.hostname + '/v1/facebook/login',
             auth=(self.client_id, self.client_secret),
             data={
-                'access_token': access_token,
+                'access_token': fb_access_token,
                 'scope': self.scope,
             },
         )
@@ -80,10 +80,10 @@ class API(object):
         return r.json()
 
     # List plans
-    def list_plans(self, access_token):
+    def list_plans(self):
         r = requests.get(
             self.hostname + '/v1/plans',
-            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            auth=(self.client_id, self.client_secret),
         )
         logger.debug(r)
         try:

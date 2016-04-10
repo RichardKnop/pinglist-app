@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load staticfiles %}
+{% load filters %}
 
 {% block content %}
 
@@ -71,69 +72,33 @@
             <!-- Plans -->
             <div class="row text-center">
 
+                {% for plan in plans|get:"_embedded"|get:"plans" %}
                 <div class="col-md-3 col-sm-6 hero-feature">
                     <div class="plan-description">
-                        <h3>Personal<br>$2.5</h3>
+                        <h3>{{ plan.name|escape }}<br>${{ plan.amount|divide:100|floatformat|escape }}</h3>
 
-                        <p>30 days free trial</p>
+                        {% if plan.trial_period > 0 %}
+                        <p>{{ plan.trial_period|escape }} days free trial</p>
+                        {% else %}
+                        <p>no free trial</p>
+                        {% endif %}
 
-                        <p>2 alarms</p>
+                        <p>{{ plan.max_alarms|escape }} alarms</p>
 
+                        {% if plan.max_teams > 0 %}
+                        <p>team login {{ plan.max_teams|escape }} x {{ plan.max_members_per_team|escape }}</p>
+                        {% else %}
                         <p>no team login</p>
+                        {% endif %}
+
+                        <p>Email &amp; push notifications</p>
 
                         <p>
                             <a href="{% url 'subscriptions:index' %}" class="btn btn-primary btn-lg">Start Free Trial <i class="fa fa-arrow-circle-right"></i></a>
                         </p>
                     </div>
                 </div>
-
-                <div class="col-md-3 col-sm-6 plan">
-                    <div class="plan-description">
-                        <h3>Professional<br>$10</h3>
-
-                        <p>30 days free trial</p>
-
-                        <p>10 alarms</p>
-
-                        <p>no team login</p>
-
-                        <p>
-                            <a href="{% url 'subscriptions:index' %}" class="btn btn-primary btn-lg">Start Free Trial <i class="fa fa-arrow-circle-right"></i></a>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 plan">
-                    <div class="plan-description">
-                        <h3>Startup<br>$75</h3>
-
-                        <p>30 days free trial</p>
-
-                        <p>10 alarms</p>
-
-                        <p>team login 1 x 10 users</p>
-
-                        <p>
-                            <a href="{% url 'subscriptions:index' %}" class="btn btn-primary btn-lg">Start Free Trial <i class="fa fa-arrow-circle-right"></i></a>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 plan">
-                    <div class="plan-description">
-                        <h3>Business<br>$150</h3>
-
-                        <p>30 days free trial</p>
-
-                        <p>200 alarms</p>
-
-                        <p>team login 5 x 10 users</p>
-
-                        <p>
-                            <a href="{% url 'subscriptions:index' %}" class="btn btn-primary btn-lg">Start Free Trial <i class="fa fa-arrow-circle-right"></i></a>
-                        </p>
-                    </div>
-                </div>
+                {% endfor %}
 
             </div>
             <!-- /.row -->

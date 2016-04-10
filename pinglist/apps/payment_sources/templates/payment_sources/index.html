@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load filters %}
+{% load humanize %}
 
 {% block content %}
 
@@ -39,7 +40,7 @@
                 <th>Brand</th>
                 <th>Last 4</th>
                 <th>Created At</th>
-                <th>Expires At</th>
+                <th>Expiration Date</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -49,7 +50,7 @@
                     <td>{{ card.id|escape }}</td>
                     <td>{{ card.brand|escape }}</td>
                     <td>{{ card.last_four|escape }}</td>
-                    <td>{{ card.created_at|escape }}</td>
+                    <td>{{ card.created_at|naturaltime|escape }}</td>
                     <td>{{ card.exp_month|leading_zeros:"2"|escape }} / {{ card.exp_year|escape }}</td>
                     <td>
                         <a href="{% url 'payment_sources:delete' card.id|escape %}" class="btn btn-xs btn-danger">
