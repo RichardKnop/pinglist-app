@@ -63,8 +63,8 @@ def logged_in(view):
                     ),
                 )
 
-            # Logging in failed, probably incorrect username and/or password
-            except API.ErrRefreshTokenFailed:
+            # Refreshing token failed
+            except API.APIError:
                 return redirect(settings.LOGIN_VIEW)
 
             # Something else went wrong, timeout, network problem etc

@@ -114,7 +114,7 @@ class FacebookRedirectView(BaseView):
                 ),
             )
 
-        # Logging in failed, probably incorrect username and/or password
+        # Failed to login with Facebook's access token
         except self.api.APIError as e:
             logger.debug(str(e))
             messages.error(request, str(e))
