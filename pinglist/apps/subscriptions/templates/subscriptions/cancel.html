@@ -7,7 +7,7 @@
     <div class="container">
 
         <div class="page-header">
-            <h1>Delete Payment Source #{{ payment_source.id|escape }}</h1>
+            <h1>Cancel Subscription #{{ subscription.id }}</h1>
         </div>
 
         {% for message in messages %}
@@ -19,15 +19,15 @@
             </div>
         {% endfor %}
 
-        <p>Are you sure you want to delete the payment source?</p>
+        <p>Are you sure you want to cancel the subscription?</p>
 
-        <form method="POST" action="{% url 'payment_sources:delete' payment_source.id %}">
+        <form method="POST" action="{% url 'subscriptions:cancel' subscription.id %}">
             {% csrf_token %}
 
-            {{ form.card_id }}
+            {{ form.subscription_id }}
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Yes, delete!</button>
+                <button type="submit" class="btn btn-primary">Yes, cancel!</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'payment_sources:index' %}">Go back</a>
             </div>
         </form>

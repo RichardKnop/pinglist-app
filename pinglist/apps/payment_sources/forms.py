@@ -1,11 +1,11 @@
 from django import forms
 
 
-class AddCardForm(forms.Form):
+class AddForm(forms.Form):
 
     stripe_token = forms.CharField(required=True)
 
 
-class DeleteCardForm(forms.Form):
+class DeleteForm(forms.Form):
 
     card_id = forms.CharField(required=True, widget=forms.HiddenInput)

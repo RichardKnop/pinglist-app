@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Update Subscription #{{ subscription.id|escape }}</h1>
+        </div>
+
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|escape }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.message|escape }}
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ form.non_field_errors|first|escape }}
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <form id="add-subscription-form" method="POST" action="{% url 'subscriptions:update' subscription.id %}">
+                    {% csrf_token %}
+
+                    <div class="form-group {% if form.plan.errors %}has-error{% endif %}">
+                        <label class="control-label" for="plan">
+                            {% if form.plan.errors %}
+                                Plan<br>{{ form.plan.errors|first|escape }}
+                            {% else %}
+                                Plan
+                            {% endif %}
+                        </label>
+                        <select class="form-control" id="plan" name="plan">
+                            <option value=""></option>
+                            {% for id, name in form.fields.plan.choices %}
+                                {% if form.plan.value == id %}
+                                    <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
+                                {% else %}
+                                    <option value="{{ id|escape }}">{{ name|escape }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group {% if form.payment_source.errors %}has-error{% endif %}">
+                        <label class="control-label" for="payment_source">
+                            {% if form.payment_source.errors %}
+                                Payment Source<br>{{ form.payment_source.errors|first|escape }}
+                            {% else %}
+                                Payment Source
+                            {% endif %}
+                        </label>
+                        <select class="form-control" id="payment_source" name="payment_source">
+                            <option value=""></option>
+                            {% for id, name in form.fields.payment_source.choices %}
+                                {% if form.payment_source.value == id %}
+                                    <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
+                                {% else %}
+                                    <option value="{{ id|escape }}">{{ name|escape }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Update Subscription</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}

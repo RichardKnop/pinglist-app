@@ -2,17 +2,22 @@ import logging
 
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.http import HttpResponseNotFound
 from django.utils.dateparse import parse_datetime
 
 from lib.auth import logged_in
-from apps import BaseView
-from apps.subscriptions.forms import AddForm
+from . import SubscriptionView
+from apps.subscriptions.forms import (
+    AddForm,
+    UpdateForm,
+    CancelForm,
+)
 
 
 logger = logging.getLogger(__name__)
 
 
-class IndexView(BaseView):
+class IndexView(SubscriptionView):
     template_name = 'subscriptions/index.html'
 
     @logged_in
@@ -40,7 +45,7 @@ class IndexView(BaseView):
         )
 
 
-class AddView(BaseView):
+class AddView(SubscriptionView):
     form_class = AddForm
     template_name = 'subscriptions/add.html'
 
@@ -52,6 +57,7 @@ class AddView(BaseView):
 
         return self._render(request=request, form=form)
 
+    @logged_in
     def post(self, request, *args, **kwargs):
         # Init the form
         form = self.form_class(request.POST)
@@ -79,40 +85,177 @@ class AddView(BaseView):
             form.add_error(None, str(e))
             return self._render(request=request, form=form)
 
-    def _short_plan_desc(self, plan):
-        return '{} - ${}'.format(
-            plan['name'],
-            format(float(plan['amount']) / float(100), '.2f'),
-        )
-
-    def _short_card_desc(self, card):
-        return '{} ending with {}'.format(
-            card['brand'].upper(),
-            card['last_four'],
-        )
-
-    def _set_form_choices(self, request, form):
-        # Fetch the plans
-        plans = self.api.list_plans()
-
-        # Fetch the cards
-        cards = self.api.list_cards(
-            access_token=request.session['access_token']['access_token'],
-            user_id=request.session['access_token']['user_id'],
-        )
-
-        # Load form select options
-        form.fields['plan'].choices = (
-            (str(p['id']), self._short_plan_desc(p))
-            for p in plans['_embedded']['plans'])
-        form.fields['payment_source'].choices = (
-            (str(c['id']), self._short_card_desc(c))
-            for c in cards['_embedded']['cards'])
-
     def _render(self, request, form):
         return super(AddView, self)._render(
             request=request,
             form=form,
             title='Add Subscription',
+            active_link='subscriptions',
+        )
+
+class UpdateView(SubscriptionView):
+    form_class = UpdateForm
+    template_name = 'subscriptions/update.html'
+
+    @logged_in
+    def get(self, request, subscription_id, *args, **kwargs):
+        # Get the subscription
+        try:
+            subscription = self.api.get_subscription(
+                access_token=request.session['access_token']['access_token'],
+                subscription_id=subscription_id,
+            )
+
+        # Card not found
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            return HttpResponseNotFound()
+
+        # Init the form
+        form = self.form_class(initial=self.initial)
+        self._set_form_choices(request=request, form=form)
+
+        return self._render(
+            request=request,
+            form=form,
+            subscription=subscription,
+        )
+
+    @logged_in
+    def post(self, request, subscription_id, *args, **kwargs):
+        # Get the subscription
+        try:
+            subscription = self.api.get_subscription(
+                access_token=request.session['access_token']['access_token'],
+                subscription_id=subscription_id,
+            )
+
+        # Card not found
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            return HttpResponseNotFound()
+
+        # Init the form
+        form = self.form_class(request.POST)
+        self._set_form_choices(request=request, form=form)
+
+        # Validate POST data
+        if not form.is_valid():
+            return self._render(
+                request=request,
+                form=form,
+                subscription=subscription,
+            )
+
+        # Update the subscription
+        try:
+            self.api.update_subscription(
+                access_token=request.session['access_token']['access_token'],
+                subscription_id=int(subscription_id),
+                plan_id=int(form.cleaned_data['plan']),
+                card_id=int(form.cleaned_data['payment_source']),
+            )
+
+            # Push success message and redirect back to index view
+            messages.success(request, 'Subscription updated successfully')
+            return redirect('subscriptions:index')
+
+        # Adding subscription failed
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            form.add_error(None, str(e))
+            return self._render(
+                request=request,
+                form=form,
+                subscription=subscription,
+            )
+
+    def _render(self, request, form, subscription):
+        return super(UpdateView, self)._render(
+            request=request,
+            form=form,
+            subscription=subscription,
+            title='Update Subscription',
+            active_link='subscriptions',
+        )
+
+class CancelView(SubscriptionView):
+    form_class = CancelForm
+    template_name = 'subscriptions/cancel.html'
+
+    @logged_in
+    def get(self, request, subscription_id, *args, **kwargs):
+        # Get the subscription
+        try:
+            subscription = self.api.get_subscription(
+                access_token=request.session['access_token']['access_token'],
+                subscription_id=subscription_id,
+            )
+
+        # Subscription not found
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            return HttpResponseNotFound()
+
+        form = self.form_class(initial={'subscription_id': subscription_id})
+
+        return self._render(
+            request=request,
+            form=form,
+            subscription=subscription,
+        )
+
+    @logged_in
+    def post(self, request, subscription_id, *args, **kwargs):
+        # Get the subscription
+        try:
+            subscription = self.api.get_subscription(
+                access_token=request.session['access_token']['access_token'],
+                subscription_id=subscription_id,
+            )
+
+        # Subscription not found
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            return HttpResponseNotFound()
+
+        # Init the form
+        form = self.form_class(request.POST)
+
+        # Validate POST data
+        if not form.is_valid():
+            return self._render(
+                request=request,
+                form=form,
+                subscription=subscription,
+            )
+
+        # Cancel the subscription
+        try:
+            self.api.cancel_subscription(
+                access_token=request.session['access_token']['access_token'],
+                subscription_id=subscription_id,
+            )
+
+            # Push success message and redirect back to index view
+            messages.success(request, 'Subscription cancelled successfully')
+            return redirect('subscriptions:index')
+
+        # Cancelling subscription failed
+        except self.api.APIError as e:
+            logger.debug(str(e))
+            form.add_error(None, str(e))
+            return self._render(
+                request=request,
+                form=form,
+                subscription=subscription,
+            )
+
+    def _render(self, request, form, subscription):
+        return super(CancelView, self)._render(
+            request=request,
+            form=form,
+            subscription=subscription,
+            title='Cancel Subscription',
             active_link='subscriptions',
         )

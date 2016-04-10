@@ -9,8 +9,8 @@ from django.utils.dateparse import parse_datetime
 from lib.auth import logged_in
 from apps import BaseView
 from apps.payment_sources.forms import (
-    AddCardForm,
-    DeleteCardForm
+    AddForm,
+    DeleteForm
 )
 
 
@@ -41,7 +41,7 @@ class IndexView(BaseView):
 
 
 class AddView(BaseView):
-    form_class = AddCardForm
+    form_class = AddForm
     template_name = 'payment_sources/add.html'
 
     @logged_in
@@ -88,14 +88,14 @@ class AddView(BaseView):
 
 
 class DeleteView(BaseView):
-    form_class = DeleteCardForm
+    form_class = DeleteForm
     template_name = 'payment_sources/delete.html'
 
     @logged_in
     def get(self, request, card_id, *args, **kwargs):
         # Get the card
         try:
-            self.api.get_card(
+            payment_source = self.api.get_card(
                 access_token=request.session['access_token']['access_token'],
                 card_id=card_id,
             )
@@ -107,14 +107,17 @@ class DeleteView(BaseView):
 
         form = self.form_class(initial={'card_id': card_id})
 
-        return self._render_delete_payment_source(
-            request=request, form=form, card_id=card_id)
+        return self._render(
+            request=request,
+            form=form,
+            payment_source=payment_source,
+        )
 
     @logged_in
     def post(self, request, card_id, *args, **kwargs):
         # Get the card
         try:
-            self.api.get_card(
+            payment_source = self.api.get_card(
                 access_token=request.session['access_token']['access_token'],
                 card_id=card_id,
             )
@@ -124,12 +127,15 @@ class DeleteView(BaseView):
             logger.debug(str(e))
             return HttpResponseNotFound()
 
+        # Init the form
         form = self.form_class(request.POST)
+
+        # Validate POST data
         if not form.is_valid():
             return self._render(
                 request=request,
                 form=form,
-                card_id=card_id,
+                payment_source=payment_source,
             )
 
         # Delete the card
@@ -139,6 +145,7 @@ class DeleteView(BaseView):
                 card_id=card_id,
             )
 
+            # Push success message and redirect back to index view
             messages.success(request, 'Card deleted successfully')
             return redirect('payment_sources:index')
 
@@ -149,14 +156,14 @@ class DeleteView(BaseView):
             return self._render(
                 request=request,
                 form=form,
-                card_id=card_id,
+                payment_source=payment_source,
             )
 
-    def _render(self, request, form, card_id):
-        return super(AddView, self)._render(
+    def _render(self, request, form, payment_source):
+        return super(DeleteView, self)._render(
             request=request,
             form=form,
-            card_id=card_id,
+            payment_source=payment_source,
             title='Delete Payment Source',
             active_link='payment_sources',
         )

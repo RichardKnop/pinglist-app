@@ -43,18 +43,24 @@
                 <th>Ended At</th>
                 <th>Trial Start</th>
                 <th>Trial End</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             {% for subscription in subscriptions|get:"_embedded"|get:"subscriptions" %}
                 <tr>
-                    <td>{{ subscription.id|escape }}</td>
+                    <td><a href="{% url 'subscriptions:update' subscription.id %}">{{ subscription.id|escape }}</a></td>
                     <td>{{ subscription|get:'_embedded'|get:'plan'|get:'name' }}</td>
                     <td>{{ subscription.started_at.date|escape }}</td>
                     <td>{{ subscription.cancelled_at.date|escape }}</td>
                     <td>{{ subscription.ended_at.date|escape }}</td>
                     <td>{{ subscription.trial_start.date|escape }}</td>
                     <td>{{ subscription.trial_end.date|escape }}</td>
+                    <td>
+                        <a href="{% url 'subscriptions:cancel' subscription.id %}" class="btn btn-xs btn-danger">
+                            Cancel <i class="fa fa-remove"></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
