@@ -48,7 +48,7 @@ class AddView(BaseView):
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
 
-        return self._render_add_payment_source(request=request, form=form)
+        return self._render(request=request, form=form)
 
     @logged_in
     def post(self, request, *args, **kwargs):

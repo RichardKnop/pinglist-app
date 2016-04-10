@@ -47,12 +47,7 @@ class AddView(BaseView):
 
         form = self.form_class(initial=self.initial)
 
-        return self._render(
-            request=request,
-            title='Add Subscription',
-            active_link='subscriptions',
-            form=form,
-        )
+        return self._render(request=request, form=form)
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -73,5 +68,6 @@ class AddView(BaseView):
         return super(AddView, self)._render(
             request=request,
             form=form,
-            title='Add Subscription In',
+            title='Add Subscription',
+            active_link='subscriptions',
         )
