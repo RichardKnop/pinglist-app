@@ -29,6 +29,8 @@ class IndexView(BaseView):
             subscription['ended_at'] = parse_datetime(subscription['ended_at'])
             subscription['period_start'] = parse_datetime(subscription['period_start'])
             subscription['period_end'] = parse_datetime(subscription['period_end'])
+            subscription['trial_start'] = parse_datetime(subscription['trial_start'])
+            subscription['trial_end'] = parse_datetime(subscription['trial_end'])
 
         return self._render(
             request=request,
@@ -44,13 +46,18 @@ class AddView(BaseView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
-        # Initialise the form
+        # Init the form
         form = self.form_class(initial=self.initial)
+        self._set_form_choices(request=request, form=form)
 
         return self._render(request=request, form=form)
 
     def post(self, request, *args, **kwargs):
+        # Init the form
         form = self.form_class(request.POST)
+        self._set_form_choices(request=request, form=form)
+
+        # Validate POST data
         if not form.is_valid():
             return self._render(request=request, form=form)
 
@@ -58,10 +65,11 @@ class AddView(BaseView):
         try:
             self.api.add_subscription(
                 access_token=request.session['access_token']['access_token'],
-                plan_id=form.cleaned_data['plan'],
-                card_id=form.cleaned_data['card'],
+                plan_id=int(form.cleaned_data['plan']),
+                card_id=int(form.cleaned_data['payment_source']),
             )
 
+            # Push success message and redirect back to index view
             messages.success(request, 'Subscription added successfully')
             return redirect('subscriptions:index')
 
@@ -79,11 +87,11 @@ class AddView(BaseView):
 
     def _short_card_desc(self, card):
         return '{} ending with {}'.format(
-            card['brand'],
+            card['brand'].upper(),
             card['last_four'],
         )
 
-    def _render(self, request, form):
+    def _set_form_choices(self, request, form):
         # Fetch the plans
         plans = self.api.list_plans()
 
@@ -95,12 +103,13 @@ class AddView(BaseView):
 
         # Load form select options
         form.fields['plan'].choices = (
-            (p['id'], self._short_plan_desc(p))
+            (str(p['id']), self._short_plan_desc(p))
             for p in plans['_embedded']['plans'])
         form.fields['payment_source'].choices = (
-            (c['id'], self._short_card_desc(c))
+            (str(c['id']), self._short_card_desc(c))
             for c in cards['_embedded']['cards'])
 
+    def _render(self, request, form):
         return super(AddView, self)._render(
             request=request,
             form=form,

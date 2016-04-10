@@ -18,15 +18,19 @@
             </div>
         {% endfor %}
 
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ form.non_field_errors|first|escape }}
+            </div>
+        {% endif %}
+
         <div class="row">
             <div class="col-md-6">
                 <form id="add-card-form" method="POST" action="{% url 'payment_sources:add' %}">
                     {% csrf_token %}
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ form.non_field_errors|first|escape }}
-                        </div>
-                    {% endif %}
 
                     <noscript>
                         <div class="alert alert-warning" role="alert">

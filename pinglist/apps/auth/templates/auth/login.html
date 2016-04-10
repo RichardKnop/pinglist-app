@@ -14,13 +14,18 @@
                 </div>
             {% endfor %}
 
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ form.non_field_errors|first|escape }}
+                </div>
+            {% endif %}
+
             <form class="form-signin" method="POST" action="{% url 'auth:login' %}">
                 {% csrf_token %}
-                {% if form.non_field_errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ form.non_field_errors|first|escape }}
-                    </div>
-                {% endif %}
+
                 <div class="form-group {% if form.email.errors %}has-error{% endif %}">
                     {% if form.email.errors %}
                         <label class="control-label" for="emailInput">{{ form.email.errors|first|escape }}</label>
@@ -29,6 +34,7 @@
                            placeholder="Email address"
                            value="{% if form.email.value %}{{ form.email.value|escape }}{% endif %}">
                 </div>
+
                 <div class="form-group {% if form.password.errors %}has-error{% endif %}">
                     {% if form.password.errors %}
                         <label class="control-label" for="passwordInput">{{ form.password.errors|first|escape }}</label>
@@ -36,10 +42,13 @@
                     <input type="password" name="{{ form.password.name }}" id="passwordInput" class="form-control"
                            placeholder="Password">
                 </div>
+
                 <div class="form-group">
                     <button class="btn btn-lg btn-block btn-primary" type="submit">Log In</button>
                 </div>
+
                 <p>Or</p>
+
                 <a href="{{ facebook_authorize_uri }}" class="btn btn-lg btn-block btn-social btn-facebook">
                     <span class="fa fa-facebook"></span> Log In in with Facebook
                 </a>

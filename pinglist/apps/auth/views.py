@@ -23,12 +23,16 @@ class LoginView(BaseView):
     template_name = 'auth/login.html'
 
     def get(self, request, *args, **kwargs):
+        # Init the form
         form = self.form_class(initial=self.initial)
 
         return self._render_login(request=request, form=form)
 
     def post(self, request, *args, **kwargs):
+        # Init the form
         form = self.form_class(request.POST)
+
+        # Validate POST data
         if not form.is_valid():
             return self._render_login(request=request, form=form)
 

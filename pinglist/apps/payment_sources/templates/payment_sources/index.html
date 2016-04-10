@@ -48,7 +48,7 @@
             {% for card in cards|get:'_embedded'|get:'cards' %}
                 <tr>
                     <td>{{ card.id|escape }}</td>
-                    <td>{{ card.brand|escape }}</td>
+                    <td>{{ card.brand.upper|escape }}</td>
                     <td>{{ card.last_four|escape }}</td>
                     <td>{{ card.created_at|naturaltime|escape }}</td>
                     <td>{{ card.exp_month|leading_zeros:2|escape }} / {{ card.exp_year|escape }}</td>

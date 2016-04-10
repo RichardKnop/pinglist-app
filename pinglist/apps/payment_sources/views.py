@@ -46,13 +46,17 @@ class AddView(BaseView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
+        # Init the form
         form = self.form_class(initial=self.initial)
 
         return self._render(request=request, form=form)
 
     @logged_in
     def post(self, request, *args, **kwargs):
+        # Init the form
         form = self.form_class(request.POST)
+
+        # Validate POST data
         if not form.is_valid():
             return self._render(request=request, form=form)
 
@@ -63,6 +67,7 @@ class AddView(BaseView):
                 token=form.cleaned_data['stripe_token'],
             )
 
+            # Push success message and redirect back to index view
             messages.success(request, 'Card added successfully')
             return redirect('payment_sources:index')
 

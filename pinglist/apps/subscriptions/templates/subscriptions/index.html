@@ -41,8 +41,6 @@
                 <th>Started At</th>
                 <th>Cancelled At</th>
                 <th>Ended At</th>
-                <th>Period Start</th>
-                <th>Period End</th>
                 <th>Trial Start</th>
                 <th>Trial End</th>
             </tr>
@@ -52,13 +50,11 @@
                 <tr>
                     <td>{{ subscription.id|escape }}</td>
                     <td>{{ subscription|get:'_embedded'|get:'plan'|get:'name' }}</td>
-                    <td>{{ subscription.started_at|escape }}</td>
-                    <td>{{ subscription.cancelled_at|escape }}</td>
-                    <td>{{ subscription.ended_at|escape }}</td>
-                    <td>{{ subscription.period_start|escape }}</td>
-                    <td>{{ subscription.period_end|escape }}</td>
-                    <td>{{ subscription.trial_start|escape }}</td>
-                    <td>{{ subscription.trial_end|escape }}</td>
+                    <td>{{ subscription.started_at.date|escape }}</td>
+                    <td>{{ subscription.cancelled_at.date|escape }}</td>
+                    <td>{{ subscription.ended_at.date|escape }}</td>
+                    <td>{{ subscription.trial_start.date|escape }}</td>
+                    <td>{{ subscription.trial_end.date|escape }}</td>
                 </tr>
             {% endfor %}
             </tbody>

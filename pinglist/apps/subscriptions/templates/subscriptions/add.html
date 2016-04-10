@@ -18,15 +18,19 @@
             </div>
         {% endfor %}
 
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ form.non_field_errors|first|escape }}
+            </div>
+        {% endif %}
+
         <div class="row">
             <div class="col-md-6">
                 <form id="add-subscription-form" method="POST" action="{% url 'subscriptions:add' %}">
                     {% csrf_token %}
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ form.non_field_errors|first|escape }}
-                        </div>
-                    {% endif %}
 
                     <div class="form-group {% if form.plan.errors %}has-error{% endif %}">
                         <label class="control-label" for="plan">
@@ -36,10 +40,14 @@
                                 Plan
                             {% endif %}
                         </label>
-                        <select class="form-control" id="plan">
+                        <select class="form-control" id="plan" name="plan">
                             <option value=""></option>
                             {% for id, name in form.fields.plan.choices %}
-                                <option value="{{ id|escape }}">{{ name|escape }}</option>
+                                {% if form.plan.value == id %}
+                                    <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
+                                {% else %}
+                                    <option value="{{ id|escape }}">{{ name|escape }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -52,10 +60,14 @@
                                 Payment Source
                             {% endif %}
                         </label>
-                        <select class="form-control" id="payment_source">
+                        <select class="form-control" id="payment_source" name="payment_source">
                             <option value=""></option>
                             {% for id, name in form.fields.payment_source.choices %}
-                                <option value="{{ id|escape }}">{{ name|escape }}</option>
+                                {% if form.payment_source.value == id %}
+                                    <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
+                                {% else %}
+                                    <option value="{{ id|escape }}">{{ name|escape }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
