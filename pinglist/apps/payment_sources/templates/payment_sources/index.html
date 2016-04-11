@@ -37,7 +37,7 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Brand</th>
+                <th>Type</th>
                 <th>Last 4</th>
                 <th>Created At</th>
                 <th>Expiration Date</th>
@@ -48,7 +48,14 @@
             {% for card in cards|get:'_embedded'|get:'cards' %}
                 <tr>
                     <td>{{ card.id|escape }}</td>
-                    <td>{{ card.brand.upper|escape }}</td>
+                    <td>
+                        {% if card.brand == 'Visa' %}
+                            <i class="fa fa-cc-visa"></i>
+                        {% elif card.brand == 'MasterCard' %}
+                            <i class="fa fa-cc-mastercard"></i>
+                        {% endif %}
+                        {{ card.brand|escape }}
+                    </td>
                     <td>{{ card.last_four|escape }}</td>
                     <td>{{ card.created_at|naturaltime|escape }}</td>
                     <td>{{ card.exp_month|leading_zeros:2|escape }} / {{ card.exp_year|escape }}</td>
