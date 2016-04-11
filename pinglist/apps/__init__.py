@@ -26,11 +26,11 @@ class BaseView(View):
             'logged_in': getattr(request, 'logged_in', False),
             'request_path': request.path,
             'message_type_to_alert_class': {
-                'DEBUG': 'info',
-                'INFO': 'info',
-                'SUCCESS': 'success',
-                'WARNING': 'warning',
-                'ERROR': 'danger',
+                'debug': 'info',
+                'info': 'info',
+                'success': 'success',
+                'warning': 'warning',
+                'error': 'danger',
             }
         }
         return HttpResponse(

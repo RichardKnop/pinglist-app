@@ -27,6 +27,7 @@ class IndexView(BaseView):
             access_token=request.session['access_token']['access_token'],
             user_id=request.session['access_token']['user_id'],
         )
+
         # Parse datetime strings
         for card in cards['_embedded']['cards']:
             card['created_at'] = parse_datetime(card['created_at'])
@@ -73,7 +74,7 @@ class AddView(BaseView):
 
         # Adding card failed
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             form.add_error(None, str(e))
             return self._render(request=request, form=form)
 
@@ -102,7 +103,7 @@ class DeleteView(BaseView):
 
         # Card not found
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             return HttpResponseNotFound()
 
         form = self.form_class(initial={'card_id': card_id})
@@ -124,7 +125,7 @@ class DeleteView(BaseView):
 
         # Card not found
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             return HttpResponseNotFound()
 
         # Init the form
@@ -151,13 +152,9 @@ class DeleteView(BaseView):
 
         # Deleting card failed
         except self.api.APIError as e:
-            logger.debug(str(e))
-            form.add_error(None, str(e))
-            return self._render(
-                request=request,
-                form=form,
-                payment_source=payment_source,
-            )
+            logger.error(str(e))
+            messages.error(request, str(e))
+            return redirect('payment_sources:delete', card_id=card_id)
 
     def _render(self, request, form, payment_source):
         return super(DeleteView, self)._render(

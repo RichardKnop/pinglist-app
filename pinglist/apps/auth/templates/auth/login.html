@@ -1,27 +1,32 @@
 {% extends "layout.html" %}
+{% load filters %}
 
 {% block content %}
 
     <!-- Full Width Image Header -->
     <header class="header-image jumbotron hero-spacer">
-        <div class="headline">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags|escape }}" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ message.message|escape }}
-                </div>
-            {% endfor %}
 
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ form.non_field_errors|first|escape }}
-                </div>
-            {% endif %}
+        <div class="headline">
+
+            <div class="container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ message.message|escape }}
+                    </div>
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ form.non_field_errors|first|escape }}
+                    </div>
+                {% endif %}
+            </div>
 
             <form class="form-signin" method="POST" action="{% url 'auth:login' %}">
                 {% csrf_token %}
@@ -53,7 +58,9 @@
                     <span class="fa fa-facebook"></span> Log In in with Facebook
                 </a>
             </form>
+
         </div>
+
     </header>
 
 {% endblock %}

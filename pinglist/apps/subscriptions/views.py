@@ -27,6 +27,7 @@ class IndexView(SubscriptionView):
             access_token=request.session['access_token']['access_token'],
             user_id=request.session['access_token']['user_id'],
         )
+
         # Parse datetime strings
         for subscription in subscriptions['_embedded']['subscriptions']:
             subscription['started_at'] = parse_datetime(subscription['started_at'])
@@ -81,7 +82,7 @@ class AddView(SubscriptionView):
 
         # Adding subscription failed
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             form.add_error(None, str(e))
             return self._render(request=request, form=form)
 
@@ -108,7 +109,7 @@ class UpdateView(SubscriptionView):
 
         # Card not found
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             return HttpResponseNotFound()
 
         # Init the form
@@ -132,7 +133,7 @@ class UpdateView(SubscriptionView):
 
         # Card not found
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             return HttpResponseNotFound()
 
         # Init the form
@@ -160,15 +161,16 @@ class UpdateView(SubscriptionView):
             messages.success(request, 'Subscription updated successfully')
             return redirect('subscriptions:index')
 
-        # Adding subscription failed
+        # Updating subscription failed
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             form.add_error(None, str(e))
             return self._render(
                 request=request,
                 form=form,
                 subscription=subscription,
             )
+
 
     def _render(self, request, form, subscription):
         return super(UpdateView, self)._render(
@@ -194,7 +196,7 @@ class CancelView(SubscriptionView):
 
         # Subscription not found
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             return HttpResponseNotFound()
 
         form = self.form_class(initial={'subscription_id': subscription_id})
@@ -216,7 +218,7 @@ class CancelView(SubscriptionView):
 
         # Subscription not found
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             return HttpResponseNotFound()
 
         # Init the form
@@ -243,13 +245,9 @@ class CancelView(SubscriptionView):
 
         # Cancelling subscription failed
         except self.api.APIError as e:
-            logger.debug(str(e))
-            form.add_error(None, str(e))
-            return self._render(
-                request=request,
-                form=form,
-                subscription=subscription,
-            )
+            logger.error(str(e))
+            messages.error(request, str(e))
+            return redirect('subscriptions:cancel', subscription_id=subscription_id)
 
     def _render(self, request, form, subscription):
         return super(CancelView, self)._render(

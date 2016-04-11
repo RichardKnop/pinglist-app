@@ -26,7 +26,7 @@ class LoginView(BaseView):
         # Init the form
         form = self.form_class(initial=self.initial)
 
-        return self._render_login(request=request, form=form)
+        return self._render(request=request, form=form)
 
     def post(self, request, *args, **kwargs):
         # Init the form
@@ -34,7 +34,7 @@ class LoginView(BaseView):
 
         # Validate POST data
         if not form.is_valid():
-            return self._render_login(request=request, form=form)
+            return self._render(request=request, form=form)
 
         # Log in with email and password
         try:
@@ -48,21 +48,21 @@ class LoginView(BaseView):
 
         # Logging in failed, probably incorrect username and/or password
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             form.add_error(None, str(e))
-            return self._render_login(request=request, form=form)
+            return self._render(request=request, form=form)
 
-    def _render_login(self, request, form):
+    def _render(self, request, form):
         # Generate a unique state parameter and store it in the session
         state = str(uuid.uuid4())
-        request.session[''] = state
+        request.session['state'] = state
 
         # Store after login redirect param in the session if present in the query string
         if settings.AFTER_LOGIN_VIEW_PARAM in request.GET:
             after_login = request.GET[settings.AFTER_LOGIN_VIEW_PARAM]
             request.session[settings.AFTER_LOGIN_VIEW_PARAM] = after_login
 
-        return self._render(
+        return super(LoginView, self)._render(
             request=request,
             form=form,
             title='Log In',
@@ -77,10 +77,10 @@ class FacebookRedirectView(BaseView):
             messages.error(request, request.GET.get('error_description'))
             return redirect(settings.LOGIN_VIEW)
 
-        # # Verify the state is the same as what we stored in the session previously
-        # if request.GET.get('state', '') != request.session.get('state', ''):
-        #     messages.error(request, 'State mismatch')
-        #     return redirect(settings.LOGIN_VIEW)
+        # Verify the state is the same as what we stored in the session previously
+        if request.GET.get('state', '') != request.session.get('state', ''):
+            messages.error(request, 'State mismatch')
+            return redirect(settings.LOGIN_VIEW)
 
         # Exchange Facebook authorization code for an access token
         try:
@@ -116,7 +116,7 @@ class FacebookRedirectView(BaseView):
 
         # Failed to login with Facebook's access token
         except self.api.APIError as e:
-            logger.debug(str(e))
+            logger.error(str(e))
             messages.error(request, str(e))
             return redirect(settings.LOGIN_VIEW)
 

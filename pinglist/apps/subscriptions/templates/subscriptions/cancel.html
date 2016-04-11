@@ -11,7 +11,7 @@
         </div>
 
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags|escape }}" role="alert">
+            <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Yes, cancel!</button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'payment_sources:index' %}">Go back</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{% url 'subscriptions:index' %}">Go back</a>
             </div>
         </form>
 
