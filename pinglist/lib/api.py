@@ -250,3 +250,19 @@ class API(object):
                 raise self.APIError(r.json()['error'])
             except ValueError:
                 raise self.APIError(str(e))
+
+    # Get a profile
+    def get_profile(self, access_token):
+        r = requests.delete(
+            self.hostname + '/v1/accounts/me',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
