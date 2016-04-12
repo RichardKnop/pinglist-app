@@ -98,7 +98,7 @@ class API(object):
     # List cards
     def list_cards(self, access_token, user_id):
         r = requests.get(
-            self.hostname + '/v1/cards',
+            self.hostname + '/v1/cards?order_by=id desc',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
         )
@@ -166,7 +166,7 @@ class API(object):
     def list_subscriptions(self, access_token, user_id):
         print access_token
         r = requests.get(
-            self.hostname + '/v1/subscriptions',
+            self.hostname + '/v1/subscriptions?order_by=id desc',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
         )
@@ -181,13 +181,12 @@ class API(object):
         return r.json()
 
     # Add a subscription
-    def add_subscription(self, access_token, plan_id, card_id):
+    def add_subscription(self, access_token, plan_id):
         r = requests.post(
             self.hostname + '/v1/subscriptions',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             json={
                 'plan_id': plan_id,
-                'card_id': card_id,
             },
         )
         logger.debug(r)
@@ -217,13 +216,12 @@ class API(object):
         return r.json()
 
     # Update a subscription
-    def update_subscription(self, access_token, subscription_id, plan_id, card_id):
+    def update_subscription(self, access_token, subscription_id, plan_id):
         r = requests.put(
             self.hostname + '/v1/subscriptions/{}'.format(subscription_id),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             json={
                 'plan_id': plan_id,
-                'card_id': card_id,
             },
         )
         logger.debug(r)

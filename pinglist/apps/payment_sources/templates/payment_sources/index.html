@@ -29,8 +29,11 @@
 
         {% if cards.count < 1 %}
             <div class="alert alert-warning" role="alert">
-                You haven't added a payment source yet. Click <a href="{% url 'payment_sources:add' %}"><b>here</b></a>
-                to add a card!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                You haven't added a payment source yet.
+                Click <a href="{% url 'payment_sources:add' %}"><b>here</b></a> to add a card!
             </div>
         {% endif %}
 
@@ -38,6 +41,7 @@
             <thead>
             <tr>
                 <th>ID</th>
+                <th>Brand</th>
                 <th>Type</th>
                 <th>Last 4</th>
                 <th>Created At</th>
@@ -57,6 +61,7 @@
                         {% endif %}
                         {{ card.brand|escape }}
                     </td>
+                    <td>{{ card.funding|escape }}</td>
                     <td>{{ card.last_four|escape }}</td>
                     <td>{{ card.created_at|naturaltime|escape }}</td>
                     <td>{{ card.exp_month|leading_zeros:2|escape }} / {{ card.exp_year|escape }}</td>

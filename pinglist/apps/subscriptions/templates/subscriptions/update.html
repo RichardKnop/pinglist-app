@@ -41,30 +41,11 @@
                                 Plan
                             {% endif %}
                         </label>
+                    {{ form.plan.value }}
                         <select class="form-control" id="plan" name="plan">
                             <option value=""></option>
                             {% for id, name in form.fields.plan.choices %}
                                 {% if form.plan.value == id %}
-                                    <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
-                                {% else %}
-                                    <option value="{{ id|escape }}">{{ name|escape }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="form-group {% if form.payment_source.errors %}has-error{% endif %}">
-                        <label class="control-label" for="payment_source">
-                            {% if form.payment_source.errors %}
-                                Payment Source<br>{{ form.payment_source.errors|first|escape }}
-                            {% else %}
-                                Payment Source
-                            {% endif %}
-                        </label>
-                        <select class="form-control" id="payment_source" name="payment_source">
-                            <option value=""></option>
-                            {% for id, name in form.fields.payment_source.choices %}
-                                {% if form.payment_source.value == id %}
                                     <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
                                 {% else %}
                                     <option value="{{ id|escape }}">{{ name|escape }}</option>

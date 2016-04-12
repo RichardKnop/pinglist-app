@@ -1,16 +1,17 @@
 from django import forms
 
 
-class AddForm(forms.Form):
+class SubscriptionForm(forms.Form):
 
     plan = forms.ChoiceField(required=True, widget=forms.Select)
-    payment_source = forms.ChoiceField(required=True, widget=forms.Select)
 
 
-class UpdateForm(forms.Form):
+class AddForm(SubscriptionForm):
+    pass
 
-    plan = forms.ChoiceField(required=True, widget=forms.Select)
-    payment_source = forms.ChoiceField(required=True, widget=forms.Select)
+
+class UpdateForm(SubscriptionForm):
+    pass
 
 
 class CancelForm(forms.Form):

@@ -28,8 +28,11 @@
 
         {% if subscriptions.count < 1 %}
             <div class="alert alert-warning" role="alert">
-                You don't have a subscription yet. Click <a href="{% url 'subscriptions:add' %}"><b>here</b></a>
-                to subscribe!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                You don't have a subscription yet.
+                Click <a href="{% url 'subscriptions:add' %}"><b>here</b></a> to subscribe!
             </div>
         {% endif %}
 
@@ -37,6 +40,7 @@
             <thead>
             <tr>
                 <th>ID</th>
+                <th>Status</th>
                 <th>Plan</th>
                 <th>Started At</th>
                 <th>Cancelled At</th>
@@ -49,7 +53,22 @@
             <tbody>
             {% for subscription in subscriptions|get:"_embedded"|get:"subscriptions" %}
                 <tr>
-                    <td><a href="{% url 'subscriptions:update' subscription.id %}">{{ subscription.id|escape }}</a></td>
+                    <td>
+                        {% if subscription.status != 'canceled' %}
+                        <a href="{% url 'subscriptions:update' subscription.id %}">{{ subscription.id|escape }}</a>
+                        {% else %}
+                        {{ subscription.id|escape }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if subscription.status == 'trialing' %}
+                        <span class="label label-default subscription-status">{{ subscription.status|escape }}</span>
+                        {% elif subscription.status == 'active' %}
+                        <span class="label label-success subscription-status">{{ subscription.status|escape }}</span>
+                        {% else %}
+                        <span class="label label-danger subscription-status">{{ subscription.status|escape }}</span>
+                        {% endif %}
+                    </td>
                     <td>{{ subscription|get:'_embedded'|get:'plan'|get:'name' }}</td>
                     <td>{{ subscription.started_at.date|escape }}</td>
                     <td>{{ subscription.cancelled_at.date|escape }}</td>
@@ -57,9 +76,11 @@
                     <td>{{ subscription.trial_start.date|escape }}</td>
                     <td>{{ subscription.trial_end.date|escape }}</td>
                     <td>
-                        <a href="{% url 'subscriptions:cancel' subscription.id %}" class="btn btn-xs btn-danger">
-                            Cancel <i class="fa fa-remove"></i>
-                        </a>
+                        {% if subscription.status != 'canceled' %}
+                            <a href="{% url 'subscriptions:cancel' subscription.id %}" class="btn btn-xs btn-danger">
+                                Cancel <i class="fa fa-remove"></i>
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

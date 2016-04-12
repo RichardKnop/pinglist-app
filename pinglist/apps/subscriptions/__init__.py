@@ -21,16 +21,7 @@ class SubscriptionView(BaseView):
         # Fetch the plans
         plans = self.api.list_plans()
 
-        # Fetch the cards
-        cards = self.api.list_cards(
-            access_token=request.session['access_token']['access_token'],
-            user_id=request.session['access_token']['user_id'],
-        )
-
         # Load form select options
         form.fields['plan'].choices = (
             (str(p['id']), self._short_plan_desc(p))
             for p in plans['_embedded']['plans'])
-        form.fields['payment_source'].choices = (
-            (str(c['id']), self._short_card_desc(c))
-            for c in cards['_embedded']['cards'])

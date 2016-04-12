@@ -73,7 +73,6 @@ class AddView(SubscriptionView):
             self.api.add_subscription(
                 access_token=request.session['access_token']['access_token'],
                 plan_id=int(form.cleaned_data['plan']),
-                card_id=int(form.cleaned_data['payment_source']),
             )
 
             # Push success message and redirect back to index view
@@ -87,12 +86,20 @@ class AddView(SubscriptionView):
             return self._render(request=request, form=form)
 
     def _render(self, request, form):
+        # Fetch customer cards
+        cards = self.api.list_cards(
+            access_token=request.session['access_token']['access_token'],
+            user_id=request.session['access_token']['user_id'],
+        )
+
         return super(AddView, self)._render(
             request=request,
             form=form,
+            cards=cards,
             title='Add Subscription',
             active_link='subscriptions',
         )
+
 
 class UpdateView(SubscriptionView):
     form_class = UpdateForm
@@ -113,7 +120,9 @@ class UpdateView(SubscriptionView):
             return HttpResponseNotFound()
 
         # Init the form
-        form = self.form_class(initial=self.initial)
+        form = self.form_class(initial={
+            'plan': str(subscription['_embedded']['plan']['id']),
+        })
         self._set_form_choices(request=request, form=form)
 
         return self._render(
@@ -154,7 +163,6 @@ class UpdateView(SubscriptionView):
                 access_token=request.session['access_token']['access_token'],
                 subscription_id=int(subscription_id),
                 plan_id=int(form.cleaned_data['plan']),
-                card_id=int(form.cleaned_data['payment_source']),
             )
 
             # Push success message and redirect back to index view
