@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% load filters %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Alarms</h1>
+        </div>
+
+        {% for message in messages %}
+            <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.message|escape }}
+            </div>
+        {% endfor %}
+
+        <p>TODO</p>
+
+        <hr class="featurette-divider">
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}

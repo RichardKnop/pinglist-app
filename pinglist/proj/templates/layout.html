@@ -57,21 +57,35 @@
         <div class="collapse navbar-right navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 {% if logged_in %}
+                    <li{% ifequal active_link 'alarms' %} class="active"{% endifequal %}>
+                        <a href="{% url 'alarms:index' %}"><i class="fa fa-bell" aria-hidden="true"></i>
+                            Alarms</a>
+                    </li>
+
+                    <li{% ifequal active_link 'teams' %} class="active"{% endifequal %}>
+                        <a href="{% url 'teams:index' %}"><i class="fa fa-users" aria-hidden="true"></i> Teams</a>
+                    </li>
+
                     <li{% ifequal active_link 'subscriptions' %} class="active"{% endifequal %}>
-                        <a href="{% url 'subscriptions:index' %}">Subscriptions</a>
+                        <a href="{% url 'subscriptions:index' %}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            Subscriptions</a>
                     </li>
+
                     <li{% ifequal active_link 'payment_sources' %} class="active"{% endifequal %}>
-                        <a href="{% url 'payment_sources:index' %}">Payment Sources</a>
+                        <a href="{% url 'payment_sources:index' %}"><i class="fa fa-credit-card" aria-hidden="true"></i>
+                            Payment Sources</a>
                     </li>
+
                     <li{% ifequal active_link 'profile' %} class="active"{% endifequal %}>
-                        <a href="{% url 'profile:index' %}">Profile</a>
+                        <a href="{% url 'profile:index' %}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
                     </li>
+
                     <li>
-                        <a href="{% url 'auth:logout' %}">Log Out <i class="fa fa-sign-out"></i></a>
+                        <a href="{% url 'auth:logout' %}"><i class="fa fa-sign-out"></i> Log Out</a>
                     </li>
                 {% else %}
                     <li>
-                        <a href="{% url 'auth:login' %}">Log In <i class="fa fa-sign-in"></i></a>
+                        <a href="{% url 'auth:login' %}"><i class="fa fa-sign-in"></i> Log In</a>
                     </li>
                 {% endif %}
             </ul>

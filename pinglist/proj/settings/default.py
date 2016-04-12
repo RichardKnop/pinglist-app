@@ -15,6 +15,8 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'apps.home',
     'apps.auth',
+    'apps.alarms',
+    'apps.teams',
     'apps.subscriptions',
     'apps.payment_sources',
     'apps.profile',

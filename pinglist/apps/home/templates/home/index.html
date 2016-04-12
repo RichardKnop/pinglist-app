@@ -75,7 +75,11 @@
                 {% for plan in plans|get:"_embedded"|get:"plans" %}
                 <div class="col-md-3 col-sm-6 hero-feature">
                     <div class="plan-description">
-                        <h3>{{ plan.name|escape }}<br>${{ plan.amount|divide:100|floatformat|escape }}</h3>
+                        <h3>
+                            {{ plan.name|escape }}
+                            <br>
+                            <i class="fa fa-usd" aria-hidden="true"></i>{{ plan.amount|divide:100|floatformat|escape }}
+                        </h3>
 
                         {% if plan.trial_period > 0 %}
                         <p>{{ plan.trial_period|escape }} days free trial</p>
