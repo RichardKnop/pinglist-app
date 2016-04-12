@@ -57,27 +57,41 @@
         <div class="collapse navbar-right navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 {% if logged_in %}
-                    <li{% ifequal active_link 'alarms' %} class="active"{% endifequal %}>
-                        <a href="{% url 'alarms:index' %}"><i class="fa fa-bell" aria-hidden="true"></i>
-                            Alarms</a>
+                    <li{% if active_link == 'alarms' %} class="active"{% endif %}>
+                        <a href="{% url 'alarms:index' %}">
+                            <i class="fa fa-bell" aria-hidden="true"></i>
+                            Alarms
+                        </a>
                     </li>
 
-                    <li{% ifequal active_link 'teams' %} class="active"{% endifequal %}>
-                        <a href="{% url 'teams:index' %}"><i class="fa fa-users" aria-hidden="true"></i> Teams</a>
+                    <li{% if active_link == 'teams' %} class="active"{% endif %}>
+                        <a href="{% url 'teams:index' %}">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            Teams
+                        </a>
                     </li>
 
-                    <li{% ifequal active_link 'subscriptions' %} class="active"{% endifequal %}>
-                        <a href="{% url 'subscriptions:index' %}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                            Subscriptions</a>
-                    </li>
-
-                    <li{% ifequal active_link 'payment_sources' %} class="active"{% endifequal %}>
-                        <a href="{% url 'payment_sources:index' %}"><i class="fa fa-credit-card" aria-hidden="true"></i>
-                            Payment Sources</a>
-                    </li>
-
-                    <li{% ifequal active_link 'profile' %} class="active"{% endifequal %}>
-                        <a href="{% url 'profile:index' %}"><i class="fa fa-user" aria-hidden="true"></i> Profile</a>
+                    <li class="dropdown{% if active_link == 'subscriptions' or active_link == 'payment_sources' or active_link == 'profile' %} active{% endif %}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Account
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'subscriptions:index' %}">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                Subscriptions
+                            </a></li>
+                            <li><a href="{% url 'payment_sources:index' %}">
+                                <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                Payment Sources
+                            </a></li>
+                            <li><a href="{% url 'profile:index' %}">
+                                <i class="fa fa-gear" aria-hidden="true"></i>
+                                Profile
+                            </a></li>
+                        </ul>
                     </li>
 
                     <li>

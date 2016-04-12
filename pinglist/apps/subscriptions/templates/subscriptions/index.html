@@ -17,6 +17,11 @@
             <div class="clearfix"></div>
         </div>
 
+        <ol class="breadcrumb">
+            <li>Account</li>
+            <li class="active">Subscriptions</li>
+        </ol>
+
         {% for message in messages %}
             <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -55,18 +60,18 @@
                 <tr>
                     <td>
                         {% if subscription.status != 'canceled' %}
-                        <a href="{% url 'subscriptions:update' subscription.id %}">{{ subscription.id|escape }}</a>
+                            <a href="{% url 'subscriptions:update' subscription.id %}">{{ subscription.id|escape }}</a>
                         {% else %}
-                        {{ subscription.id|escape }}
+                            {{ subscription.id|escape }}
                         {% endif %}
                     </td>
                     <td>
                         {% if subscription.status == 'trialing' %}
-                        <span class="label label-default subscription-status">{{ subscription.status|escape }}</span>
+                            <span class="label label-default subscription-status">{{ subscription.status|escape }}</span>
                         {% elif subscription.status == 'active' %}
-                        <span class="label label-success subscription-status">{{ subscription.status|escape }}</span>
+                            <span class="label label-success subscription-status">{{ subscription.status|escape }}</span>
                         {% else %}
-                        <span class="label label-danger subscription-status">{{ subscription.status|escape }}</span>
+                            <span class="label label-danger subscription-status">{{ subscription.status|escape }}</span>
                         {% endif %}
                     </td>
                     <td>{{ subscription|get:'_embedded'|get:'plan'|get:'name' }}</td>

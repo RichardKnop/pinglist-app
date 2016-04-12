@@ -10,6 +10,12 @@
             <h1>Add Subscription</h1>
         </div>
 
+        <ol class="breadcrumb">
+            <li>Account</li>
+            <li><a href="{% url 'subscriptions:index' %}">Subscriptions</a></li>
+            <li class="active">Add Subscription</li>
+        </ol>
+
         {% for message in messages %}
             <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">

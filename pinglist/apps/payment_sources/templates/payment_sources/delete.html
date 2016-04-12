@@ -10,6 +10,12 @@
             <h1>Delete Payment Source #{{ payment_source.id|escape }}</h1>
         </div>
 
+        <ol class="breadcrumb">
+            <li>Account</li>
+            <li><a href="{% url 'payment_sources:index' %}">Payment Sources</a></li>
+            <li class="active">Delete Payment Source #{{ payment_source.id|escape }}</li>
+        </ol>
+
         {% for message in messages %}
             <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
