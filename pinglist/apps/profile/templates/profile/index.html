@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% load filters %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Profile</h1>
+        </div>
+
+        {% for message in messages %}
+            <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.message|escape }}
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ form.non_field_errors|first|escape }}
+            </div>
+        {% endif %}
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Profile Data</h3>
+            </div>
+
+            <form id="update-profile-form" method="POST" action="{% url 'profile:index' %}">
+                {% csrf_token %}
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+
+                            <div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+                                <label class="control-label" for="first_name">
+                                    {% if form.first_name.errors %}
+                                        First Name<br>{{ form.first_name.errors|first|escape }}
+                                    {% else %}
+                                        First Name
+                                    {% endif %}
+                                </label>
+
+                                <input class="form-control" id="first_name" name="first_name"
+                                       value="{{ form.first_name.value|escape }}">
+                            </div>
+
+                            <div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+                                <label class="control-label" for="first_name">
+                                    {% if form.last_name.errors %}
+                                        Last Name<br>{{ form.last_name.errors|first|escape }}
+                                    {% else %}
+                                        Last Name
+                                    {% endif %}
+                                </label>
+
+                                <input class="form-control" id="last_name" name="last_name"
+                                       value="{{ form.last_name.value|escape }}">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer clearfix">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <hr class="featurette-divider">
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}

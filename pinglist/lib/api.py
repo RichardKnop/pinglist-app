@@ -251,9 +251,26 @@ class API(object):
 
     # Get a profile
     def get_profile(self, access_token):
-        r = requests.delete(
+        r = requests.get(
             self.hostname + '/v1/accounts/me',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # Update a profile
+    def update_profile(self, access_token, profile):
+        r = requests.put(
+            self.hostname + '/v1/accounts/users/{}'.format(profile['id']),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            json=profile,
         )
         logger.debug(r)
         try:

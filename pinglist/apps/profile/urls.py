@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
-from apps.profile.views import MeView
+from apps.profile.views import IndexView
 
 
 urlpatterns = [
-    url(r'^$', MeView.as_view(), name='me'),
+    url(r'^$', IndexView.as_view(), name='index'),
 ]

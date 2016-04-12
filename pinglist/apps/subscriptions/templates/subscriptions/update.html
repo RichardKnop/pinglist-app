@@ -30,7 +30,8 @@
 
         <div class="row">
             <div class="col-md-6">
-                <form id="add-subscription-form" method="POST" action="{% url 'subscriptions:update' subscription.id %}">
+                <form id="add-subscription-form" method="POST"
+                      action="{% url 'subscriptions:update' subscription.id %}">
                     {% csrf_token %}
 
                     <div class="form-group {% if form.plan.errors %}has-error{% endif %}">
@@ -41,7 +42,7 @@
                                 Plan
                             {% endif %}
                         </label>
-                    {{ form.plan.value }}
+
                         <select class="form-control" id="plan" name="plan">
                             <option value=""></option>
                             {% for id, name in form.fields.plan.choices %}

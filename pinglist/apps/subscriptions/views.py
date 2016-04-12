@@ -2,7 +2,10 @@ import logging
 
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.http import HttpResponseNotFound
+from django.http import (
+    HttpResponseServerError,
+    HttpResponseNotFound,
+)
 from django.utils.dateparse import parse_datetime
 
 from lib.auth import logged_in
@@ -22,11 +25,17 @@ class IndexView(SubscriptionView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
-        # Fetch the subscriptions
-        subscriptions = self.api.list_subscriptions(
-            access_token=request.session['access_token']['access_token'],
-            user_id=request.session['access_token']['user_id'],
-        )
+        # Fetch subscriptions
+        try:
+            subscriptions = self.api.list_subscriptions(
+                access_token=request.session['access_token']['access_token'],
+                user_id=request.session['access_token']['user_id'],
+            )
+
+        # Fetching subscriptions failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
 
         # Parse datetime strings
         for subscription in subscriptions['_embedded']['subscriptions']:
@@ -114,7 +123,7 @@ class UpdateView(SubscriptionView):
                 subscription_id=subscription_id,
             )
 
-        # Card not found
+        # Subscription not found
         except self.api.APIError as e:
             logger.error(str(e))
             return HttpResponseNotFound()
@@ -140,7 +149,7 @@ class UpdateView(SubscriptionView):
                 subscription_id=subscription_id,
             )
 
-        # Card not found
+        # Subscription not found
         except self.api.APIError as e:
             logger.error(str(e))
             return HttpResponseNotFound()
