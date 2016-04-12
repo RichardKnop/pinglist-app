@@ -41,7 +41,7 @@
                     <div class="row">
                         <div class="col-sm-6">
 
-                            <div class="form-group {% if form.first_name.errors %}has-error{% endif %}">
+                            <div class="form-group{% if form.first_name.errors %} has-error{% endif %}">
                                 <label class="control-label" for="first_name">
                                     {% if form.first_name.errors %}
                                         First Name<br>{{ form.first_name.errors|first|escape }}
@@ -54,7 +54,7 @@
                                        value="{{ form.first_name.value|escape }}">
                             </div>
 
-                            <div class="form-group {% if form.last_name.errors %}has-error{% endif %}">
+                            <div class="form-group{% if form.last_name.errors %} has-error{% endif %}">
                                 <label class="control-label" for="first_name">
                                     {% if form.last_name.errors %}
                                         Last Name<br>{{ form.last_name.errors|first|escape }}
