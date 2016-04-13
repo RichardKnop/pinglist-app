@@ -367,6 +367,21 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Delete an alarm
+    def delete_alarm(self, access_token, alarm_id):
+        r = requests.delete(
+            self.hostname + '/v1/alarms/{}'.format(alarm_id),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+
     # List teams
     def list_teams(self, access_token, user_id):
         print access_token

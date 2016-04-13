@@ -269,3 +269,81 @@ class UpdateView(AlarmView):
             title='Update Alarm',
             active_link='alarms',
         )
+
+
+class DeleteView(AlarmView):
+    form_class = DeleteForm
+    template_name = 'alarms/delete.html'
+
+    @logged_in
+    def get(self, request, alarm_id, *args, **kwargs):
+        # Get the alarm
+        try:
+            alarm = self.api.get_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+            )
+
+        # Alarm not found
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseNotFound()
+
+        form = self.form_class(initial={'alarm_id': alarm_id})
+
+        return self._render(
+            request=request,
+            form=form,
+            alarm=alarm,
+        )
+
+    @logged_in
+    def post(self, request, alarm_id, *args, **kwargs):
+        # Get the alarm
+        try:
+            alarm = self.api.get_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+            )
+
+        # Alarm not found
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseNotFound()
+
+        # Init the form
+        form = self.form_class(request.POST)
+
+        # Validate POST data
+        if not form.is_valid():
+            return self._render(
+                request=request,
+                form=form,
+                alarm=alarm,
+            )
+
+        # Delete the alarm
+        try:
+            self.api.delete_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+            )
+
+            # Push success message and redirect back to index view
+            messages.success(request, 'Alarm deleted successfully')
+            return redirect('alarms:index')
+
+        # Deleting alarm failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            messages.error(request, str(e))
+            return redirect('alarms:delete', alarm_id=alarm_id)
+
+    def _render(self, request, form, alarm):
+        return super(DeleteView, self)._render(
+            request=request,
+            form=form,
+            alarm=alarm,
+            title='Delete Alarm',
+            active_link='alarms',
+        )

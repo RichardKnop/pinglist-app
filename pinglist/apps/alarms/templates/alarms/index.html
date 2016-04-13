@@ -67,7 +67,11 @@
                     <td>{{ alarm.expected_http_code|escape }}</td>
                     <td>{{ alarm.max_response_time|escape }}ms</td>
                     <td>{{ alarm.interval|escape }}s</td>
-                    <td>TODO</td>
+                    <td>
+                        <a href="{% url 'alarms:delete' alarm.id %}" class="btn btn-xs btn-danger">
+                            Delete <i class="fa fa-remove"></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
