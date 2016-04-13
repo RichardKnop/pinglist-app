@@ -11,8 +11,11 @@ from django.utils.dateparse import parse_datetime
 
 from lib.auth import logged_in
 from apps.alarms import AlarmView
-from apps.alarms.forms import AddForm
-
+from apps.alarms.forms import (
+    AddForm,
+    UpdateForm,
+    DeleteForm,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -54,9 +57,15 @@ class AddView(AlarmView):
     @logged_in
     def get(self, request, *args, **kwargs):
         # Fetch regions
-        regions = self.api.list_regions(
-            access_token=request.session['access_token']['access_token'],
-        )
+        try:
+            regions = self.api.list_regions(
+                access_token=request.session['access_token']['access_token'],
+            )
+
+        # Fetching regions failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
 
         # Init the form
         form = self.form_class(initial=self.initial)
@@ -71,9 +80,15 @@ class AddView(AlarmView):
     @logged_in
     def post(self, request, *args, **kwargs):
         # Fetch regions
-        regions = self.api.list_regions(
-            access_token=request.session['access_token']['access_token'],
-        )
+        try:
+            regions = self.api.list_regions(
+                access_token=request.session['access_token']['access_token'],
+            )
+
+        # Fetching regions failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
 
         # Init the form
         form = self.form_class(request.POST)
@@ -81,7 +96,6 @@ class AddView(AlarmView):
 
         # Validate POST data
         if not form.is_valid():
-            print form.errors
             return self._render(
                 request=request,
                 form=form,
@@ -90,18 +104,19 @@ class AddView(AlarmView):
 
         # Add an alarm
         try:
+            alarm = {
+                'region': form.cleaned_data['region'],
+                'endpoint_url': form.cleaned_data['endpoint_url'],
+                'expected_http_code': int(form.cleaned_data['expected_http_code']),
+                'max_response_time': int(form.cleaned_data['max_response_time']),
+                'interval': int(form.cleaned_data['interval']),
+                'email_alerts': form.cleaned_data['email_alerts'],
+                'push_notification_alerts': form.cleaned_data['push_notification_alerts'],
+                'active': form.cleaned_data['active'],
+            }
             self.api.add_alarm(
                 access_token=request.session['access_token']['access_token'],
-                alarm={
-                    'region': form.cleaned_data['region'],
-                    'endpoint_url': form.cleaned_data['endpoint_url'],
-                    'expected_http_code': int(form.cleaned_data['expected_http_code']),
-                    'max_response_time': int(form.cleaned_data['max_response_time']),
-                    'interval': int(form.cleaned_data['interval']),
-                    'email_alerts': True,
-                    'push_notification_alerts': True if form.cleaned_data['push_notification_alerts'] else False,
-                    'active': True if form.cleaned_data['active'] else False,
-                },
+                alarm=alarm,
             )
 
             # Push success message and redirect back to index view
@@ -124,5 +139,133 @@ class AddView(AlarmView):
             form=form,
             regions=regions,
             title='Add Alarm',
+            active_link='alarms',
+        )
+
+
+class UpdateView(AlarmView):
+    form_class = UpdateForm
+    template_name = 'alarms/update.html'
+
+    @logged_in
+    def get(self, request, alarm_id, *args, **kwargs):
+        # Fetch regions
+        try:
+            regions = self.api.list_regions(
+                access_token=request.session['access_token']['access_token'],
+            )
+
+        # Fetching regions failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+        # Get the alarm
+        try:
+            alarm = self.api.get_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+            )
+
+        # Alarm not found
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseNotFound()
+
+        # Init the form
+        form = self.form_class(initial={
+            'region': alarm['region'],
+            'endpoint_url': alarm['endpoint_url'],
+            'expected_http_code': alarm['expected_http_code'],
+            'max_response_time': alarm['max_response_time'],
+            'interval': alarm['interval'],
+            'email_alerts': alarm['email_alerts'],
+            'push_notification_alerts': alarm['push_notification_alerts'],
+            'active': alarm['active'],
+        })
+        self._set_form_choices(form=form, regions=regions)
+
+        return self._render(
+            request=request,
+            form=form,
+            regions=regions,
+            alarm=alarm,
+        )
+
+    @logged_in
+    def post(self, request, alarm_id, *args, **kwargs):
+        # Fetch regions
+        try:
+            regions = self.api.list_regions(
+                access_token=request.session['access_token']['access_token'],
+            )
+
+        # Fetching regions failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+        # Get the alarm
+        try:
+            alarm = self.api.get_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+            )
+
+        # Alarm not found
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseNotFound()
+
+        # Init the form
+        form = self.form_class(request.POST)
+        self._set_form_choices(form=form, regions=regions)
+
+        # Validate POST data
+        if not form.is_valid():
+            return self._render(
+                request=request,
+                form=form,
+                regions=regions,
+                alarm=alarm,
+            )
+
+        # Update the alarm
+        try:
+            alarm['region'] = form.cleaned_data['region']
+            alarm['endpoint_url'] = form.cleaned_data['endpoint_url']
+            alarm['expected_http_code'] = int(form.cleaned_data['expected_http_code'])
+            alarm['max_response_time'] = int(form.cleaned_data['max_response_time'])
+            alarm['interval'] = int(form.cleaned_data['interval'])
+            alarm['email_alerts'] = form.cleaned_data['email_alerts']
+            alarm['push_notification_alerts'] = form.cleaned_data['push_notification_alerts']
+            alarm['active'] = form.cleaned_data['active']
+            self.api.update_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm=alarm,
+            )
+
+            # Push success message and redirect back to index view
+            messages.success(request, 'Alarm updated successfully')
+            return redirect('alarms:index')
+
+        # Adding alarm failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            form.add_error(None, str(e))
+            return self._render(
+                request=request,
+                form=form,
+                regions=regions,
+                alarm=alarm,
+            )
+
+    def _render(self, request, form, regions, alarm):
+        return super(UpdateView, self)._render(
+            request=request,
+            form=form,
+            regions=regions,
+            alarm=alarm,
+            title='Update Alarm',
             active_link='alarms',
         )

@@ -173,7 +173,6 @@ class UpdateView(SubscriptionView):
             logger.error(str(e))
             return HttpResponseServerError()
 
-
         # Get the subscription
         try:
             subscription = self.api.get_subscription(
@@ -255,7 +254,6 @@ class UpdateView(SubscriptionView):
                 subscription=subscription,
             )
 
-
     def _render(self, request, form, subscription):
         return super(UpdateView, self)._render(
             request=request,
@@ -264,6 +262,7 @@ class UpdateView(SubscriptionView):
             title='Update Subscription',
             active_link='subscriptions',
         )
+
 
 class CancelView(SubscriptionView):
     form_class = CancelForm

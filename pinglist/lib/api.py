@@ -334,6 +334,22 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Get an alarm
+    def get_alarm(self, access_token, alarm_id):
+        r = requests.get(
+            self.hostname + '/v1/alarms/{}'.format(alarm_id),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # Update an alarm
     def update_alarm(self, access_token, alarm):
         r = requests.put(
@@ -358,6 +374,22 @@ class API(object):
             self.hostname + '/v1/teams?order_by=id desc',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # Get a team
+    def get_team(self, access_token, team_id):
+        r = requests.get(
+            self.hostname + '/v1/teams/{}'.format(team_id),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
         )
         logger.debug(r)
         try:

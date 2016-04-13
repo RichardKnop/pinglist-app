@@ -52,7 +52,9 @@
             <tbody>
             {% for alarm in alarms|get:'_embedded'|get:'alarms' %}
                 <tr>
-                    <td>{{ alarm.id|escape }}</td>
+                    <td>
+                        <a href="{% url 'alarms:update' alarm.id %}">{{ alarm.id|escape }}</a>
+                    </td>
                     <td>
                         {% if alarm.active %}
                             <span class="label label-success alarm-status">active</span>
@@ -63,8 +65,8 @@
                     <td>{{ alarm.region|escape }}</td>
                     <td>{{ alarm.endpoint_url|escape }}</td>
                     <td>{{ alarm.expected_http_code|escape }}</td>
-                    <td>{{ alarm.max_response_time|escape }}</td>
-                    <td>{{ alarm.interval|escape }}</td>
+                    <td>{{ alarm.max_response_time|escape }}ms</td>
+                    <td>{{ alarm.interval|escape }}s</td>
                     <td>TODO</td>
                 </tr>
             {% endfor %}
