@@ -64,7 +64,7 @@
                                 </label>
 
                                 <input class="form-control" id="last_name" name="last_name"
-                                       value="{{ form.last_name.value|escape }}">
+                                       value="{{ form.last_name.value|default_if_none:''|escape }}">
                             </div>
 
                         </div>

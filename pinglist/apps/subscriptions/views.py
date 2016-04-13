@@ -61,21 +61,71 @@ class AddView(SubscriptionView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
+        # Fetch subscription plans
+        try:
+            plans = self.api.list_plans()
+
+        # Fetching subscription plans failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+        # Fetch customer cards
+        try:
+            cards = self.api.list_cards(
+                access_token=request.session['access_token']['access_token'],
+                user_id=request.session['access_token']['user_id'],
+            )
+
+        # Fetching customer cards failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
         # Init the form
         form = self.form_class(initial=self.initial)
-        self._set_form_choices(request=request, form=form)
+        self._set_form_choices(form=form, plans=plans)
 
-        return self._render(request=request, form=form)
+        return self._render(
+            request=request,
+            form=form,
+            cards=cards,
+        )
 
     @logged_in
     def post(self, request, *args, **kwargs):
+        # Fetch subscription plans
+        try:
+            plans = self.api.list_plans()
+
+        # Fetching subscription plans failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+        # Fetch customer cards
+        try:
+            cards = self.api.list_cards(
+                access_token=request.session['access_token']['access_token'],
+                user_id=request.session['access_token']['user_id'],
+            )
+
+        # Fetching customer cards failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
         # Init the form
         form = self.form_class(request.POST)
-        self._set_form_choices(request=request, form=form)
+        self._set_form_choices(form=form, plans=plans)
 
         # Validate POST data
         if not form.is_valid():
-            return self._render(request=request, form=form)
+            return self._render(
+                request=request,
+                form=form,
+                cards=cards,
+            )
 
         # Add a subscription
         try:
@@ -92,15 +142,13 @@ class AddView(SubscriptionView):
         except self.api.APIError as e:
             logger.error(str(e))
             form.add_error(None, str(e))
-            return self._render(request=request, form=form)
+            return self._render(
+                request=request,
+                form=form,
+                cards=cards,
+            )
 
-    def _render(self, request, form):
-        # Fetch customer cards
-        cards = self.api.list_cards(
-            access_token=request.session['access_token']['access_token'],
-            user_id=request.session['access_token']['user_id'],
-        )
-
+    def _render(self, request, form, cards):
         return super(AddView, self)._render(
             request=request,
             form=form,
@@ -116,6 +164,16 @@ class UpdateView(SubscriptionView):
 
     @logged_in
     def get(self, request, subscription_id, *args, **kwargs):
+        # Fetch subscription plans
+        try:
+            plans = self.api.list_plans()
+
+        # Fetching subscription plans failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+
         # Get the subscription
         try:
             subscription = self.api.get_subscription(
@@ -132,7 +190,7 @@ class UpdateView(SubscriptionView):
         form = self.form_class(initial={
             'plan': str(subscription['_embedded']['plan']['id']),
         })
-        self._set_form_choices(request=request, form=form)
+        self._set_form_choices(form=form, plans=plans)
 
         return self._render(
             request=request,
@@ -142,6 +200,15 @@ class UpdateView(SubscriptionView):
 
     @logged_in
     def post(self, request, subscription_id, *args, **kwargs):
+        # Fetch subscription plans
+        try:
+            plans = self.api.list_plans()
+
+        # Fetching subscription plans failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
         # Get the subscription
         try:
             subscription = self.api.get_subscription(
@@ -156,7 +223,7 @@ class UpdateView(SubscriptionView):
 
         # Init the form
         form = self.form_class(request.POST)
-        self._set_form_choices(request=request, form=form)
+        self._set_form_choices(form=form, plans=plans)
 
         # Validate POST data
         if not form.is_valid():

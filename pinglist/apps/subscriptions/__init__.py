@@ -17,11 +17,7 @@ class SubscriptionView(BaseView):
             card['last_four'],
         )
 
-    def _set_form_choices(self, request, form):
-        # Fetch the plans
-        plans = self.api.list_plans()
-
-        # Load form select options
+    def _set_form_choices(self, form, plans):
         form.fields['plan'].choices = (
             (str(p['id']), self._short_plan_desc(p))
             for p in plans['_embedded']['plans'])

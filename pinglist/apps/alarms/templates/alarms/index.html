@@ -7,7 +7,14 @@
     <div class="container">
 
         <div class="page-header">
+            <div class="pull-right">
+                <a href="{% url 'alarms:add' %}" class="btn btn-primary">
+                    Add Alarm <i class="fa fa-plus-circle"></i>
+                </a>
+            </div>
             <h1>Alarms</h1>
+
+            <div class="clearfix"></div>
         </div>
 
         {% for message in messages %}
@@ -19,7 +26,50 @@
             </div>
         {% endfor %}
 
-        <p>TODO</p>
+        {% if alarms.count < 1 %}
+            <div class="alert alert-warning" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                You haven't added any alarms yet.
+                Click <a href="{% url 'alarms:add' %}"><b>here</b></a> to add an alarm!
+            </div>
+        {% endif %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Region</th>
+                <th>Endpoint URL</th>
+                <th>Expected HTTP Code</th>
+                <th>Max Response Time</th>
+                <th>Interval</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for alarm in alarms|get:'_embedded'|get:'alarms' %}
+                <tr>
+                    <td>{{ alarm.id|escape }}</td>
+                    <td>
+                        {% if alarm.active %}
+                            <span class="label label-success alarm-status">active</span>
+                        {% else %}
+                            <span class="label label-default alarm-status">disabled</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ alarm.region|escape }}</td>
+                    <td>{{ alarm.endpoint_url|escape }}</td>
+                    <td>{{ alarm.expected_http_code|escape }}</td>
+                    <td>{{ alarm.max_response_time|escape }}</td>
+                    <td>{{ alarm.interval|escape }}</td>
+                    <td>TODO</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
         <hr class="featurette-divider">
 

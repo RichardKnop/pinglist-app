@@ -285,7 +285,7 @@ footer {
 
 /* Other */
 
-span.label.subscription-status {
+span.label.subscription-status, span.label.alarm-status {
     display: inline-block;
     text-transform: uppercase;
     width: 75px;

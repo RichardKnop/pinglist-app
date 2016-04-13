@@ -282,6 +282,23 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # List regions
+    def list_regions(self, access_token):
+        print access_token
+        r = requests.get(
+            self.hostname + '/v1/regions',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # List alarms
     def list_alarms(self, access_token, user_id):
         print access_token
@@ -289,6 +306,40 @@ class API(object):
             self.hostname + '/v1/alarms?order_by=id desc',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # Add an alarm
+    def add_alarm(self, access_token, alarm):
+        r = requests.post(
+            self.hostname + '/v1/alarms',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            json=alarm,
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # Update an alarm
+    def update_alarm(self, access_token, alarm):
+        r = requests.put(
+            self.hostname + '/v1/alarms/{}'.format(alarm['id']),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            json=alarm,
         )
         logger.debug(r)
         try:

@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+{% load filters %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Add Alarm</h1>
+        </div>
+
+        <ol class="breadcrumb">
+            <li>Account</li>
+            <li><a href="{% url 'alarms:index' %}">Alarms</a></li>
+            <li class="active">Add Alarm</li>
+        </ol>
+
+        {% for message in messages %}
+            <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.message|escape }}
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ form.non_field_errors|first|escape }}
+            </div>
+        {% endif %}
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Alarm Data</h3>
+            </div>
+
+            <form id="add-alarm-form" method="POST" action="{% url 'alarms:add' %}">
+                {% csrf_token %}
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group {% if form.region.errors %}has-error{% endif %}">
+                                <label class="control-label" for="region">
+                                    {% if form.region.errors %}
+                                        Region<br>{{ form.region.errors|first|escape }}
+                                    {% else %}
+                                        Region
+                                    {% endif %}
+                                </label>
+                                <select class="form-control" id="region" name="region">
+                                    <option value=""></option>
+                                    {% for id, name in form.fields.region.choices %}
+                                        {% if form.region.value == id %}
+                                            <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
+                                        {% else %}
+                                            <option value="{{ id|escape }}">{{ name|escape }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group {% if form.endpoint_url.errors %}has-error{% endif %}">
+                                <label class="control-label" for="endpoint_url">
+                                    {% if form.endpoint_url.errors %}
+                                        Endpoint URL<br>{{ form.endpoint_url.errors|first|escape }}
+                                    {% else %}
+                                        Endpoint URL
+                                    {% endif %}
+                                </label>
+
+                                <input type="text" class="form-control" id="endpoint_url" name="endpoint_url"
+                                       value="{{ form.endpoint_url.value|default_if_none:''|escape }}">
+                            </div>
+
+                            <div class="form-group {% if form.expected_http_code.errors %}has-error{% endif %}">
+                                <label class="control-label" for="expected_http_code">
+                                    {% if form.expected_http_code.errors %}
+                                        Expected HTTP Code<br>{{ form.expected_http_code.errors|first|escape }}
+                                    {% else %}
+                                        Expected HTTP Code
+                                    {% endif %}
+                                </label>
+
+                                <input type="text" class="form-control" id="expected_http_code"
+                                       name="expected_http_code"
+                                       value="{{ form.expected_http_code.value|default_if_none:''|escape }}">
+                            </div>
+
+                            <div class="form-group {% if form.max_response_time.errors %}has-error{% endif %}">
+                                <label class="control-label" for="max_response_time">
+                                    {% if form.max_response_time.errors %}
+                                        Max Response Time (ms)<br>{{ form.max_response_time.errors|first|escape }}
+                                    {% else %}
+                                        Max Response Time (ms)
+                                    {% endif %}
+                                </label>
+
+                                <input type="text" class="form-control" id="max_response_time" name="max_response_time"
+                                       value="{{ form.max_response_time.value|default_if_none:''|escape }}">
+                            </div>
+
+                            <div class="form-group {% if form.interval.errors %}has-error{% endif %}">
+                                <label class="control-label" for="interval">
+                                    {% if form.interval.errors %}
+                                        Interval (s)<br>{{ form.interval.errors|first|escape }}
+                                    {% else %}
+                                        Interval (s)
+                                    {% endif %}
+                                </label>
+
+                                <input type="text" class="form-control" id="interval" name="interval"
+                                       value="{{ form.interval.value|default_if_none:''|escape }}">
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    {{ form.active }} Active
+                                </label>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    {{ form.push_notification_alerts }} Push Notification Alerts
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer clearfix">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">Add Alarm</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <hr class="featurette-divider">
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}
