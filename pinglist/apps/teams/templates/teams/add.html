@@ -7,13 +7,12 @@
     <div class="container">
 
         <div class="page-header">
-            <h1>Update Subscription #{{ subscription.id|escape }}</h1>
+            <h1>Add Team</h1>
         </div>
 
         <ol class="breadcrumb">
-            <li>Account</li>
-            <li><a href="{% url 'subscriptions:index' %}">Subscriptions</a></li>
-            <li class="active">Update Subscription #{{ subscription.id|escape }}</li>
+            <li><a href="{% url 'teams:index' %}">Teams</a></li>
+            <li class="active">Add Team</li>
         </ol>
 
         {% for message in messages %}
@@ -37,36 +36,28 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <h3 class="panel-title">Subscription Data</h3>
+                <h3 class="panel-title">Team Data</h3>
             </div>
 
-            <form id="update-subscription-form" method="POST"
-                  action="{% url 'subscriptions:update' subscription.id %}">
+            <form id="add-team-form" method="POST" action="{% url 'teams:add' %}">
                 {% csrf_token %}
 
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-6">
 
-                            <div class="form-group {% if form.plan.errors %}has-error{% endif %}">
-                                <label class="control-label" for="{{ form.plan.name }}">
-                                    {% if form.plan.errors %}
-                                        {{ form.plan.label }}<br>{{ form.plan.errors|first|escape }}
+                            <div class="form-group {% if form.name.errors %}has-error{% endif %}">
+                                <label class="control-label" for="{{ form.name.name }}">
+                                    {% if form.name.errors %}
+                                        {{ form.name.label }}<br>{{ form.name.errors|first|escape }}
                                     {% else %}
-                                        {{ form.plan.label }}
+                                        {{ form.name.label }}
                                     {% endif %}
                                 </label>
 
-                                <select class="form-control" id="{{ form.plan.name }}" name="{{ form.plan.name }}">
-                                    <option value=""></option>
-                                    {% for id, name in form.fields.plan.choices %}
-                                        {% if form.plan.value == id %}
-                                            <option value="{{ id|escape }}" selected>{{ name|escape }}</option>
-                                        {% else %}
-                                            <option value="{{ id|escape }}">{{ name|escape }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
+                                <input type="text" class="form-control" id="{{ form.name.name }}"
+                                       name="{{ form.name.name }}"
+                                       value="{{ form.name.value|default_if_none:''|escape }}">
                             </div>
 
                         </div>
@@ -75,7 +66,7 @@
 
                 <div class="panel-footer clearfix">
                     <div class="pull-right">
-                        <button type="submit" class="btn btn-primary">Update Subscription</button>
+                        <button type="submit" class="btn btn-primary">Add Team</button>
                     </div>
                 </div>
 

@@ -47,14 +47,14 @@
                         <div class="col-md-6">
 
                             <div class="form-group {% if form.region.errors %}has-error{% endif %}">
-                                <label class="control-label" for="region">
+                                <label class="control-label" for="{{ form.region.name }}">
                                     {% if form.region.errors %}
-                                        Region<br>{{ form.region.errors|first|escape }}
+                                        {{ form.region.label }}<br>{{ form.region.errors|first|escape }}
                                     {% else %}
-                                        Region
+                                        {{ form.region.label }}
                                     {% endif %}
                                 </label>
-                                <select class="form-control" id="region" name="region">
+                                <select class="form-control" id="{{ form.region.name }}" name="{{ form.region.name }}">
                                     <option value=""></option>
                                     {% for id, name in form.fields.region.choices %}
                                         {% if form.region.value == id %}
@@ -67,73 +67,78 @@
                             </div>
 
                             <div class="form-group {% if form.endpoint_url.errors %}has-error{% endif %}">
-                                <label class="control-label" for="endpoint_url">
+                                <label class="control-label" for="{{ form.endpoint_url.name }}">
                                     {% if form.endpoint_url.errors %}
-                                        Endpoint URL<br>{{ form.endpoint_url.errors|first|escape }}
+                                        {{ form.endpoint_url.label }}<br>{{ form.endpoint_url.errors|first|escape }}
                                     {% else %}
-                                        Endpoint URL
+                                        {{ form.endpoint_url.label }}
                                     {% endif %}
                                 </label>
 
-                                <input type="text" class="form-control" id="endpoint_url" name="endpoint_url"
+                                <input type="text" class="form-control" id="{{ form.endpoint_url.name }}"
+                                       name="{{ form.endpoint_url.name }}"
                                        value="{{ form.endpoint_url.value|default_if_none:''|escape }}">
                             </div>
 
                             <div class="form-group {% if form.expected_http_code.errors %}has-error{% endif %}">
-                                <label class="control-label" for="expected_http_code">
+                                <label class="control-label" for="{{ form.expected_http_code.name }}">
                                     {% if form.expected_http_code.errors %}
-                                        Expected HTTP Code<br>{{ form.expected_http_code.errors|first|escape }}
+                                        {{ form.expected_http_code.label }}<br>
+                                        {{ form.expected_http_code.errors|first|escape }}
                                     {% else %}
-                                        Expected HTTP Code
+                                        {{ form.expected_http_code.label }}
                                     {% endif %}
                                 </label>
 
-                                <input type="text" class="form-control" id="expected_http_code"
-                                       name="expected_http_code"
+                                <input type="text" class="form-control" id="{{ form.expected_http_code.name }}"
+                                       name="{{ form.expected_http_code.name }}"
                                        value="{{ form.expected_http_code.value|default_if_none:''|escape }}">
                             </div>
 
                             <div class="form-group {% if form.max_response_time.errors %}has-error{% endif %}">
-                                <label class="control-label" for="max_response_time">
+                                <label class="control-label" for="{{ form.max_response_time.name }}">
                                     {% if form.max_response_time.errors %}
-                                        Max Response Time (ms)<br>{{ form.max_response_time.errors|first|escape }}
+                                        {{ form.max_response_time.label }}<br>
+                                        {{ form.max_response_time.errors|first|escape }}
                                     {% else %}
-                                        Max Response Time (ms)
+                                        {{ form.max_response_time.label }}
                                     {% endif %}
                                 </label>
 
-                                <input type="text" class="form-control" id="max_response_time" name="max_response_time"
+                                <input type="text" class="form-control" id="{{ form.max_response_time.name }}"
+                                       name="{{ form.max_response_time.name }}"
                                        value="{{ form.max_response_time.value|default_if_none:''|escape }}">
                             </div>
 
                             <div class="form-group {% if form.interval.errors %}has-error{% endif %}">
-                                <label class="control-label" for="interval">
+                                <label class="control-label" for="{{ form.interval.name }}">
                                     {% if form.interval.errors %}
-                                        Interval (s)<br>{{ form.interval.errors|first|escape }}
+                                        {{ form.interval.label }}<br>{{ form.interval.errors|first|escape }}
                                     {% else %}
-                                        Interval (s)
+                                        {{ form.interval.label }}
                                     {% endif %}
                                 </label>
 
-                                <input type="text" class="form-control" id="interval" name="interval"
+                                <input type="text" class="form-control" id="{{ form.interval.name }}"
+                                       name="{{ form.interval.name }}"
                                        value="{{ form.interval.value|default_if_none:''|escape }}">
                             </div>
 
                             <div class="checkbox">
                                 <label>
-                                    {{ form.email_alerts }} Email Alerts
+                                    {{ form.email_alerts }} {{ form.email_alerts.label }}
                                 </label>
                             </div>
 
                             <div class="checkbox">
                                 <label>
-                                    {{ form.push_notification_alerts }} Push Notification Alerts
+                                    {{ form.push_notification_alerts }} {{ form.push_notification_alerts.label }}
                                 </label>
                             </div>
 
                             <div class="checkbox">
                                 <label>
-                                    {{ form.active }} Active
+                                    {{ form.active }} {{ form.active.label }}
                                 </label>
                             </div>
 

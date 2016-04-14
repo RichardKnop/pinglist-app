@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 class API(object):
-
     class APIError(Exception):
         pass
 
@@ -416,6 +415,23 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Add a team
+    def add_team(self, access_token, team):
+        r = requests.post(
+            self.hostname + '/v1/teams',
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            json=team,
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # Get a team
     def get_team(self, access_token, team_id):
         r = requests.get(
@@ -431,3 +447,35 @@ class API(object):
             except ValueError:
                 raise self.APIError(str(e))
         return r.json()
+
+    # Update a team
+    def update_team(self, access_token, team):
+        r = requests.put(
+            self.hostname + '/v1/teams/{}'.format(team['id']),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+            json=team,
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # Delete a team
+    def delete_team(self, access_token, team_id):
+        r = requests.delete(
+            self.hostname + '/v1/teams/{}'.format(team_id),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))

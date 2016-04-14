@@ -1,6 +1,5 @@
 import logging
 
-from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.http import (
@@ -250,7 +249,7 @@ class UpdateView(AlarmView):
             messages.success(request, 'Alarm updated successfully')
             return redirect('alarms:index')
 
-        # Adding alarm failed
+        # Updating alarm failed
         except self.api.APIError as e:
             logger.error(str(e))
             form.add_error(None, str(e))

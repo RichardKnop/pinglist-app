@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load filters %}
+{% load humanize %}
 
 {% block content %}
 
@@ -7,7 +8,14 @@
     <div class="container">
 
         <div class="page-header">
+            <div class="pull-right">
+                <a href="{% url 'teams:add' %}" class="btn btn-primary">
+                    Add Team <i class="fa fa-plus-circle"></i>
+                </a>
+            </div>
             <h1>Teams</h1>
+
+            <div class="clearfix"></div>
         </div>
 
         {% for message in messages %}
@@ -19,7 +27,48 @@
             </div>
         {% endfor %}
 
-        <p>TODO</p>
+        {% if teams.count < 1 %}
+            <div class="alert alert-warning" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                You haven't added any teams yet.
+                Click <a href="{% url 'teams:add' %}"><b>here</b></a> to add a team!
+            </div>
+        {% endif %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Members</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for team in teams|get:'_embedded'|get:'teams' %}
+                <tr>
+                    <td>
+                        <a href="{% url 'teams:update' team.id %}">{{ team.id|escape }}</a>
+                    </td>
+                    <td>{{ team.name|escape }}</td>
+                    <td>{{ team|get:'_embedded'|get:'members'|length }}</td>
+                    <td>{{ team.created_at|naturaltime|escape }}</td>
+                    <td>{{ team.updated_at|naturaltime|escape }}</td>
+                    <td>
+                        <a href="{% url 'teams:delete' team.id %}">
+                            <span class="label label-danger action-button">
+                                Delete
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
         <hr class="featurette-divider">
 

@@ -58,15 +58,15 @@
                         <div class="col-md-6">
 
                             <div class="form-group {% if form.plan.errors %}has-error{% endif %}">
-                                <label class="control-label" for="plan">
+                                <label class="control-label" for="{{ form.plan.name }}">
                                     {% if form.plan.errors %}
-                                        Plan<br>{{ form.plan.errors|first|escape }}
+                                        {{ form.plan.label }}<br>{{ form.plan.errors|first|escape }}
                                     {% else %}
-                                        Plan
+                                        {{ form.plan.label }}
                                     {% endif %}
                                 </label>
 
-                                <select class="form-control" id="plan" name="plan">
+                                <select class="form-control" id="{{ form.plan.name }}" name="{{ form.plan.name }}">
                                     <option value=""></option>
                                     {% for id, name in form.fields.plan.choices %}
                                         {% if form.plan.value == id %}
