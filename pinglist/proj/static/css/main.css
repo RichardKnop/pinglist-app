@@ -29,12 +29,12 @@ a:hover {
     background-color: #27303C;
 }
 
-.navbar-inverse .navbar-nav>li>a {
+.navbar-inverse .navbar-nav > li > a {
     color: #B9E88A;
     text-decoration: none;
 }
 
-.navbar-inverse .navbar-nav>li>a:hover {
+.navbar-inverse .navbar-nav > li > a:hover {
     color: #B9E88A;
 }
 
@@ -47,8 +47,8 @@ a:hover {
     height: 25px;
 }
 
-.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus,
-.navbar-inverse .navbar-nav>.active>a:hover {
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .active > a:hover {
     color: #27303C;
     background-color: #B9E88A;
 }
@@ -234,8 +234,8 @@ footer {
     width: 100%;
     text-align: center;
     background: linear-gradient(
-      rgba(0, 0, 0, 0.6),
-      rgba(0, 0, 0, 0.6)
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
     ), url('/static/images/bg.jpg') no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -285,9 +285,33 @@ footer {
 
 /* Other */
 
-span.label.subscription-status, span.label.alarm-status {
+span.label.subscription-status, span.label.alarm-status, span.label.alarm-active, span.label.incident-type, span.label.action-button {
     display: inline-block;
     text-transform: uppercase;
-    width: 75px;
     text-align: center;
+}
+
+span.label.subscription-status, span.label.alarm-status, span.label.incident-type {
+    width: 75px;
+}
+
+span.label.action-button {
+    cursor: pointer;
+}
+
+span.label.alarm-active {
+    width: 40px;
+}
+
+pre {
+    overflow: scroll;
+}
+
+span.label a {
+    color: white;
+}
+
+span.label a:hover {
+    color: white;
+    text-decoration: none;
 }

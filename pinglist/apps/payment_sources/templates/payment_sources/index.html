@@ -71,8 +71,10 @@
                     <td>{{ card.created_at|naturaltime|escape }}</td>
                     <td>{{ card.exp_month|leading_zeros:2|escape }} / {{ card.exp_year|escape }}</td>
                     <td>
-                        <a href="{% url 'payment_sources:delete' card.id %}" class="btn btn-xs btn-danger">
-                            Delete <i class="fa fa-remove"></i>
+                        <a href="{% url 'payment_sources:delete' card.id %}">
+                            <span class="label label-danger action-button">
+                                Delete
+                            </span>
                         </a>
                     </td>
                 </tr>

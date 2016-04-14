@@ -10,6 +10,7 @@ from django.http import (
 from django.utils.dateparse import parse_datetime
 
 from lib.auth import logged_in
+from apps import BaseView
 from apps.alarms import AlarmView
 from apps.alarms.forms import (
     AddForm,
@@ -346,4 +347,35 @@ class DeleteView(AlarmView):
             alarm=alarm,
             title='Delete Alarm',
             active_link='alarms',
+        )
+
+
+class AlarmIncidentsIndexView(BaseView):
+    template_name = 'alarms/alarm-incidents.html'
+
+    @logged_in
+    def get(self, request, alarm_id, *args, **kwargs):
+        # Fetch alarm incidents
+        try:
+            incidents = self.api.list_alarm_incidents(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+            )
+
+        # Fetching alarm incidents failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+        # Parse datetime strings
+        for incident in incidents['_embedded']['incidents']:
+            incident['resolved_at'] = parse_datetime(incident['resolved_at'])
+            incident['created_at'] = parse_datetime(incident['created_at'])
+            incident['updated_at'] = parse_datetime(incident['updated_at'])
+
+        return self._render(
+            request=request,
+            title='Alarm Incidents',
+            active_link='alarms',
+            incidents=incidents,
         )

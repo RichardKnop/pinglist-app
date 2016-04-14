@@ -382,6 +382,22 @@ class API(object):
             except ValueError:
                 raise self.APIError(str(e))
 
+    # List alarm incidents
+    def list_alarm_incidents(self, access_token, alarm_id):
+        r = requests.get(
+            self.hostname + '/v1/alarms/{}/incidents'.format(alarm_id),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # List teams
     def list_teams(self, access_token, user_id):
         print access_token

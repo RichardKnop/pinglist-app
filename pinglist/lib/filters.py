@@ -22,6 +22,7 @@ def leading_zeros(value, desired_digits):
 @register.filter
 def divide(value, arg):
     try:
-        return float(value) / float(arg)
+        result = float(value) / float(arg)
+        return float("%.3f" % result)
     except (ValueError, ZeroDivisionError):
         return None

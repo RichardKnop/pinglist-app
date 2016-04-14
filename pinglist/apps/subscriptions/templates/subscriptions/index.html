@@ -82,8 +82,10 @@
                     <td>{{ subscription.trial_end.date|escape }}</td>
                     <td>
                         {% if subscription.status != 'canceled' %}
-                            <a href="{% url 'subscriptions:cancel' subscription.id %}" class="btn btn-xs btn-danger">
-                                Cancel <i class="fa fa-remove"></i>
+                            <a href="{% url 'subscriptions:cancel' subscription.id %}">
+                                <span class="label label-danger action-button">
+                                    Cancel
+                                </span>
                             </a>
                         {% endif %}
                     </td>
