@@ -1,5 +1,3 @@
-import sys
-
 from proj.settings.default import *
 
 

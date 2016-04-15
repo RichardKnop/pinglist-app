@@ -271,26 +271,3 @@ class DeleteView(BaseView):
             title='Delete Team',
             active_link='teams',
         )
-
-
-class UserLookupView(BaseView):
-
-    @logged_in
-    def get(self, request, *args, **kwargs):
-        # Lookup the user by email
-        try:
-            user = self.api.lookup_user_by_email(
-                access_token=request.session['access_token']['access_token'],
-                email=request.GET.get('email'),
-            )
-
-        # Email query string param required
-        except KeyError:
-            return HttpResponseNotFound()
-
-        # User not found
-        except self.api.APIError as e:
-            logger.error(str(e))
-            return HttpResponseNotFound()
-
-        return JsonResponse(user)
