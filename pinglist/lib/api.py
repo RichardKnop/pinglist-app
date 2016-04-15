@@ -281,6 +281,22 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Lookup user by email
+    def lookup_user_by_email(self, access_token, email):
+        r = requests.get(
+            self.hostname + '/v1/accounts/user-lookup?email={}'.format(email),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # List regions
     def list_regions(self, access_token):
         print access_token
