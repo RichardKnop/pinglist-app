@@ -8,7 +8,10 @@ from django.shortcuts import redirect
 
 from lib.auth import store_access_token_and_redirect
 from apps import BaseView
-from apps.auth.forms import LoginForm
+from apps.auth.forms import (
+    RegisterForm,
+    LoginForm,
+)
 
 from . import (
     get_facebook_authorize_uri,
@@ -16,6 +19,52 @@ from . import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+class RegisterView(BaseView):
+    form_class = RegisterForm
+    template_name = 'auth/register.html'
+
+    def get(self, request, *args, **kwargs):
+        # Init the form
+        form = self.form_class(initial=self.initial)
+
+        return self._render(request=request, form=form)
+
+    def post(self, request, *args, **kwargs):
+        # Init the form
+        form = self.form_class(request.POST)
+
+        # Validate POST data
+        if not form.is_valid():
+            return self._render(request=request, form=form)
+
+        # Register with email and password
+        try:
+            self.api.register(
+                username=form.cleaned_data['email'],
+                password=form.cleaned_data['password'],
+            )
+            return redirect('auth:login')
+
+        # Registering failed, probably incorrect username and/or password
+        except self.api.APIError as e:
+            logger.error(str(e))
+            form.add_error(None, str(e))
+            return self._render(request=request, form=form)
+
+    def _render(self, request, form):
+        # Generate a unique state parameter and store it in the session
+        state = str(uuid.uuid4())
+        request.session['state'] = state
+
+        return super(RegisterView, self)._render(
+            request=request,
+            form=form,
+            title='Register',
+            facebook_authorize_uri=get_facebook_authorize_uri(state),
+            active_link='register',
+        )
 
 
 class LoginView(BaseView):
@@ -67,6 +116,7 @@ class LoginView(BaseView):
             form=form,
             title='Log In',
             facebook_authorize_uri=get_facebook_authorize_uri(state),
+            active_link='login',
         )
 
 

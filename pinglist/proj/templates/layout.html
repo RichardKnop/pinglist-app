@@ -98,7 +98,10 @@
                         <a href="{% url 'auth:logout' %}"><i class="fa fa-sign-out"></i> Log Out</a>
                     </li>
                 {% else %}
-                    <li>
+                    <li{% if active_link == 'register' %} class="active"{% endif %}>
+                        <a href="{% url 'auth:register' %}"><i class="fa fa-user-plus"></i> Register</a>
+                    </li>
+                    <li{% if active_link == 'login' %} class="active"{% endif %}>
                         <a href="{% url 'auth:login' %}"><i class="fa fa-sign-in"></i> Log In</a>
                     </li>
                 {% endif %}

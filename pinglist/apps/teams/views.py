@@ -131,7 +131,7 @@ class UpdateView(BaseView):
         # Init the form
         form = self.form_class(initial={
             'name': team['name'],
-            'members': [m.email for m in team['_embedded']['members']].join(','),
+            'members': ','.join([m['email'] for m in team['_embedded']['members']]),
         })
 
         return self._render(

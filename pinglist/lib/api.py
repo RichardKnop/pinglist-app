@@ -16,6 +16,26 @@ class API(object):
         self.client_secret = client_secret
         self.scope = scope
 
+    # Registers a new user
+    def register(self, username, password):
+        r = requests.post(
+            self.hostname + '/v1/accounts/users',
+            auth=(self.client_id, self.client_secret),
+            json={
+                'email': username,
+                'password': password,
+            },
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
     # Logs in a user via resource owner credentials grant
     def login(self, username, password):
         r = requests.post(
