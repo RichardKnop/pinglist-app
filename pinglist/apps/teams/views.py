@@ -81,6 +81,7 @@ class AddView(BaseView):
         try:
             team = {
                 'name': form.cleaned_data['name'],
+                'members': [{'email': m} for m in form.cleaned_data['members']],
             }
             self.api.add_team(
                 access_token=request.session['access_token']['access_token'],
@@ -130,6 +131,7 @@ class UpdateView(BaseView):
         # Init the form
         form = self.form_class(initial={
             'name': team['name'],
+            'members': [m.email for m in team['_embedded']['members']].join(','),
         })
 
         return self._render(
@@ -166,6 +168,7 @@ class UpdateView(BaseView):
         # Update the team
         try:
             team['name'] = form.cleaned_data['name']
+            team['members'] = [{'email': m} for m in form.cleaned_data['members']]
             self.api.update_team(
                 access_token=request.session['access_token']['access_token'],
                 team=team,

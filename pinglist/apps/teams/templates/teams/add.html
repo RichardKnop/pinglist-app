@@ -62,6 +62,26 @@
 
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group {% if form.members.errors %}has-error{% endif %}">
+                                <label class="control-label" for="members">
+                                    {% if form.members.errors %}
+                                        {{ form.members.label }}<br>{{ form.members.errors|first|escape }}
+                                    {% else %}
+                                        {{ form.members.label }}
+                                    {% endif %}
+                                </label>
+
+                                <textarea class="form-control" id="{{ form.members.name }}" rows="3"
+                                          name="{{ form.members.name }}">{{ form.members.value|default_if_none:''|escape }}</textarea>
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="panel-footer clearfix">
@@ -80,4 +100,18 @@
     </div>
     <!-- /.container -->
 
+{% endblock %}
+
+{% block inline_js %}
+    <script type="text/javascript">
+        //<![CDATA[
+        jQuery(function ($) {
+            $("#add-member").click(function () {
+                var members = $("#members");
+                members.append('<li><input type="text" class="form-control" name="members"></li>')
+                return false;
+            });
+        });
+        //]]>
+    </script>
 {% endblock %}
