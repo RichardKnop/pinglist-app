@@ -5,10 +5,12 @@ from apps.subscriptions.views import (
     AddView,
     UpdateView,
     CancelView,
+    PlansView,
 )
 
 
 urlpatterns = [
+    url(r'^plans/$', PlansView.as_view(), name='plans'),
     url(r'^cancel/(?P<subscription_id>[0-9]+)/$', CancelView.as_view(), name='cancel'),
     url(r'^update/(?P<subscription_id>[0-9]+)/$', UpdateView.as_view(), name='update'),
     url(r'^add/$', AddView.as_view(), name='add'),

@@ -340,3 +340,25 @@ class CancelView(SubscriptionView):
             title='Cancel Subscription',
             active_link='subscriptions',
         )
+
+
+class PlansView(SubscriptionView):
+    template_name = 'subscriptions/plans.html'
+
+    @logged_in
+    def get(self, request, *args, **kwargs):
+        # Fetch subscription plans
+        try:
+            plans = self.api.list_plans()
+
+        # Fetching subscription plans failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+        return self._render(
+            request=request,
+            title='Plans',
+            active_link='plans',
+            plans=plans,
+        )
