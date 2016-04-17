@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 {% load filters %}
 
 {% block content %}
@@ -101,15 +102,26 @@
 
 {% endblock %}
 
+{% block additional_css %}
+    <!-- required stylesheet for TextboxList -->
+    <link rel="stylesheet" href="{% static 'css/textbox-list.css' %}" type="text/css" media="screen" charset="utf-8">
+    <!-- required stylesheet for TextboxList.Autocomplete -->
+    <link rel="stylesheet" href="{% static 'css/textbox-list.autocomplete.css' %}" type="text/css" media="screen" charset="utf-8">
+{% endblock %}
+
 {% block inline_js %}
+    <!-- required for TextboxList -->
+    <script src="{% static 'js/growing-input.js' %}" type="text/javascript" charset="utf-8"></script>
+
+    <script src="{% static 'js/textbox-list.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'js/textbox-list.autocomplete.js' %}" type="text/javascript" charset="utf-8"></script>
+    <!-- required for TextboxList.Autocomplete if method set to 'binary' -->
+    <script src="{% static 'js/textbox-list.autocomplete.binary.js' %}" type="text/javascript" charset="utf-8"></script>
+
     <script type="text/javascript">
         //<![CDATA[
         jQuery(function ($) {
-            $("#add-member").click(function () {
-                var members = $("#members");
-                members.append('<li><input type="text" class="form-control" name="members"></li>')
-                return false;
-            });
+            var t = new $.TextboxList('#members', {});
         });
         //]]>
     </script>
