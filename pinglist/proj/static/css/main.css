@@ -315,3 +315,7 @@ span.label a:hover {
     color: white;
     text-decoration: none;
 }
+
+th, td b {
+    text-transform: uppercase;
+}

@@ -15,9 +15,56 @@
             <li class="active">Plans</li>
         </ol>
 
+        <div class="alert alert-info" role="alert">
+            <ul>
+                <li>Subscription features apply to all users within teams you create.</li>
+                <li>I.e., if you create a team and add 5 users to it, all of their alarms will count towards the <b>max alarms</b> limit.</li>
+                <li>You can upgrade or downgrade your plan at any time.</li>
+            </ul>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Plan</th>
+                <th>Monthly Price</th>
+                <th>Free Trial</th>
+                <th>Alarms</th>
+                <th>Teams</th>
+                <th>Users Per Team</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for plan in plans|get:"_embedded"|get:"plans" %}
+                <tr>
+                    <td><b>{{ plan.name|escape }}</b></td>
+                    <td><i class="fa fa-{{ plan.currency|lower|escape }}"
+                           aria-hidden="true"></i>{{ plan.amount|divide:100|floatformat|escape }}</td>
+                    <td>{{ plan.trial_period|escape }} days</td>
+                    <td>{{ plan.max_alarms|escape }}</td>
+                    <td>{{ plan.max_teams|escape }}</td>
+                    <td>{{ plan.max_members_per_team|escape }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
         <hr class="featurette-divider">
 
     </div>
     <!-- /.container -->
 
+{% endblock %}
+
+{% block inline_js %}
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        //]]>
+    </script>
 {% endblock %}
