@@ -15,3 +15,17 @@ class IndexView(BaseView):
             request=request,
             plans=plans,
         )
+
+
+class TermsView(BaseView):
+    template_name = 'home/terms.html'
+
+    def get(self, request, *args, **kwargs):
+        return self._render(request=request)
+
+
+class ContactView(BaseView):
+    template_name = 'home/contact.html'
+
+    def get(self, request, *args, **kwargs):
+        return self._render(request=request)

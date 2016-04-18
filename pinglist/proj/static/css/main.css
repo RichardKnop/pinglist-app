@@ -224,7 +224,7 @@ footer {
     margin-right: auto;
     margin-left: auto;
     text-align: center;
-    padding: 8px 0;
+
     height: 59px;
 }
 
@@ -244,7 +244,7 @@ footer {
 }
 
 .copyright {
-    line-height: 50px;
+    paddin-top: 40px;
 }
 
 /* Landing page header image */
