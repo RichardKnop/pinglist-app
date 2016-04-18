@@ -19,6 +19,10 @@
                 <a href="#plans" class="btn btn-primary btn-lg">
                     Start Free Trial <i class="fa fa-arrow-circle-right"></i>
                 </a>
+
+                <a href="#" class="ios-download-badge">
+                    <img src="{% static 'images/ios-download_135x40.svg' %}" alt="Download from App Store">
+                </a>
             </p>
         </div>
     </header>
@@ -30,7 +34,8 @@
 
         <!-- First Featurette -->
         <div class="featurette" id="about">
-            <img class="featurette-image img-circle img-responsive pull-right" src="{% static 'images/placeholder500x500.png' %}">
+            <img class="featurette-image img-circle img-responsive pull-right"
+                 src="{% static 'images/placeholder500x500.png' %}">
 
             <h2 class="featurette-heading">Keep Your Critical
                 <span class="text-muted">Infrastructure Up &amp; Running</span>
@@ -49,7 +54,8 @@
 
         <!-- Second Featurette -->
         <div class="featurette" id="features">
-            <img class="featurette-image img-circle img-responsive pull-left" src="{% static 'images/placeholder500x500.png' %}">
+            <img class="featurette-image img-circle img-responsive pull-left"
+                 src="{% static 'images/placeholder500x500.png' %}">
 
             <h2 class="featurette-heading">Mitigate Risk &amp; Improve
                 <span class="text-muted">Reliability &amp; Performance</span>
@@ -73,35 +79,37 @@
             <div class="row text-center">
 
                 {% for plan in plans|get:"_embedded"|get:"plans" %}
-                <div class="col-md-3 col-sm-6 hero-feature">
-                    <div class="plan-description">
-                        <h3>
-                            {{ plan.name|escape }}
-                            <br>
-                            <i class="fa fa-{{ plan.currency|lower|escape }}" aria-hidden="true"></i>{{ plan.amount|divide:100|floatformat|escape }}
-                        </h3>
+                    <div class="col-md-3 col-sm-6 hero-feature">
+                        <div class="plan-description">
+                            <h3>
+                                {{ plan.name|escape }}
+                                <br>
+                                <i class="fa fa-{{ plan.currency|lower|escape }}"
+                                   aria-hidden="true"></i>{{ plan.amount|divide:100|floatformat|escape }}
+                            </h3>
 
-                        {% if plan.trial_period > 0 %}
-                        <p>{{ plan.trial_period|escape }} days free trial</p>
-                        {% else %}
-                        <p>no free trial</p>
-                        {% endif %}
+                            {% if plan.trial_period > 0 %}
+                                <p>{{ plan.trial_period|escape }} days free trial</p>
+                            {% else %}
+                                <p>no free trial</p>
+                            {% endif %}
 
-                        <p>{{ plan.max_alarms|escape }} alarms</p>
+                            <p>{{ plan.max_alarms|escape }} alarms</p>
 
-                        {% if plan.max_teams > 0 %}
-                        <p>team login {{ plan.max_teams|escape }} x {{ plan.max_members_per_team|escape }}</p>
-                        {% else %}
-                        <p>no team login</p>
-                        {% endif %}
+                            {% if plan.max_teams > 0 %}
+                                <p>team login {{ plan.max_teams|escape }} x {{ plan.max_members_per_team|escape }}</p>
+                            {% else %}
+                                <p>no team login</p>
+                            {% endif %}
 
-                        <p>Email &amp; push notifications</p>
+                            <p>Email &amp; push notifications</p>
 
-                        <p>
-                            <a href="{% url 'subscriptions:index' %}" class="btn btn-primary btn-lg">Start Free Trial <i class="fa fa-arrow-circle-right"></i></a>
-                        </p>
+                            <p>
+                                <a href="{% url 'subscriptions:index' %}" class="btn btn-primary btn-lg">Start Free
+                                    Trial <i class="fa fa-arrow-circle-right"></i></a>
+                            </p>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
 
             </div>

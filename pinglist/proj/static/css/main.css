@@ -1,16 +1,12 @@
-/*!
- * Start Bootstrap - One Page Wonder HTML Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
+/* General styles */
 body, html {
     font-family: Lato, sans-serif;
     color: #27303C;
 }
 
 body {
-    margin-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    margin-top: 50px;
 }
 
 a {
@@ -24,6 +20,25 @@ a:hover {
 .text-muted {
     color: #B9E88A;
 }
+
+pre {
+    overflow: scroll;
+}
+
+span.label a {
+    color: white;
+}
+
+span.label a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+th, td b {
+    text-transform: uppercase;
+}
+
+/* Navigation */
 
 .navbar-inverse {
     background-color: #27303C;
@@ -53,6 +68,8 @@ a:hover {
     background-color: #B9E88A;
 }
 
+/* Buttons */
+
 .btn-primary {
     background-color: #B9E88A;
     color: #27303C;
@@ -74,6 +91,9 @@ a:hover {
     color: #B9E88A;
     border-color: #27303C;
 }
+
+
+/* Responsive media queries */
 
 .featurette-divider {
     margin: 80px 0;
@@ -283,7 +303,7 @@ footer {
     padding: 7px 9px;
 }
 
-/* Other */
+/* Labels */
 
 span.label.subscription-status, span.label.alarm-status, span.label.alarm-active, span.label.incident-type, span.label.action-button {
     display: inline-block;
@@ -303,19 +323,8 @@ span.label.alarm-active {
     width: 40px;
 }
 
-pre {
-    overflow: scroll;
-}
-
-span.label a {
-    color: white;
-}
-
-span.label a:hover {
-    color: white;
-    text-decoration: none;
-}
-
-th, td b {
-    text-transform: uppercase;
+/* Other */
+a.ios-download-badge img {
+    width: 170px;
+    height: 46px;
 }
