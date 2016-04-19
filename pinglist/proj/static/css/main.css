@@ -92,7 +92,6 @@ th, td b {
     border-color: #27303C;
 }
 
-
 /* Responsive media queries */
 
 .featurette-divider {
@@ -324,6 +323,7 @@ span.label.alarm-active {
 }
 
 /* Other */
+
 a.ios-download-badge img {
     width: 170px;
     height: 46px;
