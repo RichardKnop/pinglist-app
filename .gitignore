@@ -3,3 +3,4 @@
 *.sqlite
 pinglist/proj/settings/local.py
 .idea/
+.bash_profile
