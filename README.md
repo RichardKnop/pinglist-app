@@ -2,15 +2,87 @@
 
 # Pinglist App
 
-Quick development setup:
+API / website uptime & performance monitoring platform.
+
+# Index
+
+* [Pinglist App](#pinglist-app)
+* [Index](#index)
+* [Dependencies](#dependencies)
+* [Setup](#setup)
+
+# Dependencies
+
+Create a mnew virtual environment and install dependencies via pip:
 
 ```
-createuser --createdb pinglist_app
-createdb -U pinglist_app pinglist_app
-cp pinglist/proj/settings/local.example.py pinglist/proj/settings/local.py
 virtualenv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r pinglist/requirements.txt
+```
+
+# Setup
+
+If you are developing on OSX, install `etcd`, `Postgres`:
+
+```
+brew install etcd
+brew install postgres
+```
+
+You might want to create a `Postgres` database:
+
+```
+createuser --createdb pinglist_app_
+createdb -U pinglist_app_ pinglist_app_
+```
+
+Load a development configuration into `etcd`:
+
+```
+curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
+	"Database": {
+		"Engine": "django.db.backends.postgresql_psycopg2",
+		"Host": "localhost",
+		"Port": 5432,
+		"User": "pinglist_app",
+		"Password": "",
+		"DatabaseName": "pinglist_app"
+	},
+	"Oauth": {
+		"ClientID": "test_client_1",
+		"Secret": "test_secret"
+	},
+	"Django": {
+		"Secret": "test_secret"
+	},
+	"Facebook": {
+		"AppID": "facebook_app_id",
+		"AppSecret": "facebook_app_secret"
+	},
+	"Stripe": {
+		"PublishableKey": "stripe_publishable_key"
+	},
+	"Web": {
+		"Scheme": "http",
+		"Host": "localhost:8000",
+		"APIScheme": "http",
+		"APIHost": "localhost:8080"
+	},
+	"IsDevelopment": true
+}'
+```
+
+Run migrations:
+
+```
 python pinglist/manage.py migrate
+```
+
+And finally, run the app:
+
+```
 python pinglist/manage.py runserver
 ```
+
+When deploying, you can set `ETCD_HOST` and `ETCD_PORT` environment variables.

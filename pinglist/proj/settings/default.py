@@ -1,5 +1,7 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import etcd
+import json
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -65,3 +67,46 @@ TEMPLATES = [
         },
     },
 ]
+
+etcd_client = etcd.Client(
+    host=os.environ.get('ETCD_HOST', 'localhost'),
+    port=int(os.environ.get('ETCD_PORT', '2379')),
+)
+
+cnf = json.loads(etcd_client.read('/config/pinglist_app.json').value)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = cnf['Django']['Secret']
+
+# Database
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': cnf['Database']['Engine'],
+        'NAME': cnf['Database']['DatabaseName'],
+        'USER': cnf['Database']['User'],
+        'PASSWORD': cnf['Database']['Password'],
+        'HOST': cnf['Database']['Host'],
+    },
+}
+
+DEBUG = cnf['IsDevelopment']
+
+HOSTNAME = '{}://{}'.format(cnf['Web']['Scheme'], cnf['Web']['Host'])
+API_HOST = '{}://{}'.format(cnf['Web']['APIScheme'], cnf['Web']['APIHost'])
+OAUTH_CLIENT_ID = cnf['Oauth']['ClientID']
+OAUTH_CLIENT_SECRET = cnf['Oauth']['Secret']
+OAUTH_DEFAULT_SCOPE = 'read_write'
+OAUTH_TOKEN_URL = API_HOST + '/v1/oauth/tokens'
+LOGIN_VIEW = 'auth:login'
+AFTER_LOGIN_VIEW = 'subscriptions:index'
+AFTER_LOGIN_VIEW_PARAM = 'after_login_view'
+FACEBOOK_APP_ID = cnf['Facebook']['AppID']
+FACEBOOK_APP_SECRET = cnf['Facebook']['AppSecret']
+FACEBOOK_SCOPE = "public_profile,email"
+STRIPE_PUBLISHABLE_KEY = cnf['Stripe']['PublishableKey']
+
+
+
+
+
