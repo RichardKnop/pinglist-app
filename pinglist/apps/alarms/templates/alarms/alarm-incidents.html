@@ -114,7 +114,7 @@
                             N/A
                         {% endif %}
                     </td>
-                    <td>{{ incident.resolved_at|naturaltime|escape }}</td>
+                    <td>{{ incident.resolved_at|default_if_none:''|naturaltime|escape }}</td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -368,7 +368,8 @@ class AlarmIncidentsIndexView(BaseView):
 
         # Parse datetime strings
         for incident in incidents['_embedded']['incidents']:
-            incident['resolved_at'] = parse_datetime(incident['resolved_at'])
+            if incident['resolved_at']:
+                incident['resolved_at'] = parse_datetime(incident['resolved_at'])
             incident['created_at'] = parse_datetime(incident['created_at'])
             incident['updated_at'] = parse_datetime(incident['updated_at'])
 
