@@ -10,6 +10,7 @@ API / website uptime & performance monitoring platform.
 * [Index](#index)
 * [Dependencies](#dependencies)
 * [Setup](#setup)
+* [Docker](#docker)
 
 # Dependencies
 
@@ -86,3 +87,12 @@ python pinglist/manage.py runserver
 ```
 
 When deploying, you can set `ETCD_HOST` and `ETCD_PORT` environment variables.
+
+# Docker
+
+Build a Docker image and run the app in a container:
+
+```
+docker build -t pinglist-app .
+docker run -e ETCD_HOST=localhost -e ETCD_PORT=2379 -p 6060:8080 pinglist-app
+```
