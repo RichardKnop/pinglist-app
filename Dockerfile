@@ -27,6 +27,7 @@ COPY $PINGLIST_SRC $PINGLIST_SRVPROJ
 RUN pip install -r $PINGLIST_SRVPROJ/requirements.txt
 
 # Copy the docker-entrypoint.sh script and use it as entrypoint
+WORKDIR $PINGLIST_SRVPROJ
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
