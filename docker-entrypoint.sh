@@ -11,7 +11,7 @@ tail -n 0 -f /srv/logs/*.log &
 echo Starting Gunicorn.
 exec gunicorn proj.wsgi:application \
     --name pinglist_app \
-    --bind 0.0.0.0:8080 \
+    --bind /tmp/gunicorn.sock \
     --workers 3 \
     --log-level=info \
     --log-file=/srv/logs/gunicorn.log \
