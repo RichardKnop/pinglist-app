@@ -2,6 +2,7 @@
 FROM ubuntu:16.04
 
 # Update the default application repository sources list
+RUN add-apt-repository -y ppa:nginx/stable
 RUN apt-get update && apt-get -y upgrade
 
 # Install needed packages
@@ -14,19 +15,21 @@ RUN apt-get install -y nginx
 
 # Create application subdirectories
 WORKDIR /srv
-RUN mkdir media static logs
+RUN mkdir static logs
 
 # Using the VOLUME command we makes directories available to other containers
-VOLUME ["/srv/media/", "/srv/logs/"]
+VOLUME ["/srv/static/", "/srv/logs/"]
 
 # Copy application source code
 COPY . /srv/pinglist-app
 
 # Configure nginx
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+RUN chown -R www-data:www-data /var/lib/nginx
 RUN rm /etc/nginx/sites-enabled/default
 WORKDIR /srv/pinglist-app
-RUN cp nginx.conf /etc/nginx/sites-enabled/
+RUN cp nginx.conf /etc/nginx/sites-enabled/default
+RUN service nginx restart
 
 # Install Python dependencies
 WORKDIR /srv/pinglist-app/pinglist
