@@ -27,11 +27,11 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm /etc/nginx/sites-enabled/default
 RUN cat >/etc/nginx/sites-enabled/pinglist_app.conf <<EOL
 upstream app_server {
-  # fail_timeout=0 means we always retry an upstream even if it failed
-  # to return a good HTTP response (in case the Unicorn master nukes a
-  # single worker for timing out).
+    # fail_timeout=0 means we always retry an upstream even if it failed
+    # to return a good HTTP response (in case the Unicorn master nukes a
+    # single worker for timing out).
 
-  server unix:/tmp/gunicorn.sock fail_timeout=0;
+    server unix:/tmp/gunicorn.sock fail_timeout=0;
 }
 
 server {
