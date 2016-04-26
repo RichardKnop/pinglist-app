@@ -2,15 +2,12 @@
 FROM ubuntu:16.04
 
 # Update the default application repository sources list
-RUN add-apt-repository -y ppa:nginx/stable
 RUN apt-get update && apt-get -y upgrade
 
 # Install needed packages
 RUN apt-get install -y apt-utils
 RUN apt-get install -y libpq-dev python-dev
 RUN apt-get install -y python python-pip
-
-# Install nginx
 RUN apt-get install -y nginx
 
 # Create application subdirectories
