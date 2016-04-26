@@ -10,6 +10,8 @@ RUN apt-get install -y python python-pip
 # Create application subdirectories
 WORKDIR /srv
 RUN mkdir media static logs
+
+# Using the VOLUME command we makes directories available to other containers
 VOLUME ["/srv/media/", "/srv/logs/"]
 
 # Copy application source code
