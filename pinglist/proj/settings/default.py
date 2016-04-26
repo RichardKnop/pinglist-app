@@ -81,6 +81,9 @@ etcd_client = etcd.Client(
 try:
     json_cnf = etcd_client.read('/config/pinglist_app.json').value
     cnf = json.loads(json_cnf)
+except etcd.EtcdKeyNotFound as e:
+    logger.debug(str(e))
+    sys.exit(0)
 except ValueError:
     logger.debug(json_cnf)
     sys.exit(0)
