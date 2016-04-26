@@ -2,6 +2,11 @@
 import os
 import etcd
 import json
+import logging
+import sys
+
+
+logger = logging.getLogger(__name__)
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -73,7 +78,12 @@ etcd_client = etcd.Client(
     port=int(os.environ.get('ETCD_PORT', '2379')),
 )
 
-cnf = json.loads(etcd_client.read('/config/pinglist_app.json').value)
+try:
+    json_cnf = etcd_client.read('/config/pinglist_app.json').value
+    cnf = json.loads(json_cnf)
+except ValueError:
+    logger.debug(json_cnf)
+    sys.exit(0)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = cnf['Django']['Secret']
