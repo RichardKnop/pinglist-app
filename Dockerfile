@@ -7,7 +7,7 @@ ENV PINGLIST_SRC=pinglist
 # Directory in container for all project files
 ENV PINGLIST_SRVHOME=/srv
 # Directory in container for project source files
-ENV PINGLIST_SRVPROJ=/srv/pinglist
+ENV PINGLIST_SRVPROJ=/srv/pinglist-app
 
 # Update the default application repository sources list
 RUN apt-get update && apt-get -y upgrade

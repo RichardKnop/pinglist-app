@@ -10,6 +10,7 @@ tail -n 0 -f /srv/logs/*.log &
 # Start Gunicorn processes
 echo Starting Gunicorn.
 exec gunicorn proj.wsgi:application \
+    --chdir pinglist \
     --name pinglist_app \
     --bind 0.0.0.0:8080 \
     --workers 3 \
