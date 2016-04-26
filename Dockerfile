@@ -1,5 +1,5 @@
 # Set the base image to use to Ubuntu
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # Set env variables used in this Dockerfile (add a unique prefix, such as DOCKYARD)
 # Local directory with project source
@@ -11,6 +11,8 @@ ENV PINGLIST_SRVPROJ=/srv/pinglist
 
 # Update the default application repository sources list
 RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y apt-utils
+RUN apt-get install -y libpq-dev python-dev
 RUN apt-get install -y python python-pip
 
 # Create application subdirectories
