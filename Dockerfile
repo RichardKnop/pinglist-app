@@ -26,7 +26,7 @@ COPY . /srv/pinglist-app
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm /etc/nginx/sites-enabled/default
 WORKDIR /srv/pinglist-app
-RUN cp nginx.conf /etc/nginx/sites-enabled/pinglist_app.conf
+RUN cp nginx.conf /etc/nginx/sites-enabled/
 
 # Install Python dependencies
 WORKDIR /srv/pinglist-app/pinglist
