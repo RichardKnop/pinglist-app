@@ -1,6 +1,10 @@
 #!/bin/bash
-python manage.py migrate                  # Apply database migrations
-python manage.py collectstatic --noinput  # Collect static files
+
+# Run database migrations
+python manage.py migrate
+
+# Collect the static files
+python manage.py collectstatic --noinput
 
 # Prepare log files and start outputting logs to stdout
 touch /srv/logs/gunicorn.log
@@ -16,4 +20,4 @@ exec gunicorn proj.wsgi:application \
     --log-level=info \
     --log-file=/srv/logs/gunicorn.log \
     --access-logfile=/srv/logs/access.log \
-    "$@"
+    "$@" # allows you to pass additional arguments to gunicorn when you start the container

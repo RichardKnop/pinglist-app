@@ -8,13 +8,13 @@ upstream app_server {
 
 server {
 
-    listen   8080;
+    listen 8080;
     server_name *.pingli.st;
 
     client_max_body_size 5M;
 
     location /static/ {
-        alias   /srv/static/;
+        alias /srv/static/;
     }
 
     location / {
