@@ -15,7 +15,7 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN chown -R www-data:www-data /var/lib/nginx
 RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/sites-enabled/ /etc/nginx/sites-enabled
-RUN service reload nginx
+RUN service nginx reload
 
 # Create application subdirectories
 WORKDIR /srv
