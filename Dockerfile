@@ -29,18 +29,18 @@ WORKDIR /srv/pinglist-app/pinglist
 RUN pip install -r requirements.txt
 
 # Run database migrations
-python manage.py migrate
+RUN python manage.py migrate
 
 # Collect the static files
-python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Prepare log files and start outputting logs to stdout
-touch /srv/logs/gunicorn.log
-touch /srv/logs/access.log
-tail -n 0 -f /srv/logs/*.log &
+RUN touch /srv/logs/gunicorn.log
+RUN touch /srv/logs/access.log
+RUN tail -n 0 -f /srv/logs/*.log &
 
 # Start Gunicorn processes
-exec gunicorn proj.wsgi:application \
+RUN exec gunicorn proj.wsgi:application \
     --name pinglist_app \
     --daemon \
     --bind unix:/tmp/gunicorn.sock \
