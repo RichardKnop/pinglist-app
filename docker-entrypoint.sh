@@ -17,7 +17,7 @@ exec gunicorn proj.wsgi:application \
     --name pinglist_app \
     --bind unix:/tmp/gunicorn.sock \
     --workers 3 \
-    --log-level=info \
+    --log-level=debug \
     --log-file=/srv/logs/gunicorn.log \
     --access-logfile=/srv/logs/access.log \
     "$@" # allows you to pass additional arguments to gunicorn when you start the container
