@@ -11,7 +11,6 @@ RUN apt-get update
 RUN apt-get install -y libpq-dev python python-dev python-pip nginx
 
 # Configure nginx
-RUN ufw allow 'Nginx HTTP' # firewall profile
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN chown -R www-data:www-data /var/lib/nginx
 RUN rm /etc/nginx/sites-enabled/default
