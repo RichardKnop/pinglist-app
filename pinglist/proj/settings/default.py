@@ -74,8 +74,8 @@ TEMPLATES = [
 ]
 
 etcd_client = etcd.Client(
-    host=os.environ.get('ETCD_HOST', 'localhost'),
-    port=int(os.environ.get('ETCD_PORT', '2379')),
+    host=os.getenv('ETCD_HOST', 'localhost'),
+    port=int(os.getenv('ETCD_PORT', '2379')),
 )
 
 try:
