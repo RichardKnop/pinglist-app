@@ -11,8 +11,7 @@ touch /srv/logs/gunicorn.log
 touch /srv/logs/access.log
 tail -n 0 -f /srv/logs/*.log &
 
-# Start Gunicorn processes
-echo Starting Gunicorn.
+# Start Gunicorn processes in the background
 exec gunicorn proj.wsgi:application \
     --name pinglist_app \
     --daemon \
@@ -20,5 +19,7 @@ exec gunicorn proj.wsgi:application \
     --workers 3 \
     --log-level=debug \
     --log-file=/srv/logs/gunicorn.log \
-    --access-logfile=/srv/logs/access.log \
-    "$@" # allows you to pass additional arguments to gunicorn when you start the container
+    --access-logfile=/srv/logs/access.log
+
+# And run the nginx server
+/usr/sbin/nginx
