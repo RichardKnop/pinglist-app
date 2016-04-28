@@ -12,7 +12,7 @@ touch /srv/logs/access.log
 tail -n 0 -f /srv/logs/*.log &
 
 # Start Gunicorn processes in the background
-exec gunicorn proj.wsgi:application \
+gunicorn proj.wsgi:application \
     --name pinglist_app \
     --daemon \
     --bind unix:/tmp/gunicorn.sock \
