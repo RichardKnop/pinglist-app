@@ -5,18 +5,19 @@ FROM ubuntu:16.04
 COPY . /srv/pinglist-app
 
 # Update the default application repository sources list
-RUN apt-get update && apt-get -y upgrade
+RUN apt-get update
 
 # Install needed packages
-RUN apt-get install -y libpq-dev python-dev python python-pip nginx
+RUN apt-get install -y libpq-dev python python-dev python-pip nginx
 
 # Configure nginx
-RUN service nginx stop
+RUN systemctl stop nginx
+RUN ufw allow 'Nginx HTTP' # firewall profile
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN chown -R www-data:www-data /var/lib/nginx
 RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/sites-enabled/ /etc/nginx/sites-enabled
-RUN service nginx start
+RUN systemctl start nginx
 
 # Create application subdirectories
 WORKDIR /srv
