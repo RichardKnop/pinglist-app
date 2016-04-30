@@ -32,12 +32,12 @@ class IndexView(BaseView):
         )
 
 
-class TermsView(BaseView):
-    template_name = 'home/terms.html'
+class FAQView(BaseView):
+    template_name = 'home/faq.html'
 
     def get(self, request, *args, **kwargs):
         return self._render(
-            title='Terms & Conditions',
+            title='Frequently Asked Questions',
             request=request,
         )
 

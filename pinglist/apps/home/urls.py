@@ -2,13 +2,13 @@ from django.conf.urls import url
 
 from apps.home.views import (
     IndexView,
-    TermsView,
+    FAQView,
     ContactView,
 )
 
 
 urlpatterns = [
     url(r'^contact', ContactView.as_view(), name='contact'),
-    url(r'^terms$', TermsView.as_view(), name='terms'),
+    url(r'^terms$', FAQView.as_view(), name='faq'),
     url(r'^$', IndexView.as_view(), name='index'),
 ]
