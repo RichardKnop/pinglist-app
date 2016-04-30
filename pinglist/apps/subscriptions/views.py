@@ -78,6 +78,7 @@ class AddView(SubscriptionView):
             cards = self.api.list_cards(
                 access_token=request.session['access_token']['access_token'],
                 user_id=request.session['access_token']['user_id'],
+                page=1,
             )
 
         # Fetching customer cards failed
@@ -111,6 +112,7 @@ class AddView(SubscriptionView):
             cards = self.api.list_cards(
                 access_token=request.session['access_token']['access_token'],
                 user_id=request.session['access_token']['user_id'],
+                page=1,
             )
 
         # Fetching customer cards failed
