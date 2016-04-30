@@ -190,6 +190,9 @@ class UpdateView(SubscriptionView):
             logger.error(str(e))
             return HttpResponseNotFound()
 
+        if parse_datetime(subscription['cancelled_at']) is not None:
+            return HttpResponseServerError('Cannot update cancelled subscription')
+
         # Init the form
         form = self.form_class(initial={
             'plan': str(subscription['_embedded']['plan']['id']),

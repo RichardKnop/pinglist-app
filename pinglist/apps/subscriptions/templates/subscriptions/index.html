@@ -59,7 +59,7 @@
             {% for subscription in subscriptions|get:"_embedded"|get:"subscriptions" %}
                 <tr>
                     <td>
-                        {% if subscription.status != 'canceled' %}
+                        {% if not subscription.cancelled_at %}
                             <a href="{% url 'subscriptions:update' subscription.id %}">{{ subscription.id|escape }}</a>
                         {% else %}
                             {{ subscription.id|escape }}
@@ -81,7 +81,7 @@
                     <td>{{ subscription.trial_start.date|escape }}</td>
                     <td>{{ subscription.trial_end.date|escape }}</td>
                     <td>
-                        {% if subscription.status != 'canceled' %}
+                        {% if not subscription.cancelled_at %}
                             <a href="{% url 'subscriptions:cancel' subscription.id %}">
                                 <span class="label label-danger action-button">
                                     Cancel
