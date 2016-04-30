@@ -8,7 +8,7 @@ COPY . /srv/pinglist-app
 RUN apt-get update
 
 # Install needed packages
-RUN apt-get install -y libpq-dev libjpeg-dev python python-dev python-pip nginx
+RUN apt-get install -y libpq-dev libz-dev libjpeg-dev libfreetype6-dev python python-dev python-pip nginx
 
 # Configure nginx
 RUN service nginx stop
