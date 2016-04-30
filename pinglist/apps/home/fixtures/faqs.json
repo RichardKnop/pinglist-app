@@ -1,0 +1,34 @@
+[
+  {
+    "model": "home.faq",
+    "pk": 1,
+    "fields": {
+      "question": "Is your app free?",
+      "answer": "Yes. You can download our app for free. Once you sign up, you will will be able to setup one free alarm and use it for up to 30 days. If you would like to continue using the app or setup additional alarms, you can subscribe to one of our plans."
+    }
+  },
+  {
+    "model": "home.faq",
+    "pk": 2,
+    "fields": {
+      "question": "How do you process subscription payments?",
+      "answer": "We use Stripe to process payments in a trusted, secure and user-friendly way."
+    }
+  },
+  {
+    "model": "home.faq",
+    "pk": 3,
+    "fields": {
+      "question": "Can I cancel my subscription?",
+      "answer": "Yes. You can cancel your subscription at any time."
+    }
+  },
+  {
+    "model": "home.faq",
+    "pk": 4,
+    "fields": {
+      "question": "How long do you store performance metrics for?",
+      "answer": "Currently we store metrics for last 30 days."
+    }
+  }
+]

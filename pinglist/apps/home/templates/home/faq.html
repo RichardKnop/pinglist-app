@@ -12,17 +12,10 @@
         <!-- First Featurette -->
         <div class="featurette" id="about">
             <dl>
-                <dt>Is your app free?</dt>
-                <dd>Yes. You can download our app for free. Once you sign up, you will will be able to setup one free
-                    alarm and use it for up to 30 days. If you would like to continue using the app or setup additional
-                    alarms, you can subscribe to one of our plans.
-                </dd><br>
-                <dt>How do you process subscription payments?</dt>
-                <dd>We use <a href="http://stripe.com/">Stripe</a> to process payments in a trusted, secure and
-                    user-friendly way.
-                </dd><br>
-                <dt>Can I cancel my subscription</dt>
-                <dd>Yes. You can cancel your subscription at any time.</dd>
+                {% for faq in faqs %}
+                    <dt>{{ faq.question|escape }}</dt>
+                    <dd>{{ faq.answer|escape }}</dd><br>
+                {% endfor %}
             </dl>
         </div>
 

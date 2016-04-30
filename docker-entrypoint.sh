@@ -3,6 +3,9 @@
 # Run database migrations
 python manage.py migrate
 
+# Load fixtures
+python manage.py loaddata faqs
+
 # Collect the static files
 python manage.py collectstatic --noinput
 

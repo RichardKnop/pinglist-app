@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponseServerError
 
 from apps import BaseView
+from apps.home.models import FAQ
 from apps.home.forms import ContactForm
 
 logger = logging.getLogger(__name__)
@@ -36,9 +37,11 @@ class FAQView(BaseView):
     template_name = 'home/faq.html'
 
     def get(self, request, *args, **kwargs):
+        faqs = FAQ.objects.all()
         return self._render(
             title='Frequently Asked Questions',
             request=request,
+            faqs=faqs,
         )
 
 
