@@ -105,6 +105,7 @@ DATABASES = {
 }
 
 DEBUG = cnf['IsDevelopment']
+VERSION = 'v0.0.0'
 
 HOSTNAME = '{}://{}'.format(cnf['Web']['Scheme'], cnf['Web']['Host'])
 API_HOST = '{}://{}'.format(cnf['Web']['APIScheme'], cnf['Web']['APIHost'])
