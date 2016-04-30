@@ -48,10 +48,11 @@
                 <th>Status</th>
                 <th>Plan</th>
                 <th>Started At</th>
+                <th>Trial Period</th>
+                <th>Current Period</th>
                 <th>Cancelled At</th>
                 <th>Ended At</th>
-                <th>Trial Start</th>
-                <th>Trial End</th>
+
                 <th>Actions</th>
             </tr>
             </thead>
@@ -70,8 +71,10 @@
                             <span class="label label-success subscription-status">{{ subscription.status|escape }}</span>
                         {% else %}
                             <span class="label label-default subscription-status">
-                            {% if subscription.cancelled_at %}
+                            {% if subscription.ended_at %}
                                 cancelled
+                            {% elif subscription.cancelled_at %}
+                                ending
                             {% else %}
                                 {{ subscription.status|escape }}
                             {% endif %}
@@ -80,16 +83,32 @@
                     </td>
                     <td>{{ subscription|get:'_embedded'|get:'plan'|get:'name' }}</td>
                     <td>{{ subscription.started_at.date|escape }}</td>
-                    <td>{{ subscription.cancelled_at.date|escape }}</td>
                     <td>
-                        {% if subscription.cancelled_at and not subscription.ended_at %}
-                            {{ subscription.period_end.date|escape }}
-                        {% else %}
-                            {{ subscription.ended_at.date|escape }}
-                        {% endif %}
+                        <table>
+                            <tr>
+                                <td class="text-right">FROM &nbsp;</td>
+                                <td>{{ subscription.trial_start.date|escape }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">TO &nbsp;</td>
+                                <td>{{ subscription.trial_end.date|escape }}</td>
+                            </tr>
+                        </table>
                     </td>
-                    <td>{{ subscription.trial_start.date|escape }}</td>
-                    <td>{{ subscription.trial_end.date|escape }}</td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td class="text-right">FROM &nbsp;</td>
+                                <td>{{ subscription.period_start.date|escape }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">TO &nbsp;</td>
+                                <td>{{ subscription.period_end.date|escape }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>{{ subscription.cancelled_at.date|escape }}</td>
+                    <td>{{ subscription.ended_at.date|escape }}</td>
                     <td>
                         {% if not subscription.cancelled_at %}
                             <a href="{% url 'subscriptions:cancel' subscription.id %}">
