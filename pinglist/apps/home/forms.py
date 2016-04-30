@@ -11,6 +11,10 @@ class ContactForm(forms.Form):
         required=True,
         label='Your Email',
     )
+    subject = forms.CharField(
+        required=True,
+        label='Subject',
+    )
     message = forms.CharField(
         required=True,
         label='Message',

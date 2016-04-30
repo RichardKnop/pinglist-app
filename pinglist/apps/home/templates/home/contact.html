@@ -61,6 +61,19 @@
                                    value="{{ form.email.value|default_if_none:''|escape }}">
                         </div>
 
+                        <div class="form-group {% if form.subject.errors %}has-error{% endif %}">
+                            <label class="control-label" for="{{ form.subject.name }}">
+                                {% if form.subject.errors %}
+                                    {{ form.subject.label }}<br>{{ form.subject.errors|first|escape }}
+                                {% else %}
+                                    {{ form.subject.label }}
+                                {% endif %}
+                            </label>
+                            <input type="text" class="form-control" id="{{ form.subject.name }}"
+                                   name="{{ form.subject.name }}"
+                                   value="{{ form.subject.value|default_if_none:''|escape }}">
+                        </div>
+
                         <div class="form-group {% if form.message.errors %}has-error{% endif %}">
                             <label class="control-label" for="{{ form.message.name }}">
                                 {% if form.message.errors %}

@@ -495,3 +495,24 @@ class API(object):
                 raise self.APIError(r.json()['error'])
             except ValueError:
                 raise self.APIError(str(e))
+
+    # Send a contact email to the admin
+    def contact(self, name, email, subject, message):
+        r = requests.post(
+            self.hostname + '/v1/accounts/contact',
+            auth=(self.client_id, self.client_secret),
+            json={
+                'name': name,
+                'email': email,
+                'subject': subject,
+                'message': message,
+            },
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))

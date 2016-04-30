@@ -2,6 +2,7 @@ import logging
 
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.http import HttpResponseServerError
 
 from apps import BaseView
 from apps.home.forms import ContactForm
@@ -13,8 +14,14 @@ class IndexView(BaseView):
     template_name = 'home/index.html'
 
     def get(self, request, *args, **kwargs):
-        # Fetch the plans
-        plans = self.api.list_plans()
+        # Fetch subscription plans
+        try:
+            plans = self.api.list_plans()
+
+        # Fetching subscription plans failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
 
         # We only want to display maximum of 4 plans on the homepage
         plans["_embedded"]["plans"] = plans["_embedded"]["plans"][:4]
@@ -58,6 +65,20 @@ class ContactView(BaseView):
                 request=request,
                 form=form,
             )
+
+            # Fire off the contact email
+        try:
+            self.api.contact(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                subject=form.cleaned_data['subject'],
+                message=form.cleaned_data['message'],
+            )
+
+        # Sending contact email failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
 
         # Push success message and redirect back
         messages.success(request, 'Your message has been sent successfully.')
