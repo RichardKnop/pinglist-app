@@ -115,9 +115,9 @@ class API(object):
         return r.json()
 
     # List cards
-    def list_cards(self, access_token, user_id):
+    def list_cards(self, access_token, user_id, page):
         r = requests.get(
-            self.hostname + '/v1/cards?order_by=id desc',
+            self.hostname + '/v1/cards?page={}&order_by=id desc'.format(page),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
         )
@@ -182,10 +182,9 @@ class API(object):
                 raise self.APIError(str(e))
 
     # List subscriptions
-    def list_subscriptions(self, access_token, user_id):
-        print access_token
+    def list_subscriptions(self, access_token, user_id, page):
         r = requests.get(
-            self.hostname + '/v1/subscriptions?order_by=id desc',
+            self.hostname + '/v1/subscriptions?page={}&order_by=id desc'.format(page),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
         )
@@ -303,7 +302,6 @@ class API(object):
 
     # List regions
     def list_regions(self, access_token):
-        print access_token
         r = requests.get(
             self.hostname + '/v1/regions',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
@@ -319,10 +317,9 @@ class API(object):
         return r.json()
 
     # List alarms
-    def list_alarms(self, access_token, user_id):
-        print access_token
+    def list_alarms(self, access_token, user_id, page):
         r = requests.get(
-            self.hostname + '/v1/alarms?order_by=id desc',
+            self.hostname + '/v1/alarms?page={}&order_by=id desc'.format(page),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
         )
@@ -402,9 +399,9 @@ class API(object):
                 raise self.APIError(str(e))
 
     # List alarm incidents
-    def list_alarm_incidents(self, access_token, alarm_id):
+    def list_alarm_incidents(self, access_token, alarm_id, page):
         r = requests.get(
-            self.hostname + '/v1/alarms/{}/incidents'.format(alarm_id),
+            self.hostname + '/v1/alarms/{}/incidents?page={}&order_by=id desc'.format(alarm_id, page),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
         )
         logger.debug(r)
@@ -418,10 +415,9 @@ class API(object):
         return r.json()
 
     # List teams
-    def list_teams(self, access_token, user_id):
-        print access_token
+    def list_teams(self, access_token, user_id, page):
         r = requests.get(
-            self.hostname + '/v1/teams?order_by=id desc',
+            self.hostname + '/v1/teams?page={}&order_by=id desc'.format(page),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
             params={'user_id': user_id},
         )

@@ -82,6 +82,31 @@
             </tbody>
         </table>
 
+        {% if cards.count > 0 %}
+            <nav class="text-center">
+                <ul class="pagination">
+                    <li>
+                        {% if cards|get:'_links'|get:'prev'|get:'href' %}
+                            <a href="{% url 'cards:index' %}?page={{ page|add:-1 }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        {% else %}
+                            <span aria-hidden="true">&laquo;</span>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if cards|get:'_links'|get:'next'|get:'href' %}
+                            <a href="{% url 'cards:index' %}?page={{ page|add:1 }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        {% else %}
+                            <span aria-hidden="true">&raquo;</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
+
         <hr class="featurette-divider">
 
     </div>

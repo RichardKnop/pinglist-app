@@ -26,11 +26,14 @@ class IndexView(BaseView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
+        page = int(request.GET.get('page', 1))
+
         # Fetch teams
         try:
             teams = self.api.list_teams(
                 access_token=request.session['access_token']['access_token'],
                 user_id=request.session['access_token']['user_id'],
+                page=page,
             )
 
         # Fetching teams failed

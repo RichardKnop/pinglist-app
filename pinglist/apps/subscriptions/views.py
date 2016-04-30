@@ -25,11 +25,14 @@ class IndexView(SubscriptionView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
+        page = int(request.GET.get('page', 1))
+
         # Fetch subscriptions
         try:
             subscriptions = self.api.list_subscriptions(
                 access_token=request.session['access_token']['access_token'],
                 user_id=request.session['access_token']['user_id'],
+                page=page,
             )
 
         # Fetching subscriptions failed

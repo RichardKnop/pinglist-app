@@ -25,11 +25,14 @@ class IndexView(AlarmView):
 
     @logged_in
     def get(self, request, *args, **kwargs):
+        page = int(request.GET.get('page', 1))
+
         # Fetch alarms
         try:
             alarms = self.api.list_alarms(
                 access_token=request.session['access_token']['access_token'],
                 user_id=request.session['access_token']['user_id'],
+                page=page,
             )
 
         # Fetching alarms failed
@@ -47,6 +50,7 @@ class IndexView(AlarmView):
             title='Alarms',
             active_link='alarms',
             alarms=alarms,
+            page=page,
         )
 
 
@@ -354,11 +358,14 @@ class AlarmIncidentsIndexView(BaseView):
 
     @logged_in
     def get(self, request, alarm_id, *args, **kwargs):
+        page = int(request.GET.get('page', 1))
+
         # Fetch alarm incidents
         try:
             incidents = self.api.list_alarm_incidents(
                 access_token=request.session['access_token']['access_token'],
                 alarm_id=alarm_id,
+                page=page,
             )
 
         # Fetching alarm incidents failed
