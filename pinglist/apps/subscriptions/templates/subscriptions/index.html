@@ -66,18 +66,28 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% if subscription.status == 'trialing' %}
-                            <span class="label label-default subscription-status">{{ subscription.status|escape }}</span>
-                        {% elif subscription.status == 'active' %}
+                        {% if  subscription.status == 'active' or subscription.status == 'trialing' and not subscription.cancelled_at %}
                             <span class="label label-success subscription-status">{{ subscription.status|escape }}</span>
                         {% else %}
-                            <span class="label label-danger subscription-status">{{ subscription.status|escape }}</span>
+                            <span class="label label-default subscription-status">
+                            {% if subscription.cancelled_at %}
+                                cancelled
+                            {% else %}
+                                {{ subscription.status|escape }}
+                            {% endif %}
+                            </span>
                         {% endif %}
                     </td>
                     <td>{{ subscription|get:'_embedded'|get:'plan'|get:'name' }}</td>
                     <td>{{ subscription.started_at.date|escape }}</td>
                     <td>{{ subscription.cancelled_at.date|escape }}</td>
-                    <td>{{ subscription.ended_at.date|escape }}</td>
+                    <td>
+                        {% if subscription.cancelled_at and not subscription.ended_at %}
+                            {{ subscription.period_end.date|escape }}
+                        {% else %}
+                            {{ subscription.ended_at.date|escape }}
+                        {% endif %}
+                    </td>
                     <td>{{ subscription.trial_start.date|escape }}</td>
                     <td>{{ subscription.trial_end.date|escape }}</td>
                     <td>
