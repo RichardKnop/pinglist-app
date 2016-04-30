@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load filters %}
 
 {% block content %}
 
@@ -9,9 +10,75 @@
             <h1>Contact</h1>
         </div>
 
+        {% for message in messages %}
+            <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.message|escape }}
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ form.non_field_errors|first|escape }}
+            </div>
+        {% endif %}
+
         <!-- First Featurette -->
         <div class="featurette" id="about">
-            <p>TODO</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="contact-form" method="POST" action="{% url 'home:contact' %}">
+                        {% csrf_token %}
+
+                        <div class="form-group {% if form.name.errors %}has-error{% endif %}">
+                            <label class="control-label" for="{{ form.name.name }}">
+                                {% if form.name.errors %}
+                                    {{ form.name.label }}<br>{{ form.name.errors|first|escape }}
+                                {% else %}
+                                    {{ form.name.label }}
+                                {% endif %}
+                            </label>
+                            <input type="text" class="form-control" id="{{ form.name.name }}"
+                                   name="{{ form.name.name }}"
+                                   value="{{ form.name.value|default_if_none:''|escape }}">
+                        </div>
+
+                        <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                            <label class="control-label" for="{{ form.email.name }}">
+                                {% if form.email.errors %}
+                                    {{ form.email.label }}<br>{{ form.email.errors|first|escape }}
+                                {% else %}
+                                    {{ form.email.label }}
+                                {% endif %}
+                            </label>
+                            <input type="text" class="form-control" id="{{ form.email.name }}"
+                                   name="{{ form.email.name }}"
+                                   value="{{ form.email.value|default_if_none:''|escape }}">
+                        </div>
+
+                        <div class="form-group {% if form.message.errors %}has-error{% endif %}">
+                            <label class="control-label" for="{{ form.message.name }}">
+                                {% if form.message.errors %}
+                                    {{ form.message.label }}<br>{{ form.message.errors|first|escape }}
+                                {% else %}
+                                    {{ form.message.label }}
+                                {% endif %}
+                            </label>
+                                <textarea class="form-control" id="{{ form.message.name }}" rows="3"
+                                          name="{{ form.message.name }}">{{ form.message.value|default_if_none:''|escape }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <hr class="featurette-divider">
