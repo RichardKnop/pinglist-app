@@ -82,8 +82,23 @@
                                     {{ form.message.label }}
                                 {% endif %}
                             </label>
-                                <textarea class="form-control" id="{{ form.message.name }}" rows="3"
-                                          name="{{ form.message.name }}">{{ form.message.value|default_if_none:''|escape }}</textarea>
+
+                            <textarea class="form-control" id="{{ form.message.name }}" rows="3"
+                                      name="{{ form.message.name }}">{{ form.message.value|default_if_none:''|escape }}</textarea>
+                        </div>
+
+                        <div class="form-group {% if form.captcha.errors %}has-error{% endif %}">
+                            <label class="control-label" for="{{ form.captcha.name }}">
+                                {% if form.captcha.errors %}
+                                    {{ form.captcha.label }}<br>{{ form.captcha.errors|first|escape }}
+                                {% else %}
+                                    {{ form.captcha.label }}
+                                {% endif %}
+                            </label>
+
+                            <div class="clearfix">
+                                {{ form.captcha }}
+                            </div>
                         </div>
 
                         <div class="form-group">

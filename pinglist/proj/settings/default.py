@@ -20,6 +20,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.humanize',
+    'captcha',
     'apps.home',
     'apps.auth',
     'apps.alarms',
@@ -119,6 +120,10 @@ FACEBOOK_APP_SECRET = cnf['Facebook']['AppSecret']
 FACEBOOK_SCOPE = "public_profile,email"
 STRIPE_PUBLISHABLE_KEY = cnf['Stripe']['PublishableKey']
 
+CAPTCHA_IMAGE_TEMPLATE = 'home/captcha/image.html'
+CAPTCHA_HIDDEN_FIELD_TEMPLATE = 'home/captcha/hidden_field.html'
+CAPTCHA_TEXT_FIELD_TEMPLATE = 'home/captcha/text_field.html'
+CAPTCHA_FIELD_TEMPLATE = 'home/captcha/field.html'
 
 
 
