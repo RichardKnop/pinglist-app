@@ -310,6 +310,9 @@ footer {
 .table {
     min-width: 940px;
 }
+.table-container .table {
+    margin-bottom: 0;
+}
 
 /* Labels */
 
