@@ -9,6 +9,6 @@ from apps.home.views import (
 
 urlpatterns = [
     url(r'^contact', ContactView.as_view(), name='contact'),
-    url(r'^terms$', FAQView.as_view(), name='faq'),
+    url(r'^faq', FAQView.as_view(), name='faq'),
     url(r'^$', IndexView.as_view(), name='index'),
 ]
