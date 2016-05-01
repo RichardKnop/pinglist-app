@@ -20,105 +20,111 @@
             </div>
         {% endfor %}
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Type</th>
-                <th>HTTP Code</th>
-                <th>Response Time</th>
-                <th>Response</th>
-                <th>Error Message</th>
-                <th>Resolved At</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for incident in incidents|get:'_embedded'|get:'incidents' %}
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>{{ incident.id|escape }}</td>
-                    <td>
-                        {% if incident.type == 'slow_response' %}
-                            <span class="label label-default incident-type">slow</span>
-                        {% elif incident.type == 'bad_code' %}
-                            <span class="label label-default incident-type">bad code</span>
-                        {% else %}
-                            <span class="label label-default incident-type">{{ incident.type|escape }}</span>
-                        {% endif %}
-                    </td>
-                    <td>{{ incident.http_code|escape }}</td>
-                    <td>
-                        {% if incident.response_time %}
-                            {{ incident.response_time|divide:1000000|escape }}ms
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if incident.response %}
-                            <!-- Button trigger modal -->
-                            <a data-toggle="modal" data-target="#response-{{ incident.id|escape }}">
-                                <span class="label label-default action-button">
-                                    Expand
-                                </span>
-                            </a>
-                            <!-- Modal -->
-                            <div class="modal fade" id="response-{{ incident.id|escape }}" tabindex="-1" role="dialog"
-                                 aria-labelledby="#response-label-{{ incident.id|escape }}">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="#response-label-{{ incident.id|escape }}">
-                                                Response
-                                            </h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <pre class="pre-scrollable">{{ incident.response|escape }}</pre>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if incident.error_message %}
-                            <!-- Button trigger modal -->
-                            <a data-toggle="modal" data-target="#error-message-{{ incident.id|escape }}">
-                                <span class="label label-default action-button">
-                                    Expand
-                                </span>
-                            </a>
-                            <!-- Modal -->
-                            <div class="modal fade" id="error-message-{{ incident.id|escape }}" tabindex="-1"
-                                 role="dialog"
-                                 aria-labelledby="#error-message-label-{{ incident.id|escape }}">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="#error-message-label-{{ incident.id|escape }}">
-                                                Error Message
-                                            </h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <pre class="pre-scrollable">{{ incident.error_message|escape }}</pre>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </td>
-                    <td>{{ incident.resolved_at|default_if_none:''|naturaltime|escape }}</td>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>HTTP Code</th>
+                    <th>Response Time</th>
+                    <th>Response</th>
+                    <th>Error Message</th>
+                    <th>Resolved At</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for incident in incidents|get:'_embedded'|get:'incidents' %}
+                    <tr>
+                        <td>{{ incident.id|escape }}</td>
+                        <td>
+                            {% if incident.type == 'slow_response' %}
+                                <span class="label label-default incident-type">slow</span>
+                            {% elif incident.type == 'bad_code' %}
+                                <span class="label label-default incident-type">bad code</span>
+                            {% else %}
+                                <span class="label label-default incident-type">{{ incident.type|escape }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ incident.http_code|escape }}</td>
+                        <td>
+                            {% if incident.response_time %}
+                                {{ incident.response_time|divide:1000000|escape }}ms
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if incident.response %}
+                                <!-- Button trigger modal -->
+                                <a data-toggle="modal" data-target="#response-{{ incident.id|escape }}">
+                                <span class="label label-default action-button">
+                                    Expand
+                                </span>
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="response-{{ incident.id|escape }}" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="#response-label-{{ incident.id|escape }}">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="#response-label-{{ incident.id|escape }}">
+                                                    Response
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <pre class="pre-scrollable">{{ incident.response|escape }}</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if incident.error_message %}
+                                <!-- Button trigger modal -->
+                                <a data-toggle="modal" data-target="#error-message-{{ incident.id|escape }}">
+                                <span class="label label-default action-button">
+                                    Expand
+                                </span>
+                                </a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="error-message-{{ incident.id|escape }}" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="#error-message-label-{{ incident.id|escape }}">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title"
+                                                    id="#error-message-label-{{ incident.id|escape }}">
+                                                    Error Message
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <pre class="pre-scrollable">{{ incident.error_message|escape }}</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>{{ incident.resolved_at|default_if_none:''|naturaltime|escape }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         {% if incidents.count > 0 %}
             <nav class="text-center">

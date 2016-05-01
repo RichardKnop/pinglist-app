@@ -36,70 +36,72 @@
             </div>
         {% endif %}
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Status</th>
-                <th>Region</th>
-                <th>Endpoint URL</th>
-                <th>HTTP Code</th>
-                <th>Response Time</th>
-                <th>Interval</th>
-                <th>Active</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for alarm in alarms|get:'_embedded'|get:'alarms' %}
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>
-                        <a href="{% url 'alarms:update' alarm.id %}">{{ alarm.id|escape }}</a>
-                    </td>
-                    <td>
-                        {% if alarm.state == 'ok' %}
-                            <a href="{% url 'alarms:alarm_incidents' alarm.id %}">
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Region</th>
+                    <th>Endpoint URL</th>
+                    <th>HTTP Code</th>
+                    <th>Response Time</th>
+                    <th>Interval</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for alarm in alarms|get:'_embedded'|get:'alarms' %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'alarms:update' alarm.id %}">{{ alarm.id|escape }}</a>
+                        </td>
+                        <td>
+                            {% if alarm.state == 'ok' %}
+                                <a href="{% url 'alarms:alarm_incidents' alarm.id %}">
                                 <span class="label label-success alarm-status">
                                     {{ alarm.state|escape }}
                                 </span>
-                            </a>
-                        {% elif alarm.state == 'insufficient_data' %}
-                            <a href="{% url 'alarms:alarm_incidents' alarm.id %}">
+                                </a>
+                            {% elif alarm.state == 'insufficient_data' %}
+                                <a href="{% url 'alarms:alarm_incidents' alarm.id %}">
                                 <span class="label label-default alarm-status">
                                     n/a
                                 </span>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'alarms:alarm_incidents' alarm.id %}">
+                                </a>
+                            {% else %}
+                                <a href="{% url 'alarms:alarm_incidents' alarm.id %}">
                                 <span class="label label-danger alarm-status">
                                     {{ alarm.state|escape }}
                                 </span>
-                            </a>
-                        {% endif %}
-                    </td>
-                    <td>{{ alarm.region|escape }}</td>
-                    <td>{{ alarm.endpoint_url|escape }}</td>
-                    <td>{{ alarm.expected_http_code|escape }}</td>
-                    <td>{{ alarm.max_response_time|escape }}ms</td>
-                    <td>{{ alarm.interval|escape }}s</td>
-                    <td>
-                        {% if alarm.active %}
-                            <span class="label label-success alarm-active">yes</span>
-                        {% else %}
-                            <span class="label label-default alarm-active">no</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url 'alarms:delete' alarm.id %}">
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>{{ alarm.region|escape }}</td>
+                        <td>{{ alarm.endpoint_url|escape }}</td>
+                        <td>{{ alarm.expected_http_code|escape }}</td>
+                        <td>{{ alarm.max_response_time|escape }}ms</td>
+                        <td>{{ alarm.interval|escape }}s</td>
+                        <td>
+                            {% if alarm.active %}
+                                <span class="label label-success alarm-active">yes</span>
+                            {% else %}
+                                <span class="label label-default alarm-active">no</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'alarms:delete' alarm.id %}">
                             <span class="label label-danger action-button">
                                 Delete
                             </span>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         {% if alarms.count > 0 %}
             <nav class="text-center">
