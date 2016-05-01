@@ -126,7 +126,7 @@
             </table>
         </div>
 
-        {% if incidents.count > 0 %}
+        {% if incidents|get:'_links'|get:'prev'|get:'href' or incidents|get:'_links'|get:'next'|get:'href' %}
             <nav class="text-center">
                 <ul class="pagination">
                     <li>

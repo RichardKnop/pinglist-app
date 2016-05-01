@@ -70,7 +70,7 @@
             </tbody>
         </table>
 
-        {% if teams.count > 0 %}
+        {% if teams|get:'_links'|get:'prev'|get:'href' or teams|get:'_links'|get:'next'|get:'href' %}
             <nav class="text-center">
                 <ul class="pagination">
                     <li>

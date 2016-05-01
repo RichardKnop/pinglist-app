@@ -84,7 +84,7 @@
             </table>
         </div>
 
-        {% if cards.count > 0 %}
+        {% if cards|get:'_links'|get:'prev'|get:'href' or cards|get:'_links'|get:'next'|get:'href' %}
             <nav class="text-center">
                 <ul class="pagination">
                     <li>

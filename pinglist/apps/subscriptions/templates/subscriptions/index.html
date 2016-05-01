@@ -125,7 +125,7 @@
             </table>
         </div>
 
-        {% if subscriptions.count > 0 %}
+        {% if subscriptions|get:'_links'|get:'prev'|get:'href' or subscriptions|get:'_links'|get:'next'|get:'href' %}
             <nav class="text-center">
                 <ul class="pagination">
                     <li>
