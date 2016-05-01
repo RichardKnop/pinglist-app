@@ -10,6 +10,7 @@ class RegisterForm(forms.Form):
     password = forms.CharField(
         required=True,
         label='Password',
+        min_length=6,
     )
 
 
