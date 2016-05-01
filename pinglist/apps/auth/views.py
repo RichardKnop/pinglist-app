@@ -45,9 +45,12 @@ class RegisterView(BaseView):
                 username=form.cleaned_data['email'],
                 password=form.cleaned_data['password'],
             )
+
+            # Push success message and redirect to the login view
+            messages.success(request, 'Thank you for registering. You can now log in to your account.')
             return redirect('auth:login')
 
-        # Registering failed, probably incorrect username and/or password
+        # Registering failed
         except self.api.APIError as e:
             logger.error(str(e))
             form.add_error(None, str(e))

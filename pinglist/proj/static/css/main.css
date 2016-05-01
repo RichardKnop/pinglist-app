@@ -248,6 +248,15 @@ footer {
 
 /* Landing page header image */
 
+.jumbotron {
+    padding: 0;
+}
+
+.jumbotron .alert {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
 .header-image {
     display: block;
     width: 100%;
@@ -274,7 +283,7 @@ footer {
 }
 
 .header-image .headline {
-    padding: 100px 0;
+    padding: 148px 0;
 }
 
 .header-image .headline h1 {
@@ -285,7 +294,7 @@ footer {
 
 .form-signin {
     max-width: 300px;
-    padding: 19px 29px 29px;
+    padding: 0 29px 29px;
     margin: 0 auto 20px;
 }
 
