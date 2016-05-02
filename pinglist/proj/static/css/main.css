@@ -180,7 +180,15 @@ a.ios-download-badge img {
     color: #B9E88A;
 }
 
-.header-image .headline a.btn-facebook {
+.header-image .headline a.btn {
+    color: #27303C;
+}
+
+.header-image .headline a.btn:hover {
+    color: #B9E88A;
+}
+
+.header-image .headline a.btn-facebook, .header-image .headline a.btn-facebook:hover {
     color: white;
 }
 
