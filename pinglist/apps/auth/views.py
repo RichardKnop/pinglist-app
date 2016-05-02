@@ -11,6 +11,7 @@ from apps import BaseView
 from apps.auth.forms import (
     RegisterForm,
     LoginForm,
+    ResetPasswordForm,
 )
 
 from . import (
@@ -178,3 +179,46 @@ class LogoutView(BaseView):
     def get(self, request, *args, **kwargs):
         request.session.flush()
         return redirect(settings.LOGIN_VIEW)
+
+
+class ResetPasswordView(BaseView):
+    form_class = ResetPasswordForm
+    template_name = 'auth/reset-password.html'
+
+    def get(self, request, *args, **kwargs):
+        # Init the form
+        form = self.form_class(initial=self.initial)
+
+        return self._render(request=request, form=form)
+
+    def post(self, request, *args, **kwargs):
+        # Init the form
+        form = self.form_class(request.POST)
+
+        # Validate POST data
+        if not form.is_valid():
+            return self._render(request=request, form=form)
+
+        # Reset the password
+        try:
+            self.api.reset_password(
+                email=form.cleaned_data['email'],
+            )
+
+            # Push success message and redirect to the login view
+            messages.success(request, 'We have sent an email with further instructions '
+                                      'on how to reset your password to your email address.')
+            return redirect('auth:login')
+
+        # Registering failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            form.add_error(None, str(e))
+            return self._render(request=request, form=form)
+
+    def _render(self, request, form):
+        return super(ResetPasswordView, self)._render(
+            request=request,
+            form=form,
+            title='Reset Password',
+        )

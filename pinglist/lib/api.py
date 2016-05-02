@@ -58,6 +58,24 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Resets a user password
+    def reset_password(self, email):
+        r = requests.post(
+            self.hostname + '/v1/accounts/password-reset',
+            auth=(self.client_id, self.client_secret),
+            json={
+                'email': email,
+            },
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+
     # Refreshes an access token
     def refresh_token(self, refresh_token):
         r = requests.post(

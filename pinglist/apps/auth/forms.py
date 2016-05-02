@@ -24,3 +24,11 @@ class LoginForm(forms.Form):
         required=True,
         label='Password',
     )
+
+
+class ResetPasswordForm(forms.Form):
+
+    email = forms.EmailField(
+        required=True,
+        label='Email',
+    )
