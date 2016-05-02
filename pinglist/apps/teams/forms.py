@@ -30,7 +30,7 @@ class TeamForm(forms.Form):
     members = MultiEmailField(
         required=False,
         widget=forms.Textarea,
-        label='Members (comma separated list of emails)',
+        label='Members (type email address and press Enter)',
     )
 
 
