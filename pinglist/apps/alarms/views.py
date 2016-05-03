@@ -384,5 +384,7 @@ class AlarmIncidentsIndexView(BaseView):
             request=request,
             title='Alarm Incidents',
             active_link='alarms',
+            alarm_id=alarm_id,
             incidents=incidents,
+            page=page,
         )

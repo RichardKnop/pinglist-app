@@ -131,7 +131,7 @@
                 <ul class="pagination">
                     <li>
                         {% if incidents|get:'_links'|get:'prev'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_incidents' %}?page={{ page|add:-1 }}" aria-label="Previous">
+                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:-1 }}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         {% else %}
@@ -140,7 +140,7 @@
                     </li>
                     <li>
                         {% if incidents|get:'_links'|get:'next'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_incidents' %}?page={{ page|add:1 }}" aria-label="Next">
+                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:1 }}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         {% else %}
