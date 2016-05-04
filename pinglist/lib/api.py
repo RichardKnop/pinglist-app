@@ -433,11 +433,13 @@ class API(object):
         return r.json()
 
     # List alarm metrics
-    def list_alarm_metrics(self, access_token, alarm_id, date_trunc, date_from, date_to):
+    def list_alarm_metrics(self, access_token, alarm_id, date_trunc, date_from, date_to, page):
         params = {k: v for k, v in {
             'date_trunc': date_trunc if date_trunc else None,
-            'from': date_from.utcnow().isoformat() + 'Z' if date_from else None,
-            'to': date_to.utcnow().isoformat() + 'Z' if date_to else None,
+            'from': date_from.isoformat() + 'Z' if date_from else None,
+            'to': date_to().isoformat() + 'Z' if date_to else None,
+            'page': page if page else None,
+            'limit': 100, # max limit
         }.iteritems() if v}
         r = requests.get(
             self.hostname + '/v1/alarms/{}/response-times?{}'.format(
