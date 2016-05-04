@@ -6,7 +6,7 @@ import logging
 import sys
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -73,6 +73,22 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
 
 etcd_client = etcd.Client(
     host=os.getenv('ETCD_HOST', 'localhost'),

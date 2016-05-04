@@ -30,6 +30,7 @@
                     <th>Response Time</th>
                     <th>Response</th>
                     <th>Error Message</th>
+                    <th>Resolved</th>
                     <th>Resolved At</th>
                 </tr>
                 </thead>
@@ -119,6 +120,13 @@
                                 N/A
                             {% endif %}
                         </td>
+                        <td>
+                            {% if incident.resolved_at %}
+                                <span class="label label-success alarm-active">yes</span>
+                            {% else %}
+                                <span class="label label-danger alarm-active">no</span>
+                            {% endif %}
+                        </td>
                         <td>{{ incident.resolved_at|default_if_none:''|naturaltime|escape }}</td>
                     </tr>
                 {% endfor %}
@@ -131,7 +139,8 @@
                 <ul class="pagination">
                     <li>
                         {% if incidents|get:'_links'|get:'prev'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:-1 }}" aria-label="Previous">
+                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:-1 }}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         {% else %}
@@ -140,7 +149,8 @@
                     </li>
                     <li>
                         {% if incidents|get:'_links'|get:'next'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:1 }}" aria-label="Next">
+                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:1 }}"
+                               aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         {% else %}

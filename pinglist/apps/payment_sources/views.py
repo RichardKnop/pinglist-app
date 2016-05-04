@@ -17,7 +17,7 @@ from apps.payment_sources.forms import (
 )
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class IndexView(BaseView):

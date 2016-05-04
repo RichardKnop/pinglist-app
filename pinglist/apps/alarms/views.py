@@ -7,6 +7,7 @@ from django.http import (
     HttpResponseNotFound,
 )
 from django.utils.dateparse import parse_datetime
+from django.utils.timezone import datetime, timedelta
 
 from lib.auth import logged_in
 from apps import BaseView
@@ -17,7 +18,7 @@ from apps.alarms.forms import (
     DeleteForm,
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class IndexView(AlarmView):
@@ -353,7 +354,7 @@ class DeleteView(AlarmView):
         )
 
 
-class AlarmIncidentsIndexView(BaseView):
+class AlarmIncidentsView(BaseView):
     template_name = 'alarms/alarm-incidents.html'
 
     @logged_in
@@ -387,4 +388,56 @@ class AlarmIncidentsIndexView(BaseView):
             alarm_id=alarm_id,
             incidents=incidents,
             page=page,
+        )
+
+
+class AlarmMetricsView(BaseView):
+    template_name = 'alarms/alarm-metrics.html'
+
+    @logged_in
+    def get(self, request, alarm_id, *args, **kwargs):
+        active_filter = request.GET.get('filter', '')
+        today = datetime.today()
+        metrics_params = {
+            'last_hour': {
+                'date_trunc': None,
+                "date_from": today - timedelta(hours=1),
+            },
+            'last_day': {
+                'date_trunc': 'hour',
+                "date_from": today - timedelta(days=1),
+            },
+            'last_week': {
+                'date_trunc': 'hour',
+                "date_from": today - timedelta(days=7),
+            },
+            'last_month': {
+                'date_trunc': 'day',
+                "date_from": today - timedelta(days=30),
+            },
+        }
+
+        # Fetch the alarm metrics
+        try:
+            metrics = self.api.list_alarm_metrics(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+                date_trunc=metrics_params[active_filter]['date_trunc'],
+                date_from=metrics_params[active_filter]['date_from'],
+                date_to=None,
+            )
+
+        # Fetching alarm metrics failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+
+        return self._render(
+            request=request,
+            title='Alarm Metrics',
+            active_link='alarms',
+            alarm_id=alarm_id,
+            metrics=metrics,
+            active_filter=active_filter,
         )

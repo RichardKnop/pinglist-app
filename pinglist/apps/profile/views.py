@@ -9,7 +9,7 @@ from apps import BaseView
 from apps.profile.forms import ProfileForm
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class IndexView(BaseView):

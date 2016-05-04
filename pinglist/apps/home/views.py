@@ -8,7 +8,7 @@ from apps import BaseView
 from apps.home.models import FAQ
 from apps.home.forms import ContactForm
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class IndexView(BaseView):

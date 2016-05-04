@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import requests
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class API(object):
@@ -420,6 +420,30 @@ class API(object):
     def list_alarm_incidents(self, access_token, alarm_id, page):
         r = requests.get(
             self.hostname + '/v1/alarms/{}/incidents?page={}&order_by=id desc'.format(alarm_id, page),
+            headers={'Authorization': 'Bearer {}'.format(access_token)},
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+        return r.json()
+
+    # List alarm metrics
+    def list_alarm_metrics(self, access_token, alarm_id, date_trunc, date_from, date_to):
+        params = {k: v for k, v in {
+            'date_trunc': date_trunc if date_trunc else None,
+            'from': date_from.utcnow().isoformat() + 'Z' if date_from else None,
+            'to': date_to.utcnow().isoformat() + 'Z' if date_to else None,
+        }.iteritems() if v}
+        r = requests.get(
+            self.hostname + '/v1/alarms/{}/response-times?{}'.format(
+                alarm_id,
+                '&'.join(['{}={}'.format(k, v) for k, v in params.iteritems()]),
+            ),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
         )
         logger.debug(r)

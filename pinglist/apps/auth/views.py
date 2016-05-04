@@ -19,7 +19,7 @@ from . import (
     get_facebook_redirect_uri
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class RegisterView(BaseView):

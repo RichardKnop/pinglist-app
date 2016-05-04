@@ -42,6 +42,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Status</th>
+                    <th>Metrics</th>
                     <th>Region</th>
                     <th>Endpoint URL</th>
                     <th>HTTP Code</th>
@@ -77,6 +78,13 @@
                                 </span>
                                 </a>
                             {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_hour">
+                                <span class="label label-info alarm-status">
+                                    metrics
+                                </span>
+                            </a>
                         </td>
                         <td>{{ alarm.region|escape }}</td>
                         <td>{{ alarm.endpoint_url|escape }}</td>

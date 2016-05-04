@@ -17,7 +17,7 @@ from apps.subscriptions.forms import (
 )
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class IndexView(SubscriptionView):
