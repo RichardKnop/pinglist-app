@@ -42,8 +42,8 @@
         </ul>
 
         <div class="panel panel-default">
-            <div class="panel-body">
-                <canvas id="metricsChart" width="400" height="150"></canvas>
+            <div class="panel-body metrics-container">
+                <canvas id="metrics-chart" class="metrics-chart" width="920" height="500"></canvas>
             </div>
             <div class="panel-footer text-center">
                 <div class="btn-group" role="group" aria-label="filter">
@@ -79,7 +79,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.0/Chart.min.js"></script>
 <script>
     {% autoescape off %}
-    var ctx = document.getElementById("metricsChart");
+    var ctx = document.getElementById("metrics-chart");
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -98,7 +98,12 @@
                         beginAtZero: true
                     }
                 }]
+            },
+                    defaults: {
+            global: {
+                responsive: false
             }
+        }
         }
     });
     {% endautoescape %}
