@@ -22,22 +22,22 @@
 
         <ul class="list-inline">
             <li><span class="label label-default">
-                Uptime {{ uptime|escape }}%
+                Uptime {{ metrics.uptime|escape }}%
             </span></li>
             <li><span class="label label-default">
                 Average {{ average|escape }}ms
             </span></li>
             <li><span class="label label-default">
-                Timeouts {{ incident_type_counts.timeout|escape }}
+                Timeouts {{ metrics.incident_type_counts.timeout|escape }}
             </span></li>
             <li><span class="label label-default">
-                Bad codes {{ incident_type_counts.bad_code|escape }}
+                Bad codes {{ metrics.incident_type_counts.bad_code|escape }}
             </span></li>
             <li><span class="label label-default">
-                Slow responses {{ incident_type_counts.slow_response|escape }}
+                Slow responses {{ metrics.incident_type_counts.slow_response|escape }}
             </span></li>
             <li><span class="label label-default">
-                Other errors {{ incident_type_counts.other|escape }}
+                Other errors {{ metrics.incident_type_counts.other|escape }}
             </span></li>
         </ul>
 
@@ -65,6 +65,30 @@
                     </a>
                 </div>
 
+                {% if metrics|get:'_links'|get:'prev'|get:'href' or metrics|get:'_links'|get:'next'|get:'href' %}
+                    <nav class="text-center">
+                        <ul class="pagination">
+                            <li>
+                                {% if metrics|get:'_links'|get:'prev'|get:'href' %}
+                                    <a href="{% url 'alarms:alarm_metrics' alarm_id %}?filter={{ active_filter|escape }}&page={{ page|add:-1 }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                {% else %}
+                                    <span aria-hidden="true">&laquo;</span>
+                                {% endif %}
+                            </li>
+                            <li>
+                                {% if metrics|get:'_links'|get:'next'|get:'href' %}
+                                    <a href="{% url 'alarms:alarm_metrics' alarm_id %}?filter={{ active_filter|escape }}&page={{ page|add:1 }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                {% else %}
+                                    <span aria-hidden="true">&raquo;</span>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
             </div>
         </div>
 

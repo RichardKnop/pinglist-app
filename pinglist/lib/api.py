@@ -439,7 +439,8 @@ class API(object):
             'from': date_from.isoformat() + 'Z' if date_from else None,
             'to': date_to().isoformat() + 'Z' if date_to else None,
             'page': page if page else None,
-            'limit': 100, # max limit
+            'order_by': 'timestamp desc',
+            'limit': 10,
         }.iteritems() if v}
         r = requests.get(
             self.hostname + '/v1/alarms/{}/response-times?{}'.format(

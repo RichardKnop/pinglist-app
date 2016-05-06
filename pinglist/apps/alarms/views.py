@@ -395,78 +395,84 @@ class AlarmIncidentsView(BaseView):
 class AlarmMetricsView(BaseView):
     template_name = 'alarms/alarm-metrics.html'
 
+    today = datetime.today().utcnow()
+    hour_ago = today - timedelta(hours=1)
+    day_ago = today - timedelta(days=1)
+    week_ago = today - timedelta(days=7)
+    month_ago = today - timedelta(days=30)
+
+    metrics_params = {
+        'last_hour': {
+            'date_trunc': None,
+            "date_from": hour_ago,
+        },
+        'last_day': {
+            'date_trunc': 'hour',
+            "date_from": day_ago,
+        },
+        'last_week': {
+            'date_trunc': 'hour',
+            "date_from": week_ago,
+        },
+        'last_month': {
+            'date_trunc': 'day',
+            "date_from": month_ago,
+        },
+    }
+
+
     @logged_in
     def get(self, request, alarm_id, *args, **kwargs):
         active_filter = request.GET.get('filter', '')
-        today = datetime.today().utcnow()
-        hour_ago = today - timedelta(hours=1)
-        day_ago = today - timedelta(days=1)
-        week_ago = today - timedelta(days=7)
-        month_ago = today - timedelta(days=30)
-        metrics_params = {
-            'last_hour': {
-                'date_trunc': None,
-                "date_from": hour_ago,
-            },
-            'last_day': {
-                'date_trunc': 'hour',
-                "date_from": day_ago,
-            },
-            'last_week': {
-                'date_trunc': 'hour',
-                "date_from": week_ago,
-            },
-            'last_month': {
-                'date_trunc': 'day',
-                "date_from": month_ago,
-            },
-        }
+        page = int(request.GET.get('page', 1))
+
+        try:
+            date_trunc = self.metrics_params[active_filter]['date_trunc']
+        except KeyError:
+            date_trunc = None
+
+        try:
+            date_from = self.metrics_params[active_filter]['date_from']
+        except KeyError:
+            date_from = None
 
         # Fetch the alarm metrics
         timestamps = []
         values = []
         try:
-            max_iterations = 5
-            page = 1
-            while True:
-                metrics = self.api.list_alarm_metrics(
-                    access_token=request.session['access_token']['access_token'],
-                    alarm_id=alarm_id,
-                    date_trunc=metrics_params[active_filter]['date_trunc'],
-                    date_from=metrics_params[active_filter]['date_from'],
-                    date_to=None,
-                    page=page,
-                )
-                for m in metrics['_embedded']['response_times']:
-                    timestamps.append(m['timestamp'])
-                    values.append(m['value'])
-                if not metrics['_links']['next']['href'] or page >= max_iterations:
-                    break
-                page += 1
-            uptime = metrics['uptime']
-            average = '%.2f' % (metrics['average']/1000000,)
-            incident_type_counts = metrics['incident_type_counts']
+            metrics = self.api.list_alarm_metrics(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=alarm_id,
+                date_trunc=date_trunc,
+                date_from=date_from,
+                date_to=None,
+                page=page,
+            )
 
         # Fetching alarm metrics failed
         except self.api.APIError as e:
             logger.error(str(e))
             return HttpResponseServerError()
 
+        for m in metrics['_embedded']['response_times']:
+            timestamps.append(m['timestamp'])
+            values.append(m['value'])
+
         labels = ', '.join([
-            '\'{}\''.format(naturaltime(parse_datetime(t)).encode('utf-8'))
-            for t in timestamps
-        ])
-        data = ', '.join([str(v/1000000) for v in values])
+                               '\'{}\''.format(naturaltime(parse_datetime(t)).encode('utf-8'))
+                               for t in timestamps
+                               ])
+        data = ', '.join([str(v / 1000000) for v in values])
 
         return self._render(
             request=request,
             title='Alarm Metrics',
             active_link='alarms',
             alarm_id=alarm_id,
+            average='%.2f' % (metrics['average'] / 1000000,),
             labels=labels,
             data=data,
-            uptime=uptime,
-            average=average,
-            incident_type_counts=incident_type_counts,
             active_filter=active_filter,
+            page=page,
+            metrics=metrics,
         )
