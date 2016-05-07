@@ -440,7 +440,6 @@ class API(object):
             'to': date_to().isoformat() + 'Z' if date_to else None,
             'page': page if page else None,
             'order_by': 'timestamp desc',
-            'limit': 10,
         }.iteritems() if v}
         r = requests.get(
             self.hostname + '/v1/alarms/{}/response-times?{}'.format(

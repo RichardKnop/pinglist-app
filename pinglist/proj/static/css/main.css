@@ -133,6 +133,24 @@ a.ios-download-badge img {
     border-color: #27303C;
 }
 
+/* Pagination */
+.pagination {
+    margin: 20px 0 0;
+}
+.pagination > li > a, .pagination > li > span {
+    background-color: #B9E88A;
+    color: #27303C;
+    border-color: #B9E88A;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    background-color: #27303C;
+    color: #B9E88A;
+    border-color: #27303C;
+}
+
 /* Landing page header image */
 
 .jumbotron {

@@ -21,6 +21,31 @@ from apps.alarms.forms import (
 
 logger = logging.getLogger('django')
 
+today = datetime.today().utcnow()
+hour_ago = today - timedelta(hours=1)
+day_ago = today - timedelta(days=1)
+week_ago = today - timedelta(days=7)
+month_ago = today - timedelta(days=30)
+
+METRICS_OPTIONS = {
+    'last_hour': {
+        'date_trunc': None,
+        "date_from": hour_ago,
+    },
+    'last_day': {
+        'date_trunc': 'hour',
+        "date_from": day_ago,
+    },
+    'last_week': {
+        'date_trunc': 'day',
+        "date_from": week_ago,
+    },
+    'last_month': {
+        'date_trunc': 'day',
+        "date_from": month_ago,
+    },
+}
+
 
 class IndexView(AlarmView):
     template_name = 'alarms/index.html'
@@ -395,44 +420,18 @@ class AlarmIncidentsView(BaseView):
 class AlarmMetricsView(BaseView):
     template_name = 'alarms/alarm-metrics.html'
 
-    today = datetime.today().utcnow()
-    hour_ago = today - timedelta(hours=1)
-    day_ago = today - timedelta(days=1)
-    week_ago = today - timedelta(days=7)
-    month_ago = today - timedelta(days=30)
-
-    metrics_params = {
-        'last_hour': {
-            'date_trunc': None,
-            "date_from": hour_ago,
-        },
-        'last_day': {
-            'date_trunc': 'hour',
-            "date_from": day_ago,
-        },
-        'last_week': {
-            'date_trunc': 'hour',
-            "date_from": week_ago,
-        },
-        'last_month': {
-            'date_trunc': 'day',
-            "date_from": month_ago,
-        },
-    }
-
-
     @logged_in
     def get(self, request, alarm_id, *args, **kwargs):
         active_filter = request.GET.get('filter', '')
         page = int(request.GET.get('page', 1))
 
         try:
-            date_trunc = self.metrics_params[active_filter]['date_trunc']
+            date_trunc = METRICS_OPTIONS[active_filter]['date_trunc']
         except KeyError:
             date_trunc = None
 
         try:
-            date_from = self.metrics_params[active_filter]['date_from']
+            date_from = METRICS_OPTIONS[active_filter]['date_from']
         except KeyError:
             date_from = None
 
