@@ -45,23 +45,25 @@
             <div class="panel-body metrics-container">
                 <canvas id="metrics-chart" class="metrics-chart" width="920" height="500"></canvas>
             </div>
-            <div class="panel-footer text-center">
+        </div>
+
+                <div class="text-center">
                 <div class="btn-group" role="group" aria-label="filter">
                     <a class="btn btn-primary{% if active_filter == 'last_hour' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm_id %}?filter=last_hour">
-                        1-Hour
+                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_hour">
+                        1 Hour
                     </a>
                     <a class="btn btn-primary{% if active_filter == 'last_day' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm_id %}?filter=last_day">
-                        24-Hour
+                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_day">
+                        24 Hours
                     </a>
                     <a class="btn btn-primary{% if active_filter == 'last_week' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm_id %}?filter=last_week">
-                        7-Day
+                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_week">
+                        7 Days
                     </a>
                     <a class="btn btn-primary{% if active_filter == 'last_month' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm_id %}?filter=last_month">
-                        1-Month
+                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_month">
+                        1 Month
                     </a>
                 </div>
 
@@ -70,7 +72,7 @@
                         <ul class="pagination">
                             <li>
                                 {% if metrics|get:'_links'|get:'prev'|get:'href' %}
-                                    <a href="{% url 'alarms:alarm_metrics' alarm_id %}?filter={{ active_filter|escape }}&page={{ page|add:-1 }}" aria-label="Previous">
+                                    <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page={{ page|add:-1 }}" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 {% else %}
@@ -79,7 +81,7 @@
                             </li>
                             <li>
                                 {% if metrics|get:'_links'|get:'next'|get:'href' %}
-                                    <a href="{% url 'alarms:alarm_metrics' alarm_id %}?filter={{ active_filter|escape }}&page={{ page|add:1 }}" aria-label="Next">
+                                    <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page={{ page|add:1 }}" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 {% else %}
@@ -90,7 +92,6 @@
                     </nav>
                 {% endif %}
             </div>
-        </div>
 
         <hr class="featurette-divider">
 

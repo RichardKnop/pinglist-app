@@ -385,6 +385,18 @@ class AlarmIncidentsView(BaseView):
 
     @logged_in
     def get(self, request, alarm_id, *args, **kwargs):
+        # Get the alarm
+        try:
+            alarm = self.api.get_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=int(alarm_id),
+            )
+
+        # Alarm not found
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseNotFound()
+
         page = int(request.GET.get('page', 1))
 
         # Fetch alarm incidents
@@ -411,7 +423,7 @@ class AlarmIncidentsView(BaseView):
             request=request,
             title='Alarm Incidents',
             active_link='alarms',
-            alarm_id=alarm_id,
+            alarm=alarm,
             incidents=incidents,
             page=page,
         )
@@ -422,6 +434,18 @@ class AlarmMetricsView(BaseView):
 
     @logged_in
     def get(self, request, alarm_id, *args, **kwargs):
+        # Get the alarm
+        try:
+            alarm = self.api.get_alarm(
+                access_token=request.session['access_token']['access_token'],
+                alarm_id=int(alarm_id),
+            )
+
+        # Alarm not found
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseNotFound()
+
         active_filter = request.GET.get('filter', '')
         page = int(request.GET.get('page', 1))
 
@@ -467,11 +491,11 @@ class AlarmMetricsView(BaseView):
             request=request,
             title='Alarm Metrics',
             active_link='alarms',
-            alarm_id=alarm_id,
+            alarm=alarm,
+            metrics=metrics,
             average='%.2f' % (metrics['average'] / 1000000,),
             labels=labels,
             data=data,
             active_filter=active_filter,
             page=page,
-            metrics=metrics,
         )

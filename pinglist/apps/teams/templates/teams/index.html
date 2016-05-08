@@ -37,38 +37,40 @@
             </div>
         {% endif %}
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Members</th>
-                <th>Created At</th>
-                <th>Updated At</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for team in teams|get:'_embedded'|get:'teams' %}
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>
-                        <a href="{% url 'teams:update' team.id %}">{{ team.id|escape }}</a>
-                    </td>
-                    <td>{{ team.name|escape }}</td>
-                    <td>{{ team|get:'_embedded'|get:'members'|length }}</td>
-                    <td>{{ team.created_at|naturaltime|escape }}</td>
-                    <td>{{ team.updated_at|naturaltime|escape }}</td>
-                    <td>
-                        <a href="{% url 'teams:delete' team.id %}">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Members</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for team in teams|get:'_embedded'|get:'teams' %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'teams:update' team.id %}">{{ team.id|escape }}</a>
+                        </td>
+                        <td>{{ team.name|escape }}</td>
+                        <td>{{ team|get:'_embedded'|get:'members'|length }}</td>
+                        <td>{{ team.created_at|naturaltime|escape }}</td>
+                        <td>{{ team.updated_at|naturaltime|escape }}</td>
+                        <td>
+                            <a href="{% url 'teams:delete' team.id %}">
                             <span class="label label-danger action-button">
                                 Delete
                             </span>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         {% if teams|get:'_links'|get:'prev'|get:'href' or teams|get:'_links'|get:'next'|get:'href' %}
             <nav class="text-center">

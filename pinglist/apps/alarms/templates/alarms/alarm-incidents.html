@@ -8,7 +8,7 @@
     <div class="container">
 
         <div class="page-header">
-            <h1>Alarm Incidents</h1>
+            <h1>Incidents <small>{{ alarm.endpoint_url|escape }}</small></h1>
         </div>
 
         {% for message in messages %}
@@ -139,7 +139,7 @@
                 <ul class="pagination">
                     <li>
                         {% if incidents|get:'_links'|get:'prev'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:-1 }}"
+                            <a href="{% url 'alarms:alarm_incidents' alarm.id %}?page={{ page|add:-1 }}"
                                aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
@@ -149,7 +149,7 @@
                     </li>
                     <li>
                         {% if incidents|get:'_links'|get:'next'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_incidents' alarm_id %}?page={{ page|add:1 }}"
+                            <a href="{% url 'alarms:alarm_incidents' alarm.id %}?page={{ page|add:1 }}"
                                aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
