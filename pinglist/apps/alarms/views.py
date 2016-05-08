@@ -482,9 +482,9 @@ class AlarmMetricsView(BaseView):
             values.append(m['value'])
 
         labels = ', '.join([
-                               '\'{}\''.format(naturaltime(parse_datetime(t)).encode('utf-8'))
-                               for t in timestamps
-                               ])
+            '\'{}\''.format(naturaltime(parse_datetime(t)).encode('utf-8'))
+            for t in timestamps
+        ])
         data = ', '.join([str(v / 1000000) for v in values])
 
         return self._render(

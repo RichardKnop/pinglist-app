@@ -8,7 +8,9 @@
     <div class="container">
 
         <div class="page-header">
-            <h1>Alarm Metrics</h1>
+            <h1>Metrics
+                <small>{{ alarm.endpoint_url|escape }}</small>
+            </h1>
         </div>
 
         {% for message in messages %}
@@ -19,6 +21,28 @@
                 {{ message.message|escape }}
             </div>
         {% endfor %}
+
+        <div class="btn-group btn-group-xs pull-right" role="group" aria-label="filter">
+            <a class="btn btn-primary" href="{% url 'alarms:alarm_metrics' alarm.id %}">
+                Reset
+            </a>
+            <a class="btn btn-primary{% if active_filter == 'last_hour' %} active{% endif %}"
+               href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_hour">
+                1 Hour
+            </a>
+            <a class="btn btn-primary{% if active_filter == 'last_day' %} active{% endif %}"
+               href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_day">
+                24 Hours
+            </a>
+            <a class="btn btn-primary{% if active_filter == 'last_week' %} active{% endif %}"
+               href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_week">
+                7 Days
+            </a>
+            <a class="btn btn-primary{% if active_filter == 'last_month' %} active{% endif %}"
+               href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_month">
+                1 Month
+            </a>
+        </div>
 
         <ul class="list-inline">
             <li><span class="label label-default">
@@ -41,57 +65,38 @@
             </span></li>
         </ul>
 
-        <div class="panel panel-default">
+        <div class="panel panel-default clearfix">
             <div class="panel-body metrics-container">
                 <canvas id="metrics-chart" class="metrics-chart" width="920" height="500"></canvas>
             </div>
         </div>
 
-                <div class="text-center">
-                <div class="btn-group" role="group" aria-label="filter">
-                    <a class="btn btn-primary{% if active_filter == 'last_hour' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_hour">
-                        1 Hour
-                    </a>
-                    <a class="btn btn-primary{% if active_filter == 'last_day' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_day">
-                        24 Hours
-                    </a>
-                    <a class="btn btn-primary{% if active_filter == 'last_week' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_week">
-                        7 Days
-                    </a>
-                    <a class="btn btn-primary{% if active_filter == 'last_month' %} active{% endif %}"
-                       href="{% url 'alarms:alarm_metrics' alarm.id %}?filter=last_month">
-                        1 Month
-                    </a>
-                </div>
-
-                {% if metrics|get:'_links'|get:'prev'|get:'href' or metrics|get:'_links'|get:'next'|get:'href' %}
-                    <nav class="text-center">
-                        <ul class="pagination">
-                            <li>
-                                {% if metrics|get:'_links'|get:'prev'|get:'href' %}
-                                    <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page={{ page|add:-1 }}" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                {% else %}
-                                    <span aria-hidden="true">&laquo;</span>
-                                {% endif %}
-                            </li>
-                            <li>
-                                {% if metrics|get:'_links'|get:'next'|get:'href' %}
-                                    <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page={{ page|add:1 }}" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                {% else %}
-                                    <span aria-hidden="true">&raquo;</span>
-                                {% endif %}
-                            </li>
-                        </ul>
-                    </nav>
-                {% endif %}
-            </div>
+        {% if metrics|get:'_links'|get:'prev'|get:'href' or metrics|get:'_links'|get:'next'|get:'href' %}
+            <nav class="text-center">
+                <ul class="pagination">
+                    <li>
+                        {% if metrics|get:'_links'|get:'prev'|get:'href' %}
+                            <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page=
+                                    {{ page|add:-1 }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        {% else %}
+                            <span aria-hidden="true">&laquo;</span>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if metrics|get:'_links'|get:'next'|get:'href' %}
+                            <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page=
+                                    {{ page|add:1 }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        {% else %}
+                            <span aria-hidden="true">&raquo;</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
 
         <hr class="featurette-divider">
 
@@ -124,11 +129,11 @@
                     }
                 }]
             },
-                    defaults: {
-            global: {
-                responsive: false
+            defaults: {
+                global: {
+                    responsive: false
+                }
             }
-        }
         }
     });
     {% endautoescape %}
