@@ -38,15 +38,7 @@
                 {% for incident in incidents|get:'_embedded'|get:'incidents' %}
                     <tr>
                         <td>{{ incident.id|escape }}</td>
-                        <td>
-                            {% if incident.type == 'slow_response' %}
-                                <span class="label label-default incident-type">slow</span>
-                            {% elif incident.type == 'bad_code' %}
-                                <span class="label label-default incident-type">bad code</span>
-                            {% else %}
-                                <span class="label label-default incident-type">{{ incident.type|escape }}</span>
-                            {% endif %}
-                        </td>
+                        <td><span class="label label-default incident-type">{{ incident.type|escape }}</span></td>
                         <td>{{ incident.http_code|escape }}</td>
                         <td>
                             {% if incident.response_time %}
