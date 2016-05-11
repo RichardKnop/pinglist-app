@@ -65,7 +65,7 @@
                                     {{ alarm.state|escape }}
                                 </span>
                                 </a>
-                            {% elif alarm.state == 'insufficient_data' %}
+                            {% elif alarm.state == 'insufficient data' %}
                                 <a href="{% url 'alarms:alarm_incidents' alarm.id %}">
                                 <span class="label label-default alarm-status">
                                     n/a
