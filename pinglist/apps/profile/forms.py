@@ -16,8 +16,8 @@ class ProfileForm(forms.Form):
 class ChangePasswordForm(forms.Form):
 
     old_password = forms.CharField(
-        required=True,
-        label='Old Password',
+        required=False,
+        label='Old Password (only needed when you already have a password)',
     )
     new_password = forms.CharField(
         required=True,
