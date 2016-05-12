@@ -285,8 +285,8 @@ class API(object):
             except ValueError:
                 raise self.APIError(str(e))
 
-    # Get a profile
-    def get_profile(self, access_token):
+    # Get a user
+    def get_user(self, access_token):
         r = requests.get(
             self.hostname + '/v1/accounts/me',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
@@ -301,12 +301,12 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
-    # Update a profile
-    def update_profile(self, access_token, profile):
+    # Update a user
+    def update_user(self, access_token, user):
         r = requests.put(
-            self.hostname + '/v1/accounts/users/{}'.format(profile['id']),
+            self.hostname + '/v1/accounts/users/{}'.format(user['id']),
             headers={'Authorization': 'Bearer {}'.format(access_token)},
-            json=profile,
+            json=user,
         )
         logger.debug(r)
         try:

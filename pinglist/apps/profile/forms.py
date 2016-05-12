@@ -11,3 +11,20 @@ class ProfileForm(forms.Form):
         required=True,
         label='Last Name',
     )
+
+
+class ChangePasswordForm(forms.Form):
+
+    old_password = forms.CharField(
+        required=True,
+        label='Old Password',
+    )
+    new_password = forms.CharField(
+        required=True,
+        label='New Password',
+    )
+    new_password_again = forms.CharField(
+        required=True,
+        label='New Password Again',
+    )
+
