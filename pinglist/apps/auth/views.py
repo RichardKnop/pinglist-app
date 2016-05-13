@@ -65,7 +65,7 @@ class RegisterView(BaseView):
         return super(RegisterView, self)._render(
             request=request,
             form=form,
-            title='Register',
+            title='Sign Up',
             facebook_authorize_uri=get_facebook_authorize_uri(state),
             active_link='register',
         )
