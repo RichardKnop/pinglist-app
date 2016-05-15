@@ -30,6 +30,7 @@
                     <th>Response Time</th>
                     <th>Response</th>
                     <th>Error Message</th>
+                    <th>Created At</th>
                     <th>Resolved</th>
                     <th>Resolved At</th>
                 </tr>
@@ -112,6 +113,7 @@
                                 N/A
                             {% endif %}
                         </td>
+                        <td>{{ incident.created_at|default_if_none:''|escape }}</td>
                         <td>
                             {% if incident.resolved_at %}
                                 <span class="label label-success alarm-active">yes</span>
@@ -119,7 +121,7 @@
                                 <span class="label label-danger alarm-active">no</span>
                             {% endif %}
                         </td>
-                        <td>{{ incident.resolved_at|default_if_none:''|naturaltime|escape }}</td>
+                        <td>{{ incident.resolved_at|default_if_none:''|escape }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
