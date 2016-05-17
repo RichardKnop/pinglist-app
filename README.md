@@ -71,6 +71,7 @@ curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
 		"APIScheme": "http",
 		"APIHost": "localhost:8080"
 	},
+	"IOSLink": "#",
 	"IsDevelopment": true
 }'
 ```

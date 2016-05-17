@@ -52,7 +52,7 @@ class IndexView(SubscriptionView):
 
         return self._render(
             request=request,
-            title='Subscriptions',
+            title='Subscriptions - Pinglist',
             active_link='subscriptions',
             subscriptions=subscriptions,
         )
@@ -158,7 +158,7 @@ class AddView(SubscriptionView):
             request=request,
             form=form,
             cards=cards,
-            title='Add Subscription',
+            title='Add Subscription - Pinglist',
             active_link='subscriptions',
         )
 
@@ -267,7 +267,7 @@ class UpdateView(SubscriptionView):
             request=request,
             form=form,
             subscription=subscription,
-            title='Update Subscription',
+            title='Update Subscription - Pinglist',
             active_link='subscriptions',
         )
 
@@ -345,7 +345,7 @@ class CancelView(SubscriptionView):
             request=request,
             form=form,
             subscription=subscription,
-            title='Cancel Subscription',
+            title='Cancel Subscription - Pinglist',
             active_link='subscriptions',
         )
 
@@ -366,7 +366,7 @@ class PlansView(SubscriptionView):
 
         return self._render(
             request=request,
-            title='Plans',
+            title='Plans - Pinglist',
             active_link='plans',
             plans=plans,
         )

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% if title %}{{ title|escape }} - {% endif %}Pinglist - Uptime And Performance Monitoring Done Right</title>
+    <title>{% if title %}{{ title|escape }} - {% endif %}</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -151,7 +151,7 @@
 
             <div class="col-sm-4">
                 <div class="center-to-right">
-                    <a href="#" class="ios-download-badge">
+                    <a href="{{ ios_link }}" class="ios-download-badge">
                         <img src="{% static 'images/ios-download_135x40.svg' %}" alt="Download from App Store">
                     </a>
                 </div>

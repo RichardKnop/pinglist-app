@@ -74,7 +74,7 @@ class IndexView(AlarmView):
 
         return self._render(
             request=request,
-            title='Alarms',
+            title='Alarms - Pinglist',
             active_link='alarms',
             alarms=alarms,
             page=page,
@@ -169,7 +169,7 @@ class AddView(AlarmView):
             request=request,
             form=form,
             regions=regions,
-            title='Add Alarm',
+            title='Add Alarm - Pinglist',
             active_link='alarms',
         )
 
@@ -297,7 +297,7 @@ class UpdateView(AlarmView):
             form=form,
             regions=regions,
             alarm=alarm,
-            title='Update Alarm',
+            title='Update Alarm - Pinglist',
             active_link='alarms',
         )
 
@@ -375,7 +375,7 @@ class DeleteView(AlarmView):
             request=request,
             form=form,
             alarm=alarm,
-            title='Delete Alarm',
+            title='Delete Alarm - Pinglist',
             active_link='alarms',
         )
 
@@ -421,7 +421,7 @@ class AlarmIncidentsView(BaseView):
 
         return self._render(
             request=request,
-            title='Alarm Incidents',
+            title='Alarm Incidents - Pinglist',
             active_link='alarms',
             alarm=alarm,
             incidents=incidents,
@@ -489,7 +489,7 @@ class AlarmMetricsView(BaseView):
 
         return self._render(
             request=request,
-            title='Alarm Metrics',
+            title='Alarm Metrics - Pinglist',
             active_link='alarms',
             alarm=alarm,
             metrics=metrics,

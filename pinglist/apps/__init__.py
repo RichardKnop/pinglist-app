@@ -31,7 +31,8 @@ class BaseView(View):
                 'success': 'success',
                 'warning': 'warning',
                 'error': 'danger',
-            }
+            },
+            'ios_link': settings.IOS_LINK,
         }
         return HttpResponse(
             render(

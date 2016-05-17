@@ -96,7 +96,7 @@ class IndexView(BaseView):
             request=request,
             form=form,
             user=user,
-            title='Profile',
+            title='Profile - Pinglist',
             active_link='profile',
         )
 
@@ -187,6 +187,6 @@ class ChangePasswordView(BaseView):
             request=request,
             form=form,
             user=user,
-            title='Change Password',
+            title='Change Password - Pinglist',
             active_link='change_password',
         )

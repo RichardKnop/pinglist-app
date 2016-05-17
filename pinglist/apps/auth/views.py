@@ -65,7 +65,7 @@ class RegisterView(BaseView):
         return super(RegisterView, self)._render(
             request=request,
             form=form,
-            title='Sign Up',
+            title='Sign Up - Pinglist',
             facebook_authorize_uri=get_facebook_authorize_uri(state),
             active_link='register',
         )
@@ -118,7 +118,7 @@ class LoginView(BaseView):
         return super(LoginView, self)._render(
             request=request,
             form=form,
-            title='Log In',
+            title='Log In - Pinglist',
             facebook_authorize_uri=get_facebook_authorize_uri(state),
             active_link='login',
         )
@@ -220,5 +220,5 @@ class ResetPasswordView(BaseView):
         return super(ResetPasswordView, self)._render(
             request=request,
             form=form,
-            title='Reset Password',
+            title='Reset Password - Pinglist',
         )

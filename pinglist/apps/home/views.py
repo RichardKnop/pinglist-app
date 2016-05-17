@@ -28,6 +28,7 @@ class IndexView(BaseView):
         plans["_embedded"]["plans"] = plans["_embedded"]["plans"][:4]
 
         return self._render(
+            title='Pinglist - Uptime And Performance Monitoring Done Right',
             request=request,
             plans=plans,
         )
@@ -39,7 +40,7 @@ class FAQView(BaseView):
     def get(self, request, *args, **kwargs):
         faqs = FAQ.objects.all()
         return self._render(
-            title='Frequently Asked Questions',
+            title='Frequently Asked Questions - Pinglist',
             request=request,
             faqs=faqs,
         )
@@ -91,5 +92,5 @@ class ContactView(BaseView):
         return super(ContactView, self)._render(
             request=request,
             form=form,
-            title='Contact',
+            title='Contact - Pinglist',
         )

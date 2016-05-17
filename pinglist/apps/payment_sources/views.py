@@ -47,7 +47,7 @@ class IndexView(BaseView):
 
         return self._render(
             request=request,
-            title='Payment Sources',
+            title='Payment Sources - Pinglist',
             active_link='payment_sources',
             cards=cards,
         )
@@ -94,7 +94,7 @@ class AddView(BaseView):
         return super(AddView, self)._render(
             request=request,
             form=form,
-            title='Add Payment Source',
+            title='Add Payment Source - Pinglist',
             active_link='payment_sources',
             stripe_publishable_key=settings.STRIPE_PUBLISHABLE_KEY,
         )
@@ -173,6 +173,6 @@ class DeleteView(BaseView):
             request=request,
             form=form,
             payment_source=payment_source,
-            title='Delete Payment Source',
+            title='Delete Payment Source - Pinglist',
             active_link='payment_sources',
         )

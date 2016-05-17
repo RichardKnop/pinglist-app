@@ -142,6 +142,8 @@ CAPTCHA_HIDDEN_FIELD_TEMPLATE = 'home/captcha/hidden_field.html'
 CAPTCHA_TEXT_FIELD_TEMPLATE = 'home/captcha/text_field.html'
 CAPTCHA_FIELD_TEMPLATE = 'home/captcha/field.html'
 
+IOS_LINK = cnf['IOSLink']
+
 
 
 

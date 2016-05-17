@@ -48,7 +48,7 @@ class IndexView(BaseView):
 
         return self._render(
             request=request,
-            title='Teams',
+            title='Teams - Pinglist',
             active_link='teams',
             teams=teams,
         )
@@ -108,7 +108,7 @@ class AddView(BaseView):
         return super(AddView, self)._render(
             request=request,
             form=form,
-            title='Add Team',
+            title='Add Team - Pinglist',
             active_link='teams',
         )
 
@@ -196,7 +196,7 @@ class UpdateView(BaseView):
             request=request,
             form=form,
             team=team,
-            title='Update Team',
+            title='Update Team - Pinglist',
             active_link='teams',
         )
 
@@ -274,6 +274,6 @@ class DeleteView(BaseView):
             request=request,
             form=form,
             team=team,
-            title='Delete Team',
+            title='Delete Team - Pinglist',
             active_link='teams',
         )
