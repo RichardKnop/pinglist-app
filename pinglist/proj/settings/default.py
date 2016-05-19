@@ -121,8 +121,11 @@ DATABASES = {
 
 DEBUG = cnf['IsDevelopment']
 ALLOWED_HOSTS = '*' if not DEBUG else '.pingli.st'
-VERSION = 'v0.0.0'
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
+VERSION = 'v0.0.0'
 HOSTNAME = '{}://{}'.format(cnf['Web']['Scheme'], cnf['Web']['Host'])
 API_HOST = '{}://{}'.format(cnf['Web']['APIScheme'], cnf['Web']['APIHost'])
 OAUTH_CLIENT_ID = cnf['Oauth']['ClientID']
