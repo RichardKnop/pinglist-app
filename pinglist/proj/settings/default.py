@@ -43,8 +43,6 @@ ROOT_URLCONF = 'proj.urls'
 
 WSGI_APPLICATION = 'proj.wsgi.application'
 
-ALLOWED_HOSTS = '*'
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'proj', 'static'),
 )
@@ -121,6 +119,7 @@ DATABASES = {
 }
 
 DEBUG = cnf['IsDevelopment']
+ALLOWED_HOSTS = '*' if not DEBUG else '.pingli.st'
 VERSION = 'v0.0.0'
 
 HOSTNAME = '{}://{}'.format(cnf['Web']['Scheme'], cnf['Web']['Host'])
