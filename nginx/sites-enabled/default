@@ -5,6 +5,7 @@ upstream app_server {
 server {
 
     listen 80;
+    rewrite ^(.*) https://$host$1 permanent;
     server_name *.pingli.st;
 
     client_max_body_size 5M;
