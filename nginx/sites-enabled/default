@@ -5,8 +5,11 @@ upstream app_server {
 server {
 
     listen 80;
-    rewrite ^(.*) https://$host$1 permanent;
     server_name *.pingli.st;
+
+    if ($http_x_forwarded_proto = 'http') {
+        return 301 https://$host$request_uri;
+    }
 
     client_max_body_size 5M;
 
