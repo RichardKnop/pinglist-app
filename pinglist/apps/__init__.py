@@ -33,6 +33,7 @@ class BaseView(View):
                 'error': 'danger',
             },
             'ios_link': settings.IOS_LINK,
+            'is_development': settings.IS_DEVELOPMENT,
         }
         return HttpResponse(
             render(

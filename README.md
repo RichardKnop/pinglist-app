@@ -12,6 +12,7 @@ API / website uptime & performance monitoring platform.
 * [Setup](#setup)
 * [Docker](#docker)
 * [Releasing](#releasing)
+* [Assets](#assets)
 
 # Dependencies
 
@@ -115,4 +116,12 @@ Second, build a release using `build-release.sh` script. It will build a Docker 
 
 ```
 ./build-release.sh v0.0.0 --no-dry-run
+```
+
+# Assets
+
+To upload assets to S3, do something along the lines:
+
+```
+s3cmd sync pinglist/proj/static/* s3://prod.pinglist.assets/
 ```
