@@ -126,25 +126,26 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
 
 VERSION = 'v0.0.0'
+LOGIN_VIEW = 'auth:login'
+AFTER_LOGIN_VIEW = 'alarms:index'
+AFTER_LOGIN_VIEW_PARAM = 'after_login_view'
+CAPTCHA_IMAGE_TEMPLATE = 'home/captcha/image.html'
+CAPTCHA_HIDDEN_FIELD_TEMPLATE = 'home/captcha/hidden_field.html'
+CAPTCHA_TEXT_FIELD_TEMPLATE = 'home/captcha/text_field.html'
+CAPTCHA_FIELD_TEMPLATE = 'home/captcha/field.html'
+
 HOSTNAME = '{}://{}'.format(cnf['Web']['Scheme'], cnf['Web']['Host'])
 API_HOST = '{}://{}'.format(cnf['Web']['APIScheme'], cnf['Web']['APIHost'])
 OAUTH_CLIENT_ID = cnf['Oauth']['ClientID']
 OAUTH_CLIENT_SECRET = cnf['Oauth']['Secret']
 OAUTH_DEFAULT_SCOPE = 'read_write'
 OAUTH_TOKEN_URL = API_HOST + '/v1/oauth/tokens'
-LOGIN_VIEW = 'auth:login'
-AFTER_LOGIN_VIEW = 'alarms:index'
-AFTER_LOGIN_VIEW_PARAM = 'after_login_view'
+AWS_REGION = cnf['AWS']['Region']
+AWS_ASSETS_BUCKET = cnf['AWS']['AssetsBucket']
 FACEBOOK_APP_ID = cnf['Facebook']['AppID']
 FACEBOOK_APP_SECRET = cnf['Facebook']['AppSecret']
 FACEBOOK_SCOPE = "public_profile,email"
 STRIPE_PUBLISHABLE_KEY = cnf['Stripe']['PublishableKey']
-
-CAPTCHA_IMAGE_TEMPLATE = 'home/captcha/image.html'
-CAPTCHA_HIDDEN_FIELD_TEMPLATE = 'home/captcha/hidden_field.html'
-CAPTCHA_TEXT_FIELD_TEMPLATE = 'home/captcha/text_field.html'
-CAPTCHA_FIELD_TEMPLATE = 'home/captcha/field.html'
-
 IOS_LINK = cnf['IOSLink']
 
 

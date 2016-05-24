@@ -58,6 +58,10 @@ curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
 	"Django": {
 		"Secret": "test_secret"
 	},
+    "AWS": {
+        "Region": "us-west-2",
+        "AssetsBucket": "prod.pinglist.assets"
+    },
 	"Facebook": {
 		"AppID": "facebook_app_id",
 		"AppSecret": "facebook_app_secret"
