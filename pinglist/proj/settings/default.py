@@ -148,7 +148,3 @@ FACEBOOK_SCOPE = "public_profile,email"
 STRIPE_PUBLISHABLE_KEY = cnf['Stripe']['PublishableKey']
 IOS_LINK = cnf['IOSLink']
 IS_DEVELOPMENT = cnf['IsDevelopment']
-
-
-
-
