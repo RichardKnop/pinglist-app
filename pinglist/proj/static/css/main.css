@@ -159,6 +159,7 @@ a.ios-download-badge img {
 
 .jumbotron {
     padding: 0;
+    margin-bottom: 0;
 }
 
 .jumbotron .alert {
