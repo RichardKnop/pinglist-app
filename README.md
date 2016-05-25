@@ -16,7 +16,7 @@ API / website uptime & performance monitoring platform.
 
 # Dependencies
 
-Create a mnew virtual environment and install dependencies via pip:
+Create a new virtual environment and install dependencies via pip:
 
 ```
 virtualenv .venv
