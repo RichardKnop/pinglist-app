@@ -44,40 +44,40 @@ Load a development configuration into `etcd`:
 
 ```
 curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
-	"Database": {
-		"Engine": "django.db.backends.postgresql_psycopg2",
-		"Host": "localhost",
-		"Port": 5432,
-		"User": "pinglist_app",
-		"Password": "",
-		"DatabaseName": "pinglist_app"
-	},
-	"Oauth": {
-		"ClientID": "test_client_1",
-		"Secret": "test_secret"
-	},
-	"Django": {
-		"Secret": "test_secret"
-	},
+    "Database": {
+        "Engine": "django.db.backends.postgresql_psycopg2",
+        "Host": "localhost",
+        "Port": 5432,
+        "User": "pinglist_app",
+        "Password": "",
+        "DatabaseName": "pinglist_app"
+    },
+    "Oauth": {
+        "ClientID": "test_client_1",
+        "Secret": "test_secret"
+    },
+    "Django": {
+        "Secret": "test_secret"
+    },
     "AWS": {
         "Region": "us-west-2",
         "AssetsBucket": "prod.pinglist.assets"
     },
-	"Facebook": {
-		"AppID": "facebook_app_id",
-		"AppSecret": "facebook_app_secret"
-	},
-	"Stripe": {
-		"PublishableKey": "stripe_publishable_key"
-	},
-	"Web": {
-		"Scheme": "http",
-		"Host": "localhost:8000",
-		"APIScheme": "http",
-		"APIHost": "localhost:8080"
-	},
-	"IOSLink": "#",
-	"IsDevelopment": true
+    "Facebook": {
+        "AppID": "facebook_app_id",
+        "AppSecret": "facebook_app_secret"
+    },
+    "Stripe": {
+        "PublishableKey": "stripe_publishable_key"
+    },
+    "Web": {
+        "Scheme": "http",
+        "Host": "localhost:8000",
+        "APIScheme": "http",
+        "APIHost": "localhost:8080"
+    },
+    "IOSLink": "#",
+    "IsDevelopment": true
 }'
 ```
 
