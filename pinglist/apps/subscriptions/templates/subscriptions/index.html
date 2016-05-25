@@ -31,16 +31,6 @@
             </div>
         {% endfor %}
 
-        {% if subscriptions.count < 1 %}
-            <div class="alert alert-warning" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                You don't have a subscription yet.
-                Click <a href="{% url 'subscriptions:add' %}"><b>here</b></a> to subscribe!
-            </div>
-        {% endif %}
-
         <div class="table-container">
             <table class="table table-striped">
                 <thead>
