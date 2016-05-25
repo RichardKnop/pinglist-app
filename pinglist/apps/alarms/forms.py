@@ -12,15 +12,15 @@ class AlarmForm(forms.Form):
         required=True,
         label='Endpoint URL',
     )
-    expected_http_code = forms.CharField(
+    expected_http_code = forms.IntegerField(
         required=True,
         label='Expected HTTP Code',
     )
-    max_response_time = forms.CharField(
+    max_response_time = forms.IntegerField(
         required=True,
         label='Max Response Time (ms)',
     )
-    interval = forms.CharField(
+    interval = forms.IntegerField(
         required=True,
         label='Interval (s)',
     )
