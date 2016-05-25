@@ -125,15 +125,14 @@
 {% block content %}{% endblock %}
 
 <footer class="footer">
-    <div class="container" class="clearfix">
-        <div class="row">
+    <div class="row">
+        <div class="container">
             <div class="col-sm-4">
-                <div class="center-to-left">
+                <p class="text-left">
                     <a href="https://stripe.com" class="stripe-badge">
                         <img src="{% static 'images/stripe//solid@2x.png' %}" alt="Powered by Stripe">
                     </a>
-                </div>
-                <span class="clearfix"></span>
+                </p>
             </div>
 
             <div class="col-sm-4">
@@ -147,12 +146,11 @@
             </div>
 
             <div class="col-sm-4">
-                <div class="center-to-right">
+                <p class="text-right">
                     <a href="{{ ios_link }}" class="ios-download-badge">
                         <img src="{% static 'images/ios-download_135x40.svg' %}" alt="Download from App Store">
                     </a>
-                </div>
-                <span class="clearfix"></span>
+                </p>
             </div>
         </div>
     </div>
