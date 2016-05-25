@@ -36,8 +36,8 @@ brew install postgres
 You might want to create a `Postgres` database:
 
 ```
-createuser --createdb pinglist_app_
-createdb -U pinglist_app_ pinglist_app_
+createuser --createdb pinglist_app
+createdb -U pinglist_app pinglist_app
 ```
 
 Load a development configuration into `etcd`:
