@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import URLValidator
 
 
 class AlarmForm(forms.Form):
@@ -10,6 +11,7 @@ class AlarmForm(forms.Form):
     )
     endpoint_url = forms.CharField(
         required=True,
+        validators=[URLValidator(schemes=('http', 'https'))],
         label='Endpoint URL',
     )
     expected_http_code = forms.IntegerField(
