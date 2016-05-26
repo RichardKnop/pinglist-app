@@ -119,6 +119,8 @@
 
                             <p>{{ plan.max_alarms|escape }} alarms</p>
 
+                            <p>{{ plan.min_alarm_interval|escape }}s interval</p>
+
                             {% if plan.max_teams > 0 %}
                                 <p>team login {{ plan.max_teams|escape }} x {{ plan.max_members_per_team|escape }}</p>
                             {% else %}

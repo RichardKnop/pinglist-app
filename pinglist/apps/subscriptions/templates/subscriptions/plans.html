@@ -38,6 +38,7 @@
                     <th>Alarms</th>
                     <th>Teams</th>
                     <th>Users Per Team</th>
+                    <th>Min Interval</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,7 @@
                     <td>1</td>
                     <td>0</td>
                     <td>0</td>
+                    <td>60s</td>
                 </tr>
                 {% for plan in plans|get:"_embedded"|get:"plans" %}
                     <tr>
@@ -58,6 +60,7 @@
                         <td>{{ plan.max_alarms|escape }}</td>
                         <td>{{ plan.max_teams|escape }}</td>
                         <td>{{ plan.max_members_per_team|escape }}</td>
+                        <td>{{ plan.min_alarm_interval|escape }}s</td>
                     </tr>
                 {% endfor %}
                 </tbody>
