@@ -3,12 +3,9 @@ from __future__ import absolute_import
 from time import time
 
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse, resolve
-from django.core.urlresolvers import NoReverseMatch, Resolver404
 from django.conf import settings
 
 from lib.api import API
-
 
 api_instance = API = API(
     settings.API_HOST,
@@ -31,45 +28,43 @@ def store_access_token_and_redirect(request, access_token):
         return redirect(settings.AFTER_LOGIN_VIEW)
 
 
-def logged_in(view):
+def is_logged_in(request):
+    # First we try to retrieve the access token from the session
+    try:
+        access_token = request.session['access_token']
+        access_token_granted_at = request.session['access_token_granted_at']
 
-    def _wrapper(obj, request, *args, **kwargs):
-        # First we try to retrieve the access token from the session
+    # Access token not found
+    except KeyError:
+        return False
+
+    # Second, check that the access token is not expired
+    if access_token_granted_at + access_token['expires_in'] < time():
+        # Refresh the token
         try:
-            access_token = request.session['access_token']
-            access_token_granted_at = request.session['access_token_granted_at']
+            store_access_token(
+                request=request,
+                access_token=api_instance.refresh_token(
+                    refresh_token=access_token['refresh_token'],
+                ),
+            )
 
-        # Access token not found
-        except KeyError:
-            try:
-                resolve_match = resolve(request.get_full_path())
-                return redirect('{}?{}={}:{}'.format(
-                    reverse(settings.LOGIN_VIEW),
-                    settings.AFTER_LOGIN_VIEW_PARAM,
-                    resolve_match.namespaces[0],
-                    resolve_match.url_name,
-                ))
-            except (NoReverseMatch, Resolver404):
-                return redirect(settings.LOGIN_VIEW)
+        # Refreshing token failed
+        except API.APIError:
+            return False
 
-        # Second, check that the access token is not expired
-        if access_token_granted_at + access_token['expires_in'] < time():
-            # Refresh the token
-            try:
-                store_access_token(
-                    request=request,
-                    access_token=api_instance.refresh_token(
-                        refresh_token=access_token['refresh_token'],
-                    ),
-                )
+        # Something else went wrong, timeout, network problem etc
+        except Exception:
+            return False
 
-            # Refreshing token failed
-            except API.APIError:
-                return redirect(settings.LOGIN_VIEW)
+    return True
 
-            # Something else went wrong, timeout, network problem etc
-            except Exception:
-                return redirect(settings.LOGIN_VIEW)
+
+def logged_in(view):
+    def _wrapper(obj, request, *args, **kwargs):
+        # User not logged in, redirect to log in view
+        if not is_logged_in(request):
+            return redirect(settings.LOGIN_VIEW)
 
         # Everything looks fine, proceed
         return view(obj, request, *args, **kwargs)

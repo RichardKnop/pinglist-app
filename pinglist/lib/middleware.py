@@ -1,9 +1,7 @@
-class LoggedInFlagMiddleware(object):
+from lib.auth import is_logged_in
+
+
+class AccessTokenMiddleware(object):
 
     def process_request(self, request):
-        try:
-            request.session['access_token']
-            request.session['access_token_granted_at']
-            request.logged_in = True
-        except KeyError:
-            request.logged_in = False
+        request.logged_in = is_logged_in(request)
