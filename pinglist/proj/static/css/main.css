@@ -1,183 +1,12 @@
-/* General styles */
-
-body, html {
-    font-family: Lato, sans-serif;
-    color: #27303C;
-    overflow-x: hidden;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    margin-top: 50px;
-    /* Margin bottom by footer height */
-    margin-bottom: 125px;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 125px;
-}
-
-a {
-    color: #27303C;
-}
-
-a:hover {
-    color: #27303C;
-}
-
-.text-muted {
-    color: #B9E88A;
-}
-
-pre {
-    overflow: scroll;
-}
-
-span.label a {
-    color: white;
-}
-
-span.label a:hover {
-    color: white;
-    text-decoration: none;
-}
-
-th, td b {
-    text-transform: uppercase;
-}
-
-/* Tables */
-.table-container {
-    overflow-x: scroll;
-}
-
-.table {
-    min-width: 940px;
-}
-
-.table-container .table {
-    margin-bottom: 0;
-}
-
-/* Labels */
-
-span.label.subscription-status, span.label.alarm-status, span.label.alarm-active, span.label.incident-type, span.label.action-button {
-    display: inline-block;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-span.label.subscription-status, span.label.alarm-status, span.label.incident-type {
-    width: 75px;
-}
-
-span.label.action-button {
-    cursor: pointer;
-}
-
-span.label.alarm-active {
-    width: 40px;
-}
-
-/* Other */
-
-a.ios-download-badge img {
-    width: 170px;
-    height: 46px;
-}
-
-/* Navigation */
-
-.navbar-inverse {
-    background-color: #27303C;
-}
-
-.navbar-inverse .navbar-nav > li > a {
-    color: #B9E88A;
-    text-decoration: none;
-}
-
-.navbar-inverse .navbar-nav > li > a:hover {
-    color: #B9E88A;
-}
-
-.navbar-brand {
-    padding-top: 14px;
-    padding-bottom: 11px;
-}
-
-.navbar-brand img {
-    height: 25px;
-}
-
-.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus,
-.navbar-inverse .navbar-nav > .active > a:hover {
-    color: #27303C;
-    background-color: #B9E88A;
-}
-
-/* Buttons */
-
-.btn-primary {
-    background-color: #B9E88A;
-    color: #27303C;
-    border-color: #B9E88A;
-}
-
-.btn-group .btn-primary {
-    border-color: #27303C;
-}
-
-.btn-primary:hover, .btn-primary:focus,
-.btn-primary.focus, .btn-primary:active, .btn-primary.active,
-.btn-primary:active:hover,
-.btn-primary.active:hover,
-.open > .dropdown-toggle.btn-primary:hover,
-.btn-primary:active:focus,
-.btn-primary.active:focus,
-.open > .dropdown-toggle.btn-primary:focus,
-.btn-primary:active.focus,
-.btn-primary.active.focus,
-.open > .dropdown-toggle.btn-primary.focus {
-    background-color: #27303C;
-    color: #B9E88A;
-    border-color: #27303C;
-}
-
-/* Pagination */
-.pagination {
-    margin: 20px 0 0;
-}
-
-.pagination > li > a, .pagination > li > span {
-    background-color: #B9E88A;
-    color: #27303C;
-    border-color: white;
-}
-
-.pagination > li > a:hover,
-.pagination > li > span:hover,
-.pagination > li > a:focus,
-.pagination > li > span:focus {
-    background-color: #27303C;
-    color: #B9E88A;
-    border-color: white;
-}
-
 /* Landing page header image */
 
 .jumbotron {
     padding: 0;
     margin-bottom: 0;
+    background: none;
+    z-index: 9999;
+    color: white;
+    text-align: center;
 }
 
 .jumbotron .alert {
@@ -185,58 +14,62 @@ a.ios-download-badge img {
     border-radius: 0;
 }
 
-.header-image {
-    display: block;
-    width: 100%;
-    text-align: center;
-    background: linear-gradient(
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 0, 0, 0.6)
-    ), url('/static/images/bg.jpg') no-repeat center center scroll;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    color: white;
-    font-family: Lato, sans-serif;
-}
-
-.header-image h1 {
+.jumbotron h1 {
     letter-spacing: 2px;
     font-family: Lato, sans-serif;
 }
 
-.header-image p {
+.jumbotron p {
     font-size: 1.25em;
 }
 
-.header-image .headline {
-    padding: 148px 0;
+.jumbotron .headline {
+    padding: 143px 0 88px;
 }
 
-.header-image .headline h1 {
+.jumbotron .headline h1 {
     font-size: 3em;
 }
 
-.header-image .headline a {
+.jumbotron .headline a {
     color: #B9E88A;
 }
 
-.header-image .headline a.btn {
+.jumbotron .headline a.btn {
     color: #27303C;
 }
 
-.header-image .headline a.btn:hover {
+.jumbotron .headline a.btn:hover {
     color: #B9E88A;
 }
 
-.header-image .headline a.btn-facebook, .header-image .headline a.btn-facebook:hover {
+.jumbotron .headline a.btn-facebook, .jumbotron .headline a.btn-facebook:hover {
     color: white;
+}
+
+.header-image, .header-image-full {
+    background: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.4)
+    ), url('/static/images/bg.jpg') no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.header-image-full {
+    z-index: -9999;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 /* Login form */
 
 .form-signin {
-    max-width: 300px;
+    max-width: 330px;
     padding: 0 29px 29px;
     margin: 0 auto 20px;
 }
@@ -401,4 +234,11 @@ footer a, footer a:hover, footer a:active {
     .header-image .headline {
         padding: 48px 0;
     }
+}
+
+/* Misc styles */
+
+a.ios-download-badge img {
+    width: 170px;
+    height: 46px;
 }
