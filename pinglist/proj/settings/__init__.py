@@ -27,7 +27,7 @@ INSTALLED_APPS = (
     'apps.teams',
     'apps.subscriptions',
     'apps.payment_sources',
-    'apps.profile',
+    'apps.settings',
 )
 
 MIDDLEWARE_CLASSES = (

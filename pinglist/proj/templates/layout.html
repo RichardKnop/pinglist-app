@@ -74,7 +74,7 @@
                         </a>
                     </li>
 
-                    <li class="dropdown{% if active_link == 'plans' or active_link == 'payment_sources' or active_link == 'subscriptions' or active_link == 'profile' or active_link == 'change_password' %} active{% endif %}">
+                    <li class="dropdown{% if active_link == 'plans' or active_link == 'payment_sources' or active_link == 'subscriptions' or active_link == 'settings' or active_link == 'change_password' %} active{% endif %}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -94,11 +94,11 @@
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                 Subscriptions
                             </a></li>
-                            <li><a href="{% url 'profile:index' %}">
+                            <li><a href="{% url 'settings:index' %}">
                                 <i class="fa fa-gear" aria-hidden="true"></i>
-                                Profile
+                                Settings
                             </a></li>
-                            <li><a href="{% url 'profile:change_password' %}">
+                            <li><a href="{% url 'settings:change_password' %}">
                                 <i class="fa fa-shield" aria-hidden="true"></i>
                                 Change Password
                             </a></li>

@@ -143,6 +143,7 @@ class AddView(AlarmView):
                 'interval': int(form.cleaned_data['interval']),
                 'email_alerts': form.cleaned_data['email_alerts'],
                 'push_notification_alerts': form.cleaned_data['push_notification_alerts'],
+                'slack_alerts': form.cleaned_data['slack_alerts'],
                 'active': form.cleaned_data['active'],
             }
             self.api.add_alarm(
@@ -212,6 +213,7 @@ class UpdateView(AlarmView):
             'interval': alarm['interval'],
             'email_alerts': alarm['email_alerts'],
             'push_notification_alerts': alarm['push_notification_alerts'],
+            'slack_alerts': alarm['slack_alerts'],
             'active': alarm['active'],
         })
         self._set_form_choices(form=form, regions=regions)
@@ -270,6 +272,7 @@ class UpdateView(AlarmView):
             alarm['interval'] = int(form.cleaned_data['interval'])
             alarm['email_alerts'] = form.cleaned_data['email_alerts']
             alarm['push_notification_alerts'] = form.cleaned_data['push_notification_alerts']
+            alarm['slack_alerts'] = form.cleaned_data['slack_alerts']
             alarm['active'] = form.cleaned_data['active']
             self.api.update_alarm(
                 access_token=request.session['access_token']['access_token'],

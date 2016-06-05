@@ -34,6 +34,10 @@ class AlarmForm(forms.Form):
         required=False,
         label='Push Notification Alerts',
     )
+    slack_alerts = forms.BooleanField(
+        required=False,
+        label='Slack Alerts',
+    )
     active = forms.BooleanField(
         required=False,
         label='Active',

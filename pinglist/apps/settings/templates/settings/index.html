@@ -6,13 +6,14 @@
     <!-- Page Content -->
     <div class="container">
 
+
         <div class="page-header">
-            <h1>Profile</h1>
+            <h1>Settings</h1>
         </div>
 
         <ol class="breadcrumb">
             <li>Account</li>
-            <li class="active">Profile</li>
+            <li class="active">Settings</li>
         </ol>
 
         {% for message in messages %}
@@ -36,16 +37,14 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <h3 class="panel-title">Profile Data</h3>
+                <h3 class="panel-title">Settings</h3>
             </div>
 
-            <form id="update-profile-form" method="POST" action="{% url 'profile:index' %}">
+            <form id="update-settings-form" method="POST" action="{% url 'settings:index' %}">
                 {% csrf_token %}
-
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-6">
-
+                        <div class="col-md-6">
                             <div class="form-group{% if form.first_name.errors %} has-error{% endif %}">
                                 <label class="control-label" for="{{ form.first_name.name }}">
                                     {% if form.first_name.errors %}
@@ -57,7 +56,7 @@
 
                                 <input class="form-control" id="{{ form.first_name.name }}"
                                        name="{{ form.first_name.name }}"
-                                       value="{{ form.first_name.value|escape }}">
+                                       value="{{ form.first_name.value|default_if_none:''|escape }}">
                             </div>
 
                             <div class="form-group{% if form.last_name.errors %} has-error{% endif %}">
@@ -82,7 +81,37 @@
                                 <input class="form-control" id="email" name="email" value="{{ user.email|escape }}"
                                        disabled="disabled">
                             </div>
+                        </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group{% if form.slack_incoming_webhook.errors %} has-error{% endif %}">
+                                <label class="control-label" for="{{ form.slack_incoming_webhook.name }}">
+                                    {% if form.slack_incoming_webhook.errors %}
+                                        {{ form.slack_incoming_webhook.label }}<br>
+                                        {{ form.slack_incoming_webhook.errors|first|escape }}
+                                    {% else %}
+                                        {{ form.slack_incoming_webhook.label }}
+                                    {% endif %}
+                                </label>
+
+                                <input class="form-control" id="{{ form.slack_incoming_webhook.name }}"
+                                       name="{{ form.slack_incoming_webhook.name }}"
+                                       value="{{ form.slack_incoming_webhook.value|default_if_none:''|escape }}">
+                            </div>
+
+                            <div class="form-group{% if form.slack_channel.errors %} has-error{% endif %}">
+                                <label class="control-label" for="{{ form.slack_channel.name }}">
+                                    {% if form.slack_channel.errors %}
+                                        {{ form.slack_channel.label }}<br>{{ form.slack_channel.errors|first|escape }}
+                                    {% else %}
+                                        {{ form.slack_channel.label }}
+                                    {% endif %}
+                                </label>
+
+                                <input class="form-control" id="{{ form.slack_channel.name }}"
+                                       name="{{ form.slack_channel.name }}"
+                                       value="{{ form.slack_channel.value|default_if_none:''|escape }}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,7 +121,6 @@
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </div>
-
             </form>
 
         </div>

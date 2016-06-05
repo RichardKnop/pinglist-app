@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from apps.profile.views import (
+from apps.settings.views import (
     IndexView,
     ChangePasswordView,
 )

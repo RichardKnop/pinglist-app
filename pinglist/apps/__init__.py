@@ -3,16 +3,16 @@ from __future__ import absolute_import
 from django.views.generic import View
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.conf import settings
+from django.conf import settings as django_settings
 
 from lib.api import API
 
 
 api_instance = API(
-    settings.API_HOST,
-    settings.OAUTH_CLIENT_ID,
-    settings.OAUTH_CLIENT_SECRET,
-    settings.OAUTH_DEFAULT_SCOPE,
+    django_settings.API_HOST,
+    django_settings.OAUTH_CLIENT_ID,
+    django_settings.OAUTH_CLIENT_SECRET,
+    django_settings.OAUTH_DEFAULT_SCOPE,
 )
 
 
@@ -32,8 +32,8 @@ class BaseView(View):
                 'warning': 'warning',
                 'error': 'danger',
             },
-            'ios_link': settings.IOS_LINK,
-            'is_development': settings.IS_DEVELOPMENT,
+            'ios_link': django_settings.IOS_LINK,
+            'is_development': django_settings.IS_DEVELOPMENT,
         }
         return HttpResponse(
             render(
