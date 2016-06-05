@@ -4,12 +4,12 @@ from django import forms
 class SettingsForm(forms.Form):
 
     first_name = forms.CharField(
-        required=True,
+        required=False,
         max_length=100,
         label='First Name',
     )
     last_name = forms.CharField(
-        required=True,
+        required=False,
         max_length=100,
         label='Last Name',
     )
