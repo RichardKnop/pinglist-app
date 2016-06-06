@@ -54,6 +54,19 @@ class IndexView(AlarmView):
     def get(self, request, *args, **kwargs):
         page = int(request.GET.get('page', 1))
 
+        # Fetch subscriptions
+        try:
+            subscriptions = self.api.list_subscriptions(
+                access_token=request.session['access_token']['access_token'],
+                user_id=request.session['access_token']['user_id'],
+                page=1,
+            )
+
+        # Fetching subscriptions failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
         # Fetch alarms
         try:
             alarms = self.api.list_alarms(
@@ -66,6 +79,30 @@ class IndexView(AlarmView):
         except self.api.APIError as e:
             logger.error(str(e))
             return HttpResponseServerError()
+
+        # Get active subscription
+        active_sub = None
+        for s in subscriptions['_embedded']['subscriptions']:
+            if not s['ended_at']:
+                active_sub = s
+
+        # Count active alarms
+        active_alarms_count = 0
+        for alarm in alarms['_embedded']['alarms']:
+            if alarm['active']:
+                active_alarms_count += 1
+
+        # If there are more active alarms than allowed, display a warning message
+        max_alarms = 1 if not active_sub else active_sub['_embedded']['plan']['max_alarms']
+        if active_alarms_count > max_alarms:
+            messages.warning(
+                request,
+                'You have {} active alarms but your plan only allows {}. '
+                'Some of your alarms might be disabled as a result.'.format(
+                    active_alarms_count,
+                    max_alarms,
+                ),
+            )
 
         # Parse datetime strings
         for alarm in alarms['_embedded']['alarms']:
@@ -485,9 +522,9 @@ class AlarmMetricsView(BaseView):
             values.append(m['value'])
 
         labels = ', '.join([
-            '\'{}\''.format(naturaltime(parse_datetime(t)).encode('utf-8'))
-            for t in timestamps
-        ])
+                               '\'{}\''.format(naturaltime(parse_datetime(t)).encode('utf-8'))
+                               for t in timestamps
+                               ])
         data = ', '.join([str(v / 1000000) for v in values])
 
         return self._render(
