@@ -76,8 +76,7 @@
                 <ul class="pagination">
                     <li>
                         {% if metrics|get:'_links'|get:'prev'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page=
-                                    {{ page|add:-1 }}" aria-label="Previous">
+                            <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page={{ page|add:-1 }}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         {% else %}
@@ -86,8 +85,7 @@
                     </li>
                     <li>
                         {% if metrics|get:'_links'|get:'next'|get:'href' %}
-                            <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page=
-                                    {{ page|add:1 }}" aria-label="Next">
+                            <a href="{% url 'alarms:alarm_metrics' alarm.id %}?filter={{ active_filter|escape }}&page={{ page|add:1 }}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         {% else %}
