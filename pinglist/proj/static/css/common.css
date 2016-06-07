@@ -4,8 +4,6 @@ body, html {
     font-family: Lato, sans-serif;
     color: #27303C;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    z-index: -9999;
 }
 
 body {
@@ -51,6 +49,7 @@ th, td b {
 
 .featurette-divider {
     margin: 80px 0;
+    border-color: white;
 }
 
 .featurette {
@@ -172,7 +171,6 @@ th, td b {
 /* Misc styles */
 
 a.ios-download-badge img {
-    width: 170px;
     height: 46px;
 }
 
@@ -210,10 +208,6 @@ span.label.alarm-active {
 }
 
 /* Navigation */
-
-.navbar {
-    z-index: 9999;
-}
 
 .navbar-inverse {
     background-color: #27303C;
