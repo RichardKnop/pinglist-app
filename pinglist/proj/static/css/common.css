@@ -4,6 +4,8 @@ body, html {
     font-family: Lato, sans-serif;
     color: #27303C;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    z-index: -9999;
 }
 
 body {
@@ -208,6 +210,10 @@ span.label.alarm-active {
 }
 
 /* Navigation */
+
+.navbar {
+    z-index: 9999;
+}
 
 .navbar-inverse {
     background-color: #27303C;
