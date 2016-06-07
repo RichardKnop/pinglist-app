@@ -34,6 +34,29 @@ class IndexView(BaseView):
         )
 
 
+class PlansView(BaseView):
+    template_name = 'home/plans.html'
+
+    def get(self, request, *args, **kwargs):
+        # Fetch subscription plans
+        try:
+            plans = self.api.list_plans()
+
+        # Fetching subscription plans failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            return HttpResponseServerError()
+
+        # We only want to display maximum of 4 plans on the homepage
+        plans["_embedded"]["plans"] = plans["_embedded"]["plans"][:4]
+
+        return self._render(
+            title='Compare Plans - Pinglist',
+            request=request,
+            plans=plans,
+        )
+
+
 class FAQView(BaseView):
     template_name = 'home/faq.html'
 

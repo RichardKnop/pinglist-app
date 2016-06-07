@@ -1,0 +1,107 @@
+{% extends "layout-default.html" %}
+{% load filters %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Compare Plans</h1>
+        </div>
+
+        <!-- First Featurette -->
+        <div class="featurette" id="plans">
+
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Monthly Price</th>
+                        <th>Free Trial</th>
+                        <th>Alarms</th>
+                        <th>Team Login</th>
+                        <th>Min Interval</th>
+                        <th>Emails</th>
+                        <th>Push Notifications</th>
+                        <th>Slack Webhook</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><b>Free Tier</b></td>
+                        <td>free</td>
+                        <td>forever</td>
+                        <td>1</td>
+                        <td>no</td>
+                        <td>60s</td>
+                        <td>50</td>
+                        <td>unlimited</td>
+                        <td>no</td>
+                    </tr>
+                    {% for plan in plans|get:"_embedded"|get:"plans" %}
+                        <tr>
+                            <td><b>{{ plan.name|escape }}</b></td>
+                            <td><i class="fa fa-{{ plan.currency|lower|escape }}"
+                                   aria-hidden="true"></i>{{ plan.amount|divide:100|floatformat|escape }}</td>
+                            <td>{{ plan.trial_period|escape }} days</td>
+                            <td>{{ plan.max_alarms|escape }}</td>
+                            <td>
+                                {% if plan.max_teams > 0 %}
+                                    {{ plan.max_teams|escape }} x {{ plan.max_members_per_team|escape }}
+                                {% else %}
+                                    no
+                                {% endif %}
+                            </td>
+                            <td>{{ plan.min_alarm_interval|escape }}s</td>
+                            <td>
+                                {% if plan.unlimited_emails %}
+                                    unlimited
+                                {% else %}
+                                    {{ plan.max_emails_per_interval|escape }}pm
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if plan.unlimited_push_notifications %}
+                                    unlimited
+                                {% else %}
+                                    {{ plan.max_push_notifications_per_interval|escape }}pm
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if plan.slack_alerts %}
+                                    yes
+                                {% else %}
+                                    no
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+
+            <p>
+                Personal and professional plans are suitable for single individuals. For companies and organisations we
+                recommend startup or business plans which offer a team management functionality. You can create teams
+                and invite people into them. For example, a business plan offers a 10 x 20 team login which means you
+                will be able to create 10 teams and invite up to 20 members per team.
+            </p>
+
+            <p>
+                The subscription limits are then shared between members. For example, let's say you have created a team
+                with 5 users, each of them have set up 10 active alarms. That means you have used 50 out of maximum
+                number of active alarms allowed by your plan. You can upgrade or downgrade your plan at any time.
+            </p>
+
+        </div>
+
+        <hr class="featurette-divider">
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}

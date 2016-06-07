@@ -41,17 +41,13 @@
                     </h2>
 
                     <p class="lead">
-                        Businesses today largely depend on API driven infrastructures with lots of moving parts.
-                    </p>
-
-                    <p class="lead">
-                        A service downtime can cause you a lot of money by breaking your mobile app or e-commerce
-                        website.
+                        Businesses today largely depend on API driven infrastructures with lots of moving parts. A
+                        service downtime can cause you a lot of money by breaking your mobile app or e-commerce website.
                     </p>
 
                     <p class="lead">
                         Our platform allows you to instantly notify your engineering team of a downtime and quickens
-                        their response.
+                        their response. Either via email, push notifications to a mobile phone or Slack alerts.
                     </p>
 
                     <div class="row">
@@ -101,6 +97,10 @@
                         Our platform logs performance metrics and any incidents related to your services and presents
                         the collected information in a useful way.
                     </p>
+
+                    <p class="lead">
+                        Data is accessible either via a web dashboard or a mobile app.
+                    </p>
                 </div>
                 <div class="col-md-2">
                     <br>
@@ -115,6 +115,22 @@
         <!-- Third Featurette -->
         <div class="featurette" id="plans">
             <!-- Plans -->
+            <h2 class="featurette-heading">Choose The Right Plan <span
+                    class="text-muted">For Your Organisation</span>
+            </h2>
+
+            <p class="lead">
+                Personal and professional plans are suitable for single individuals. For companies and organisations we
+                recommend startup or business plans which offer a team management functionality. You can create teams
+                and invite people into them.
+            </p>
+
+            <p class="lead">
+                The subscription limits are then shared between members. For example, a business plan offers a 10 x 20
+                team login which means you will be able to create 10 teams and invite up to 20 members per team. Click
+                <a href="{% url 'home:plans' %}">here</a> to compare the plans.
+            </p>
+
             <div class="row text-center">
 
                 {% for plan in plans|get:"_embedded"|get:"plans" %}
@@ -122,7 +138,8 @@
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{ plan.name|escape }}</h3>
+                                <h3 class="panel-title"><i class="fa fa-cubes"
+                                                           aria-hidden="true"></i> {{ plan.name|escape }}</h3>
                             </div>
                             <div class="panel-body">
                                 <p><i class="fa fa-{{ plan.currency|lower|escape }}"
@@ -140,8 +157,8 @@
                                 <p>{{ plan.min_alarm_interval|escape }}s interval</p>
 
                                 {% if plan.max_teams > 0 %}
-                                    <p>team login {{ plan.max_teams|escape }}
-                                        x {{ plan.max_members_per_team|escape }}</p>
+                                    <p>{{ plan.max_teams|escape }}
+                                        x {{ plan.max_members_per_team|escape }} team login</p>
                                 {% else %}
                                     <p>no team login</p>
                                 {% endif %}
