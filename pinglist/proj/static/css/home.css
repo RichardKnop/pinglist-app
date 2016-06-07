@@ -1,12 +1,16 @@
-/* Landing page header image */
-
 html, body, .cover {
     height: 100%;
     width: 100%;
+}
+
+.container {
     -webkit-overflow-scrolling: touch;
 }
 
+/* Landing page header image */
+
 .cover {
+    -webkit-overflow-scrolling: touch;
     display: table;
         background: linear-gradient(
             rgba(0, 0, 0, 0.4),
@@ -25,14 +29,6 @@ html, body, .cover {
     padding: 0;
     text-align: center;
     vertical-align: middle;
-}
-
-.jumbotron {
-    padding: 0;
-    margin-bottom: 0;
-    background: none;
-    z-index: 9999;
-    text-align: center;
 }
 
 .cover h1 {
