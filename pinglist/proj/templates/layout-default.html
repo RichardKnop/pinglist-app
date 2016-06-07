@@ -1,0 +1,175 @@
+<!DOCTYPE html>{% load staticfiles %}
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% if title %}{{ title|escape }}{% endif %}</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Social CSS -->
+    <link href="{% static 'css/bootstrap-social.min.css' %}" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="//fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'css/common.css' %}" rel="stylesheet">
+    <link href="{% static 'css/default.css' %}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block additional_css %}{% endblock %}
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home:index' %}">
+                <img src="{% static 'images/logo_login_pinglist@2x.png' %}">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-right navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% if logged_in %}
+                    <li{% if active_link == 'alarms' %} class="active"{% endif %}>
+                        <a href="{% url 'alarms:index' %}">
+                            <i class="fa fa-bell" aria-hidden="true"></i>
+                            Alarms
+                        </a>
+                    </li>
+
+                    <li{% if active_link == 'teams' %} class="active"{% endif %}>
+                        <a href="{% url 'teams:index' %}">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            Teams
+                        </a>
+                    </li>
+
+                    <li class="dropdown{% if active_link == 'plans' or active_link == 'payment_sources' or active_link == 'subscriptions' or active_link == 'settings' or active_link == 'change_password' %} active{% endif %}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Account
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'subscriptions:plans' %}">
+                                <i class="fa fa-cubes" aria-hidden="true"></i>
+                                Plans
+                            </a></li>
+                            <li><a href="{% url 'payment_sources:index' %}">
+                                <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                Payment Sources
+                            </a></li>
+                            <li><a href="{% url 'subscriptions:index' %}">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                Subscriptions
+                            </a></li>
+                            <li><a href="{% url 'settings:index' %}">
+                                <i class="fa fa-gear" aria-hidden="true"></i>
+                                Settings
+                            </a></li>
+                            <li><a href="{% url 'settings:change_password' %}">
+                                <i class="fa fa-shield" aria-hidden="true"></i>
+                                Change Password
+                            </a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'auth:logout' %}"><i class="fa fa-sign-out"></i> Log Out</a>
+                    </li>
+                {% else %}
+                    <li{% if active_link == 'login' %} class="active"{% endif %}>
+                        <a href="{% url 'auth:login' %}"><i class="fa fa-sign-in"></i> Log In</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer class="footer">
+    <div class="row">
+        <div class="container">
+            <div class="col-sm-4">
+                <p class="text-left">
+                    <a href="https://stripe.com" class="stripe-badge">
+                        <img src="{% static 'images/stripe//solid@2x.png' %}" alt="Powered by Stripe">
+                    </a>
+                </p>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="text-center">
+                    <p class="copyright">&copy; 2016 Apollo Labs Ltd</p>
+                    <ul class="list-inline">
+                        <li><a href="{% url 'home:faq' %}">FAQ</a></li>
+                        <li><a href="{% url 'home:contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <p class="text-right">
+                    <a href="{{ ios_link }}" class="ios-download-badge">
+                        <img src="{% static 'images/ios-download_135x40.svg' %}" alt="Download from App Store">
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    //<![CDATA[
+    if (window.location.hash == '#_=_') {
+        window.location.hash = '';
+    }
+    //]]>
+</script>
+
+{% block inline_js %}{% endblock %}
+
+</body>
+
+</html>

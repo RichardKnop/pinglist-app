@@ -1,74 +1,77 @@
-{% extends "layout.html" %}
+{% extends "layout-default.html" %}
 {% load filters %}
 
 {% block content %}
 
-    <div class="header-image-full"></div>
-
-    <!-- Jumbotron -->
-    <header class="jumbotron">
-
-        {% for message in messages %}
-            <div class="alert alert-{{ message_type_to_alert_class|get:message.tags|escape }}" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ message.message|escape }}
-            </div>
-        {% endfor %}
-
-        {% if form.non_field_errors %}
-            <div class="alert alert-danger" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ form.non_field_errors|first|escape }}
-            </div>
-        {% endif %}
-
-        <div class="headline">
-
-            <form class="form-signin" method="POST" action="{% url 'auth:login' %}">
-                {% csrf_token %}
-
-                <div class="form-group {% if form.email.errors %}has-error{% endif %}">
-                    {% if form.email.errors %}
-                        <label class="control-label"
-                               for="{{ form.email.name }}">{{ form.email.errors|first|escape }}</label>
-                    {% endif %}
-                    <input type="text" name="{{ form.email.name }}" id="{{ form.email.name }}" class="form-control"
-                           placeholder="Email address"
-                           value="{% if form.email.value %}{{ form.email.value|escape }}{% endif %}">
-                </div>
-
-                <div class="form-group {% if form.password.errors %}has-error{% endif %}">
-                    {% if form.password.errors %}
-                        <label class="control-label"
-                               for="{{ form.password.name }}">{{ form.password.errors|first|escape }}</label>
-                    {% endif %}
-                    <input type="password" name="{{ form.password.name }}" id="{{ form.password.name }}"
-                           class="form-control"
-                           placeholder="Password">
-                </div>
-
-                <div class="form-group">
-                    <button class="btn btn-lg btn-block btn-primary" type="submit">Log In</button>
-                </div>
-
-                <div class="form-group">
-                    <p>Or</p>
-                    <a href="{{ facebook_authorize_uri }}" class="btn btn-lg btn-block btn-social btn-facebook">
-                        <span class="fa fa-facebook"></span> Log In with Facebook
-                    </a>
-                </div>
-
-                <p>
-                    <a href="{% url 'auth:reset_password' %}">Forgot password?</a>
-                </p>
-            </form>
-
+    {% for message in messages %}
+        <div class="alert alert-no-border text-center alert-{{ message_type_to_alert_class|get:message.tags|escape }}"
+             role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message.message|escape }}
         </div>
+    {% endfor %}
 
-    </header>
+    {% if form.non_field_errors %}
+        <div class="alert alert-no-border text-center alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ form.non_field_errors|first|escape }}
+        </div>
+    {% endif %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <form class="form-signin" method="POST" action="{% url 'auth:login' %}">
+            {% csrf_token %}
+
+            <h3 class="text-center">Log In</h3>
+
+            <div class="form-group {% if form.email.errors %}has-error{% endif %}">
+                {% if form.email.errors %}
+                    <label class="control-label"
+                           for="{{ form.email.name }}">{{ form.email.errors|first|escape }}</label>
+                {% endif %}
+                <input type="text" name="{{ form.email.name }}" id="{{ form.email.name }}" class="form-control"
+                       placeholder="Email address"
+                       value="{% if form.email.value %}{{ form.email.value|escape }}{% endif %}">
+            </div>
+
+            <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+                {% if form.password.errors %}
+                    <label class="control-label"
+                           for="{{ form.password.name }}">{{ form.password.errors|first|escape }}</label>
+                {% endif %}
+                <input type="password" name="{{ form.password.name }}" id="{{ form.password.name }}"
+                       class="form-control"
+                       placeholder="Password">
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-lg btn-block btn-primary" type="submit">Log In</button>
+            </div>
+
+            <div class="form-group">
+                <p class="text-center">Or</p>
+                <a href="{{ facebook_authorize_uri }}" class="btn btn-lg btn-block btn-social btn-facebook">
+                    <span class="fa fa-facebook"></span> Log In with Facebook
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <a href="{% url 'auth:register' %}">Create account</a>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="{% url 'auth:reset_password' %}">Forgot password?</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <!-- /.container -->
 
 {% endblock %}

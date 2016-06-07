@@ -25,7 +25,7 @@
 
     <!-- Custom CSS -->
     <link href="{% static 'css/common.css' %}" rel="stylesheet">
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -109,9 +109,6 @@
                         <a href="{% url 'auth:logout' %}"><i class="fa fa-sign-out"></i> Log Out</a>
                     </li>
                 {% else %}
-                    <li{% if active_link == 'register' %} class="active"{% endif %}>
-                        <a href="{% url 'auth:register' %}"><i class="fa fa-user-plus"></i> Sign Up</a>
-                    </li>
                     <li{% if active_link == 'login' %} class="active"{% endif %}>
                         <a href="{% url 'auth:login' %}"><i class="fa fa-sign-in"></i> Log In</a>
                     </li>

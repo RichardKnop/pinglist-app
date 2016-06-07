@@ -1,0 +1,87 @@
+/* Landing page header image */
+
+html, body, .cover {
+    height: 100%;
+    width: 100%;
+}
+
+.cover {
+    display: table;
+        background: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.4)
+    ), url('/static/images/bg.jpg') no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    text-align: center;
+    color: white;
+}
+
+.cover-inner {
+    display: table-cell;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.jumbotron {
+    padding: 0;
+    margin-bottom: 0;
+    background: none;
+    z-index: 9999;
+    text-align: center;
+}
+
+.cover h1 {
+    letter-spacing: 2px;
+    font-family: Lato, sans-serif;
+    font-size: 3em;
+}
+
+.cover p {
+    font-size: 1.25em;
+}
+
+.cover a {
+    color: #B9E88A;
+}
+
+.cover a.btn {
+    color: #27303C;
+}
+
+.cover a.btn:hover {
+    color: #B9E88A;
+}
+
+.cover a.btn-facebook, .cover a.btn-facebook:hover {
+    color: white;
+}
+
+/* Footer */
+
+footer {
+    margin-bottom: 0;
+    background: #27303C;
+    border-color: #0807FF;
+    color: #B9E88A;
+}
+
+footer .row {
+    background: #27303C;
+    padding: 30px 0;
+}
+
+footer a, footer a:hover, footer a:active {
+    color: #B9E88A;
+}
+
+.stripe-badge img {
+    border: 0;
+}
+
+.ios-download-badge img {
+    border: 0;
+}
