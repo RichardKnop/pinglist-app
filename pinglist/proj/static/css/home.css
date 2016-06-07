@@ -3,14 +3,13 @@ html, body, .cover {
     width: 100%;
 }
 
-.container {
+body {
     -webkit-overflow-scrolling: touch;
 }
 
 /* Landing page header image */
 
 .cover {
-    -webkit-overflow-scrolling: touch;
     display: table;
         background: linear-gradient(
             rgba(0, 0, 0, 0.4),
