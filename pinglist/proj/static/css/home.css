@@ -3,6 +3,7 @@
 html, body, .cover {
     height: 100%;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
 }
 
 .cover {
