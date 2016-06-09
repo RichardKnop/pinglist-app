@@ -23,6 +23,7 @@ INSTALLED_APPS = (
     'captcha',
     'apps.home',
     'apps.auth',
+    'apps.web',
     'apps.alarms',
     'apps.teams',
     'apps.subscriptions',

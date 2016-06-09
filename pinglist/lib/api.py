@@ -36,6 +36,21 @@ class API(object):
                 raise self.APIError(str(e))
         return r.json()
 
+    # Confirms email address
+    def confirm_email(self, reference):
+        r = requests.get(
+            self.hostname + '/v1/accounts/confirmations/{}'.format(reference),
+            auth=(self.client_id, self.client_secret),
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+
     # Logs in a user via resource owner credentials grant
     def login(self, username, password):
         r = requests.post(
@@ -65,6 +80,42 @@ class API(object):
             auth=(self.client_id, self.client_secret),
             json={
                 'email': email,
+            },
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+
+    # Confirms password reset
+    def confirm_password_reset(self, reference, password):
+        r = requests.post(
+            self.hostname + '/v1/accounts/password-resets/{}'.format(reference),
+            auth=(self.client_id, self.client_secret),
+            json={
+                'password': password,
+            },
+        )
+        logger.debug(r)
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            try:
+                raise self.APIError(r.json()['error'])
+            except ValueError:
+                raise self.APIError(str(e))
+
+    # Confirms invitation
+    def confirm_invitation(self, reference, password):
+        r = requests.post(
+            self.hostname + '/v1/accounts/invitations/{}'.format(reference),
+            auth=(self.client_id, self.client_secret),
+            json={
+                'password': password,
             },
         )
         logger.debug(r)
