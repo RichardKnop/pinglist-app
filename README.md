@@ -126,5 +126,5 @@ Second, build a release using `build-release.sh` script. It will build a Docker 
 To upload assets to S3, do something along the lines:
 
 ```
-s3cmd sync pinglist/proj/static/* s3://prod.pinglist.assets/
+aws s3 sync pinglist/proj/static/ s3://prod.pinglist.assets/pinglist-app/
 ```
