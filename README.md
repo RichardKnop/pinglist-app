@@ -58,7 +58,7 @@ curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
     },
     "Django": {
         "Secret": "test_secret",
-        "StaticStorage": "django_s3_storage.storage.StaticS3Storage"
+        "StaticStorage": "django.contrib.staticfiles.storage.StaticFilesStorage"
     },
     "AWS": {
         "Region": "us-west-2",
@@ -77,7 +77,9 @@ curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
         "APIScheme": "http",
         "APIHost": "localhost:8080"
     },
-    "IOSLink": "#",
+    "Pinglist": {
+        "IOSLink": "https://itunes.apple.com/us/app/pinglist/id1114451352?ls=1&mt=8"
+    },
     "IsDevelopment": true
 }'
 ```

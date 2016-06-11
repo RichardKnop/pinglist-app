@@ -130,5 +130,5 @@ FACEBOOK_APP_ID = cnf['Facebook']['AppID']
 FACEBOOK_APP_SECRET = cnf['Facebook']['AppSecret']
 FACEBOOK_SCOPE = "public_profile,email"
 STRIPE_PUBLISHABLE_KEY = cnf['Stripe']['PublishableKey']
-IOS_LINK = cnf['IOSLink']
+IOS_LINK = cnf['Pinglist']['IOSLink']
 IS_DEVELOPMENT = cnf['IsDevelopment']
