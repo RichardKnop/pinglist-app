@@ -1,4 +1,6 @@
+boto==2.40.0
 Django==1.9.7
+django-s3-storage==0.9.8
 django-simple-captcha==0.5.1
 dnspython==1.14.0
 gunicorn==19.6.0

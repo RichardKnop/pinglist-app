@@ -57,7 +57,8 @@ curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
         "Secret": "test_secret"
     },
     "Django": {
-        "Secret": "test_secret"
+        "Secret": "test_secret",
+        "StaticStorage": "django_s3_storage.storage.StaticS3Storage"
     },
     "AWS": {
         "Region": "us-west-2",

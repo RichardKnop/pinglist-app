@@ -1,12 +1,7 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import etcd
-import json
-import logging
-import sys
 
-
-logger = logging.getLogger('django')
+from .config import load_config
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -90,20 +85,8 @@ LOGGING = {
     },
 }
 
-etcd_client = etcd.Client(
-    host=os.getenv('ETCD_HOST', 'localhost'),
-    port=int(os.getenv('ETCD_PORT', '2379')),
-)
 
-try:
-    json_cnf = etcd_client.read('/config/pinglist_app.json').value
-    cnf = json.loads(json_cnf)
-except etcd.EtcdKeyNotFound as e:
-    logger.debug(str(e))
-    sys.exit(0)
-except ValueError:
-    logger.debug(json_cnf)
-    sys.exit(0)
+cnf = load_config()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = cnf['Django']['Secret']
