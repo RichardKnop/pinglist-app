@@ -132,3 +132,39 @@ FACEBOOK_SCOPE = "public_profile,email"
 STRIPE_PUBLISHABLE_KEY = cnf['Stripe']['PublishableKey']
 IOS_LINK = cnf['Pinglist']['IOSLink']
 IS_DEVELOPMENT = cnf['IsDevelopment']
+
+STATICFILES_STORAGE = cnf['Django']['StaticStorage']
+
+# The region to connect to when storing files.
+AWS_REGION = cnf['AWS']['Region']
+
+# The S3 bucket used to store static files.
+AWS_S3_BUCKET_NAME_STATIC = '{}/pinglist-app'.format(cnf['AWS']['AssetsBucket'])
+
+# The S3 calling format to use to connect to the static bucket.
+AWS_S3_CALLING_FORMAT_STATIC = 'boto.s3.connection.OrdinaryCallingFormat'
+
+# The host to connect to for static files (only needed if you are using a non-AWS host)
+AWS_S3_HOST_STATIC = ""
+
+# Whether to enable querystring authentication for static files.
+AWS_S3_BUCKET_AUTH_STATIC = False
+
+# A prefix to add to the start of all static files.
+AWS_S3_KEY_PREFIX_STATIC = ""
+
+# The expire time used to access static files.
+AWS_S3_MAX_AGE_SECONDS_STATIC = 60*60*24*365  # 1 year.
+
+# A custom URL prefix to use for public-facing URLs for static files.
+AWS_S3_PUBLIC_URL_STATIC = "https://s3-{}.amazonaws.com/{}/".format(
+    AWS_REGION,
+    AWS_S3_BUCKET_NAME_STATIC,
+)
+
+# Whether to set the storage class of static files to REDUCED_REDUNDANCY.
+AWS_S3_REDUCED_REDUNDANCY_STATIC = False
+
+# A dictionary of additional metadata to set on the static files.
+# If the value is a callable, it will be called with the path of the file on S3.
+AWS_S3_METADATA_STATIC = {}
