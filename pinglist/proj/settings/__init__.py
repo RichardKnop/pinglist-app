@@ -139,7 +139,7 @@ STATICFILES_STORAGE = cnf['Django']['StaticStorage']
 AWS_REGION = cnf['AWS']['Region']
 
 # The S3 bucket used to store static files.
-AWS_S3_BUCKET_NAME_STATIC = '{}/pinglist-app'.format(cnf['AWS']['AssetsBucket'])
+AWS_S3_BUCKET_NAME_STATIC = cnf['AWS']['AssetsBucket']
 
 # The S3 calling format to use to connect to the static bucket.
 AWS_S3_CALLING_FORMAT_STATIC = 'boto.s3.connection.OrdinaryCallingFormat'
@@ -151,15 +151,16 @@ AWS_S3_HOST_STATIC = ""
 AWS_S3_BUCKET_AUTH_STATIC = False
 
 # A prefix to add to the start of all static files.
-AWS_S3_KEY_PREFIX_STATIC = ""
+AWS_S3_KEY_PREFIX_STATIC = 'pinglist-app/'
 
 # The expire time used to access static files.
 AWS_S3_MAX_AGE_SECONDS_STATIC = 60*60*24*365  # 1 year.
 
 # A custom URL prefix to use for public-facing URLs for static files.
-AWS_S3_PUBLIC_URL_STATIC = "https://s3-{}.amazonaws.com/{}/".format(
+AWS_S3_PUBLIC_URL_STATIC = 'https://s3-{}.amazonaws.com/{}/{}'.format(
     AWS_REGION,
     AWS_S3_BUCKET_NAME_STATIC,
+    AWS_S3_KEY_PREFIX_STATIC,
 )
 
 # Whether to set the storage class of static files to REDUCED_REDUNDANCY.
