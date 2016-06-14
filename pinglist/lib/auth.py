@@ -4,6 +4,7 @@ from time import time
 
 from django.shortcuts import redirect
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 from lib.api import API
 
@@ -20,12 +21,25 @@ def store_access_token(request, access_token):
     request.session['access_token_granted_at'] = time()
 
 
-def store_access_token_and_redirect(request, access_token):
-    store_access_token(request=request, access_token=access_token)
+def store_access_token_and_redirect(request, access_token, user):
+    store_access_token(request=request, access_token=access_token, user=user)
+
     try:
-        return redirect(request.session[settings.AFTER_LOGIN_VIEW_PARAM])
+        query_string_params = request.session[settings.AFTER_LOGIN_VIEW_QUERYSTRING_PARAM]
     except KeyError:
-        return redirect(settings.AFTER_LOGIN_VIEW)
+        query_string_params = {}
+
+    try:
+        redirect_url = reverse(request.session[settings.AFTER_LOGIN_VIEW_PARAM])
+    except KeyError:
+        redirect_url = reverse(settings.AFTER_LOGIN_VIEW)
+
+    if len(query_string_params) > 0:
+        redirect_url += '?{}'.format('&'.join(
+            ['{}={}'.format(k, vs[0]) for k, vs in query_string_params.iteritems()]
+        ))
+
+    return redirect(redirect_url)
 
 
 def is_logged_in(request):

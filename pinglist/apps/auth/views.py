@@ -77,6 +77,14 @@ class RegisterView(BaseView):
         state = str(uuid.uuid4())
         request.session['state'] = state
 
+        # Store after login redirect param in the session if present in the query string
+        if settings.AFTER_LOGIN_VIEW_PARAM in request.GET:
+            after_login = request.GET[settings.AFTER_LOGIN_VIEW_PARAM]
+            request.session[settings.AFTER_LOGIN_VIEW_PARAM] = after_login
+
+        # Store any querystring params in session so we remember them when redirecting
+        request.session[settings.AFTER_LOGIN_VIEW_QUERYSTRING_PARAM] = request.GET
+
         return super(RegisterView, self)._render(
             request=request,
             form=form,
@@ -129,6 +137,9 @@ class LoginView(BaseView):
         if settings.AFTER_LOGIN_VIEW_PARAM in request.GET:
             after_login = request.GET[settings.AFTER_LOGIN_VIEW_PARAM]
             request.session[settings.AFTER_LOGIN_VIEW_PARAM] = after_login
+
+        # Store any querystring params in session so we remember them when redirecting
+        request.session[settings.AFTER_LOGIN_VIEW_QUERYSTRING_PARAM] = request.GET
 
         return super(LoginView, self)._render(
             request=request,
