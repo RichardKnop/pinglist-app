@@ -47,9 +47,6 @@ class RegisterView(BaseView):
                 password=form.cleaned_data['password'],
             )
 
-            # Push success message and redirect to the login view
-            messages.success(request, 'Thank you for registering.')
-
         # Registering failed
         except self.api.APIError as e:
             logger.error(str(e))
@@ -58,12 +55,9 @@ class RegisterView(BaseView):
 
         # Log in with email and password
         try:
-            return store_access_token_and_redirect(
-                request=request,
-                access_token=self.api.login(
-                    username=form.cleaned_data['email'],
-                    password=form.cleaned_data['password'],
-                ),
+            access_token=self.api.login(
+                username=form.cleaned_data['email'],
+                password=form.cleaned_data['password'],
             )
 
         # Logging in failed, probably incorrect username and/or password
@@ -72,18 +66,38 @@ class RegisterView(BaseView):
             form.add_error(None, str(e))
             return self._render(request=request, form=form)
 
+        # Get user profile
+        try:
+            user = self.api.get_me(access_token=access_token['access_token'])
+
+        # Getting user profile failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            form.add_error(None, str(e))
+            return self._render(request=request, form=form)
+
+        # Push success message
+        messages.success(request, 'Thank you for registering.')
+
+        # Store the access token and redirect
+        return store_access_token_and_redirect(
+            request=request,
+            access_token=access_token,
+            user=user,
+        )
+
     def _render(self, request, form):
         # Generate a unique state parameter and store it in the session
         state = str(uuid.uuid4())
         request.session['state'] = state
 
         # Store after login redirect param in the session if present in the query string
-        if settings.AFTER_LOGIN_VIEW_PARAM in request.GET:
-            after_login = request.GET[settings.AFTER_LOGIN_VIEW_PARAM]
-            request.session[settings.AFTER_LOGIN_VIEW_PARAM] = after_login
-
-        # Store any querystring params in session so we remember them when redirecting
-        request.session[settings.AFTER_LOGIN_VIEW_QUERYSTRING_PARAM] = request.GET
+        if settings.AFTER_LOGIN_REDIRECT_URL_PARAM in request.GET:
+            redirect_url = request.GET[settings.AFTER_LOGIN_REDIRECT_URL_PARAM]
+            request.session[settings.AFTER_LOGIN_REDIRECT_URL_PARAM] = redirect_url
+        else:
+            # Store any querystring params in session so we remember them when redirecting
+            request.session[settings.AFTER_LOGIN_REDIRECT_QS_PARAM] = request.GET
 
         return super(RegisterView, self)._render(
             request=request,
@@ -114,12 +128,9 @@ class LoginView(BaseView):
 
         # Log in with email and password
         try:
-            return store_access_token_and_redirect(
-                request=request,
-                access_token=self.api.login(
-                    username=form.cleaned_data['email'],
-                    password=form.cleaned_data['password'],
-                ),
+            access_token = self.api.login(
+                username=form.cleaned_data['email'],
+                password=form.cleaned_data['password'],
             )
 
         # Logging in failed, probably incorrect username and/or password
@@ -128,18 +139,35 @@ class LoginView(BaseView):
             form.add_error(None, str(e))
             return self._render(request=request, form=form)
 
+        # Get user profile
+        try:
+            user = self.api.get_me(access_token=access_token['access_token'])
+
+        # Getting user profile failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            form.add_error(None, str(e))
+            return self._render(request=request, form=form)
+
+        # Store the access token and redirect
+        return store_access_token_and_redirect(
+            request=request,
+            access_token=access_token,
+            user=user,
+        )
+
     def _render(self, request, form):
         # Generate a unique state parameter and store it in the session
         state = str(uuid.uuid4())
         request.session['state'] = state
 
         # Store after login redirect param in the session if present in the query string
-        if settings.AFTER_LOGIN_VIEW_PARAM in request.GET:
-            after_login = request.GET[settings.AFTER_LOGIN_VIEW_PARAM]
-            request.session[settings.AFTER_LOGIN_VIEW_PARAM] = after_login
-
-        # Store any querystring params in session so we remember them when redirecting
-        request.session[settings.AFTER_LOGIN_VIEW_QUERYSTRING_PARAM] = request.GET
+        if settings.AFTER_LOGIN_REDIRECT_URL_PARAM in request.GET:
+            redirect_url = request.GET[settings.AFTER_LOGIN_REDIRECT_URL_PARAM]
+            request.session[settings.AFTER_LOGIN_REDIRECT_URL_PARAM] = redirect_url
+        else:
+            # Store any querystring params in session so we remember them when redirecting
+            request.session[settings.AFTER_LOGIN_REDIRECT_QS_PARAM] = request.GET
 
         return super(LoginView, self)._render(
             request=request,

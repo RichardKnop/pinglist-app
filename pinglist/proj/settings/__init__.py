@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 # 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -111,9 +112,9 @@ if not DEBUG:
 
 VERSION = 'v0.0.0'
 LOGIN_VIEW = 'auth:login'
-AFTER_LOGIN_VIEW = 'alarms:index'
-AFTER_LOGIN_VIEW_PARAM = 'after_login_view'
-AFTER_LOGIN_VIEW_QUERYSTRING_PARAM = 'after_login_querystring_param'
+AFTER_LOGIN_DEFAULT_REDIRECT_URL = '/alarms'
+AFTER_LOGIN_REDIRECT_URL_PARAM = 'redirect_to'
+AFTER_LOGIN_REDIRECT_QS_PARAM = 'qs_params'
 CAPTCHA_IMAGE_TEMPLATE = 'home/captcha/image.html'
 CAPTCHA_HIDDEN_FIELD_TEMPLATE = 'home/captcha/hidden_field.html'
 CAPTCHA_TEXT_FIELD_TEMPLATE = 'home/captcha/text_field.html'

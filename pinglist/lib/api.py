@@ -336,8 +336,8 @@ class API(object):
             except ValueError:
                 raise self.APIError(str(e))
 
-    # Get a user
-    def get_user(self, access_token):
+    # Get logged in user
+    def get_me(self, access_token):
         r = requests.get(
             self.hostname + '/v1/accounts/me',
             headers={'Authorization': 'Bearer {}'.format(access_token)},
