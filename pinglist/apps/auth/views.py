@@ -213,20 +213,34 @@ class FacebookRedirectView(BaseView):
                 messages.error(request, str(e))
             return redirect(settings.LOGIN_VIEW)
 
-        # Login with the access token from Facebook
+        # Log in with the access token from Facebook
         try:
-            return store_access_token_and_redirect(
-                request=request,
-                access_token=self.api.facebook_login(
-                    fb_access_token=r.json()['access_token'],
-                ),
+            access_token = self.api.facebook_login(
+                fb_access_token=r.json()['access_token'],
             )
 
-        # Failed to login with Facebook's access token
+        # Logging in failed
         except self.api.APIError as e:
             logger.error(str(e))
             messages.error(request, str(e))
             return redirect(settings.LOGIN_VIEW)
+
+        # Get user profile
+        try:
+            user = self.api.get_me(access_token=access_token['access_token'])
+
+        # Getting user profile failed
+        except self.api.APIError as e:
+            logger.error(str(e))
+            messages.error(request, str(e))
+            return redirect(settings.LOGIN_VIEW)
+
+        # Store the access token and redirect
+        return store_access_token_and_redirect(
+            request=request,
+            access_token=access_token,
+            user=user,
+        )
 
 
 class LogoutView(BaseView):

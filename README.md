@@ -78,7 +78,7 @@ curl -L http://localhost:2379/v2/keys/config/pinglist_app.json -XPUT -d value='{
         "APIHost": "localhost:8080"
     },
     "Pinglist": {
-        "IOSLink": "https://itunes.apple.com/us/app/pinglist/id1114451352?ls=1&mt=8"
+        "IOSLink": "#"
     },
     "IsDevelopment": true
 }'
