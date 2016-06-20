@@ -50,7 +50,7 @@ class IndexView(BaseView):
     def post(self, request, *args, **kwargs):
         # Fetch the user
         try:
-            user = self.api.get_user(
+            user = self.api.get_me(
                 access_token=request.session['access_token']['access_token'],
             )
 
@@ -113,7 +113,7 @@ class ChangePasswordView(BaseView):
     def get(self, request, *args, **kwargs):
         # Fetch the user
         try:
-            user = self.api.get_user(
+            user = self.api.get_me(
                 access_token=request.session['access_token']['access_token'],
             )
 
@@ -135,7 +135,7 @@ class ChangePasswordView(BaseView):
     def post(self, request, *args, **kwargs):
         # Fetch the user
         try:
-            user = self.api.get_user(
+            user = self.api.get_me(
                 access_token=request.session['access_token']['access_token'],
             )
 
