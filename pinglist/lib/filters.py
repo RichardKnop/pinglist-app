@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.filter(name="get")
 def get(d, k):
-    return d.get(k, None)
+    return d.get(k, {})
 
 
 @register.filter(name="leading_zeros")
