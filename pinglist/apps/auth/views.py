@@ -92,12 +92,12 @@ class RegisterView(BaseView):
         request.session['state'] = state
 
         # Store after login redirect param in the session if present in the query string
-        if settings.AFTER_LOGIN_REDIRECT_URL_PARAM in request.GET:
-            redirect_url = request.GET[settings.AFTER_LOGIN_REDIRECT_URL_PARAM]
-            request.session[settings.AFTER_LOGIN_REDIRECT_URL_PARAM] = redirect_url
+        if settings.AFTER_LOGIN_REDIRECT_URL_KEY in request.GET:
+            redirect_url = request.GET[settings.AFTER_LOGIN_REDIRECT_URL_KEY]
+            request.session[settings.AFTER_LOGIN_REDIRECT_URL_KEY] = redirect_url
         else:
             # Store any querystring params in session so we remember them when redirecting
-            request.session[settings.AFTER_LOGIN_REDIRECT_QS_PARAM] = request.GET
+            request.session[settings.AFTER_LOGIN_REDIRECT_SESSION_QS_KEY] = request.GET
 
         return super(RegisterView, self)._render(
             request=request,
@@ -162,12 +162,12 @@ class LoginView(BaseView):
         request.session['state'] = state
 
         # Store after login redirect param in the session if present in the query string
-        if settings.AFTER_LOGIN_REDIRECT_URL_PARAM in request.GET:
-            redirect_url = request.GET[settings.AFTER_LOGIN_REDIRECT_URL_PARAM]
-            request.session[settings.AFTER_LOGIN_REDIRECT_URL_PARAM] = redirect_url
+        if settings.AFTER_LOGIN_REDIRECT_URL_KEY in request.GET:
+            redirect_url = request.GET[settings.AFTER_LOGIN_REDIRECT_URL_KEY]
+            request.session[settings.AFTER_LOGIN_REDIRECT_URL_KEY] = redirect_url
         else:
             # Store any querystring params in session so we remember them when redirecting
-            request.session[settings.AFTER_LOGIN_REDIRECT_QS_PARAM] = request.GET
+            request.session[settings.AFTER_LOGIN_REDIRECT_SESSION_QS_KEY] = request.GET
 
         return super(LoginView, self)._render(
             request=request,

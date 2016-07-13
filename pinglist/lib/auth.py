@@ -75,7 +75,7 @@ def logged_in(view):
             redirect_url += '?{}'.format(urlencode(request.GET))
         return redirect('{}?{}={}'.format(
             reverse(settings.LOGIN_VIEW),
-            settings.AFTER_LOGIN_REDIRECT_URL_PARAM,
+            settings.AFTER_LOGIN_REDIRECT_URL_KEY,
             redirect_url,
         ))
 
@@ -85,12 +85,12 @@ def logged_in(view):
 def get_after_login_redirect_url(request):
     # Get the redirect URL
     try:
-        redirect_to = request.session[settings.AFTER_LOGIN_REDIRECT_URL_PARAM]
+        redirect_to = request.session[settings.AFTER_LOGIN_REDIRECT_URL_KEY]
     except KeyError:
         redirect_to = settings.AFTER_LOGIN_DEFAULT_REDIRECT_URL
 
     try:
-        qs = request.session[settings.AFTER_LOGIN_REDIRECT_QS_PARAM]
+        qs = request.session[settings.AFTER_LOGIN_REDIRECT_SESSION_QS_KEY]
     except KeyError:
         qs = {}
 
