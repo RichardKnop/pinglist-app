@@ -6,6 +6,10 @@
 
 API / website uptime & performance monitoring platform.
 
+See also:
+- [pinglist-api](https://github.com/RichardKnop/pinglist-api)
+- [pinglist-ios-app](https://github.com/RichardKnop/pinglist-ios-app)
+
 # Index
 
 * [Pinglist App](#pinglist-app)
