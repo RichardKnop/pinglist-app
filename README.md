@@ -1,6 +1,8 @@
 [![Codeship Status for RichardKnop/pinglist-app](https://codeship.com/projects/bdb716b0-de18-0133-2702-6a683e002de2/status?branch=master)](https://codeship.com/projects/144590)
 
-# Pinglist App
+[![Donate Bitcoin](https://img.shields.io/badge/donate-bitcoin-orange.svg)](https://richardknop.github.io/donate/)
+
+# pinglist-app
 
 API / website uptime & performance monitoring platform.
 
