@@ -2,7 +2,7 @@ awscli==1.10.38
 boto==2.40.0
 botocore==1.4.26
 colorama==0.3.3
-Django==1.9.7
+Django==1.11.29
 django-s3-storage==0.9.8
 django-simple-captcha==0.5.1
 dnspython==1.14.0
