@@ -16,7 +16,7 @@ pyasn1==0.1.9
 python-dateutil==2.5.3
 python-etcd==0.4.3
 requests==2.10.0
-rsa==3.4.2
+rsa==4.7
 s3transfer==0.0.1
 six==1.10.0
 urllib3==1.16
